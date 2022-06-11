@@ -1,0 +1,34 @@
+@import '../../styles/colors.scss';
+
+.button{
+    border-radius: 11px;
+    background-color: $color-accent;
+    min-height: 34px;
+    min-width: 34px;
+    border: 0px;
+    display: flex;
+    align-items: center;
+
+    background-position: center;
+    transition: background 0.8s;
+    color: $color-gray;
+    transition: color 0.5s;
+    
+
+    &:hover{
+        background: $color-primary radial-gradient(circle, transparent 1%, $color-primary 1%) center/15000%;
+        color: $white;
+        transition: color 2s;
+        transition: background 0.8s;
+    }
+
+    &:active{
+        background-color: #ffffffb0;
+        background-size: 100%;
+        transition: background 0s;
+    }
+}
+
+.button-primary{
+    @extend .button;
+}
