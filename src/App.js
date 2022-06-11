@@ -5,6 +5,9 @@ function App() {
   return (
     <div className="App">
       <Header/>
+      <div className='view-container'>
+
+      </div>
     </div>
   );
 }

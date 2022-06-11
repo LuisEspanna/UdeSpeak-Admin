@@ -3,11 +3,12 @@
 .button{
     border-radius: 11px;
     background-color: $color-accent;
-    min-height: 34px;
+    min-height: 2.125em;
     min-width: 34px;
     border: 0px;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     background-position: center;
     transition: background 0.8s;
@@ -31,4 +32,14 @@
 
 .button-primary{
     @extend .button;
+
+    .icon{
+        fill: $color-primary-dark;
+        transition: 0.5s;
+    }
+
+    &:hover .icon{
+        transition: 0.8s;
+        fill: $white;
+    }
 }
