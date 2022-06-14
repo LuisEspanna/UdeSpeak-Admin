@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 export const sidebarSlice = createSlice({
   name: 'sideBar',
   initialState: {
-    open: true,
+    isOpen: true,
   },
   reducers: {
     click: (state) => {
-      state.open = !state.open
+      state.isOpen = !state.isOpen
     }
   },
 })

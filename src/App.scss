@@ -17,12 +17,20 @@
     height: 1.3em;
 }
 
+.content{
+    padding-top: 85px;
+}
+
 .view-container{ 
-    background-color: #E3F2FD;
-    min-height: 800px;
-    position: absolute;
+    background-color: #E3F2FD;    
+    position: fixed;
     top: 85px;
-    left: 20px;
-    right: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin-left: 0.625em;
+    margin-right: 0.625em;
+    margin-bottom: 0.625em;
     border-radius: 14px;
+    transition: 0.4s ease-in;
 }

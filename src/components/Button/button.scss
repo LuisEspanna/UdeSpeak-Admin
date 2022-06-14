@@ -42,4 +42,14 @@
         transition: 0.8s;
         fill: $white;
     }
+    
+    &-active{
+
+        background: $color-primary radial-gradient(circle, transparent 1%, $color-primary 1%) center/15000%;
+
+        .icon{
+            fill: #fff;
+            transition: 0.5s;
+        }
+    }
 }

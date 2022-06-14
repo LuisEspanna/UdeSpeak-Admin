@@ -1,0 +1,81 @@
+@import '../../styles/colors.scss';
+
+$sidebar-w: 16.25em;
+
+.sidebar{    
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    width: $sidebar-w;
+    top: 85px;
+    bottom: 0px;
+    z-index: 100;
+    
+    &-open{
+        width: $sidebar-w;
+        max-width: $sidebar-w;
+        transform: translate(0);
+        
+        + .view-container{
+            left: $sidebar-w;
+        }
+    }
+
+    &-close{
+        width: 0px;
+        max-width: 0px;
+        transform: translate(-$sidebar-w);
+    }
+
+    transition: 0.5s ease;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .sidebar{
+
+        &-open{            
+            width: $sidebar-w;
+            max-width: $sidebar-w;
+            transform: translate(0);
+            background-color: rgb(255, 255, 255);
+
+            + .view-container{
+                left: 0;
+            }
+        }
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 600px) {
+    .sidebar{
+
+        &-open{
+            width: $sidebar-w;
+            max-width: $sidebar-w;
+            transform: translate(0);
+            background-color: rgb(255, 255, 255);
+
+            + .view-container{
+                left: 0;
+            }
+        }
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .sidebar{
+
+        &-open{
+            width: $sidebar-w;
+            max-width: $sidebar-w;
+            transform: translate(0);
+            background-color: rgb(255, 255, 255);
+
+            + .view-container{
+                left: $sidebar-w;
+            }
+        }
+    }
+}
