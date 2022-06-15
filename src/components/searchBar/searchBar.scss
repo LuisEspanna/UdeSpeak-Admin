@@ -21,17 +21,17 @@
         padding-left: 15px;
         min-height: 36px;
         color: #707070;
-    
+
         &:focus{
           border: none !important;
           outline: none !important;
         }
-    
+
         &::placeholder{
           color: #BABABA;
         }
     }
-    
+
     .search-icon{
         width: 23px;
         margin-left: 10px;
