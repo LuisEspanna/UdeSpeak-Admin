@@ -1,10 +1,12 @@
 import React from 'react'
-import Button from '../Button/Button'
+import Button from '../button/Button'
 import HamburguerIcon from '../icons/HamburguerIcon'
 import './header.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { click } 
 from '../../state/reducers/sidebarSlice'
+import UdespeakLogo from '../icons/UdespeakLogo'
+import TextInput from '../searchBar/SearchBar'
 
 export default function Header() {
     const dispatch = useDispatch()
@@ -12,22 +14,19 @@ export default function Header() {
     
     return (
         <div className='header d-flex'>
+            <div className='udespeak-logo'>
+                <UdespeakLogo />
+            </div>
+            
             <Button
-                active = {sidebarState}
-                className='me-3' 
+                active={sidebarState}
+                className='me-3'
                 onClick={() => dispatch(click())}
             >
                 <HamburguerIcon />
             </Button>
-            <Button className='me-auto'>
-                <HamburguerIcon />
-            </Button>
-            <Button className='mx-3'>
-                <HamburguerIcon />
-            </Button>
-            <Button className=''>
-                <HamburguerIcon />
-            </Button>
+
+            <TextInput className='me-auto'/>
         </div>
     )
 }

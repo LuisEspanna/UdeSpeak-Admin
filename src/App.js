@@ -1,12 +1,10 @@
 import './App.scss'
-import Header from './components/Header/Header';
+import Header from './components/header/Header';
 import Sidebar from './components/sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 
 function App() {
   const sidebarState = useSelector((state) => state.sidebar.isOpen)
-
-  console.log(sidebarState)
 
   return (
     <div className="App">

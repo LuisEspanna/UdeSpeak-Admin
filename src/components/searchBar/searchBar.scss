@@ -1,0 +1,51 @@
+@import '../../styles/colors.scss';
+
+.search-bar{
+    min-width: 300px;
+    min-height: 50px;
+    border: 1px solid rgb(216, 216, 216);
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+
+    .button-primary{
+        height: 33px;
+    }
+
+    .input-text{
+        border-radius: 20px;
+        border: none;
+        width: 100%;
+        margin-right: 80px;
+        padding-left: 15px;
+        min-height: 36px;
+        color: #707070;
+    
+        &:focus{
+          border: none !important;
+          outline: none !important;
+        }
+    
+        &::placeholder{
+          color: #BABABA;
+        }
+    }
+    
+    .search-icon{
+        width: 23px;
+        margin-left: 10px;
+    }
+
+    .button-primary{
+        .icon{
+            stroke: $color-primary-dark;
+            fill: none;
+        }
+
+        &:hover .icon{
+            transition: 0.8s;
+            stroke: $white;
+        }
+    }
+}

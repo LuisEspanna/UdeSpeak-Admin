@@ -26,4 +26,15 @@
     color: inherit;
     background-color: rgb(255, 255, 255);
     transition: none 0s ease 0s;
+
+    .udespeak-logo{        
+        min-width: 150px;
+        display: flex;
+
+        svg{
+            margin-top: 5px;
+            height: 40px;
+            width: 130px;
+        }
+    }
 }
