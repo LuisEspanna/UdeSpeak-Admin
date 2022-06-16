@@ -18,19 +18,20 @@
 }
 
 .content{
-    padding-top: 85px;
+    padding-top: 5.313em;
 }
 
 .view-container{
     background-color: #E3F2FD;
     position: fixed;
-    top: 85px;
+    top: 5.313em;
     left: 0px;
     right: 0px;
     bottom: 0px;
     margin-left: 0.625em;
     margin-right: 0.625em;
     margin-bottom: 0.625em;
-    border-radius: 14px;
+    border-radius: 0.875em;
     transition: 0.4s ease-in;
+    padding: 1.5em;
 }

@@ -5,8 +5,9 @@
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    min-height: 85px;
-    padding: 16px;
+    min-height: 5.313em;
+    padding: 1em;
+    z-index: 200;
 
     &::after, &::before {
         box-sizing: inherit;
@@ -28,13 +29,40 @@
     transition: none 0s ease 0s;
 
     .udespeak-logo{
-        min-width: 150px;
+        min-width: 9.375em;
         display: flex;
 
         svg{
-            margin-top: 5px;
-            height: 40px;
-            width: 130px;
+            margin-top: 0.313em;
+            height: 2.5em;
+            width: 8.125em;
         }
     }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .header{
+        .udespeak-logo{
+            display: none;
+        }
+    }       
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .header{
+        .udespeak-logo{
+            display: none;
+        }
+    } 
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .header{
+        .udespeak-logo{
+            display: flex;
+        }
+    } 
 }

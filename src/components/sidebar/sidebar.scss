@@ -6,7 +6,7 @@ $sidebar-w: 16.25em;
     background-color: rgb(255, 255, 255);
     position: fixed;
     width: $sidebar-w;
-    top: 85px;
+    top: 5.25em;
     bottom: 0px;
     z-index: 100;
     
@@ -48,7 +48,7 @@ $sidebar-w: 16.25em;
     }
 }
 
-/* Extra small devices (phones, 600px and down) */
+/* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
     .sidebar{
         &-open{
@@ -66,8 +66,8 @@ $sidebar-w: 16.25em;
     }
 }
 
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
 
     .sidebar{
         box-shadow: none;
