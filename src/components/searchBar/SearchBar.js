@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Button from '../button/Button'
 import SearchIcon from '../icons/SearchIcon'
 import SettingsIcon from '../icons/SettingsIcon'
+import CloseIcon from '../icons/CloseIcon'
 import './searchbar.scss'
 
 export default function Searchbar({className}) {
@@ -32,7 +33,12 @@ export default function Searchbar({className}) {
             <Button className='mx-2'>
               <SettingsIcon className='icon' />
             </Button>
-            <button onClick={() => setActive(false)}>X</button>
+            <Button
+              className='button-danger me-2'
+              onClick={() => setActive(false)}
+            >
+              <CloseIcon/>
+            </Button>
           </div>
         </div>
       }

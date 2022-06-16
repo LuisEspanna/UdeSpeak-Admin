@@ -56,3 +56,36 @@
         }
     }
 }
+
+.button-danger{
+    @extend .button;
+    background-color: #FBE9E7;
+
+    &:hover{
+        background: #D9491D radial-gradient(circle, transparent 1%, #D9491D 1%) center/15000%;
+        color: $white;
+    }
+
+    .icon{
+        fill: #D9491D;
+        stroke: #D9491D;
+        transition: 0.5s;
+    }
+
+    &:hover .icon{
+        transition: 0.8s;
+        fill: white;
+        stroke: white;
+    }
+    
+    &-active{
+
+        background: $color-primary radial-gradient(circle, transparent 1%, $color-primary 1%) center/15000%;
+
+        .icon{
+            fill: #fff;
+            stroke: white;
+            transition: 0.5s;
+        }
+    }
+}

@@ -49,6 +49,9 @@
     right: 1em;
     left: 1em;
     z-index: 201;
+    visibility: visible;
+    opacity: 1;
+    transition: 1s;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -80,7 +83,9 @@
     }
 
     .win-searchbar{
-        display: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s linear;
     }
 
     .header-search-btn{
