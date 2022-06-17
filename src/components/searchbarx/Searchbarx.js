@@ -3,7 +3,7 @@ import Button from '../button/Button'
 import SearchIcon from '../icons/SearchIcon'
 import SettingsIcon from '../icons/SettingsIcon'
 import CloseIcon from '../icons/CloseIcon'
-import './searchbar.scss'
+import './searchbarx.scss'
 
 export default function Searchbar({className}) {
   const [active, setActive] = useState(false)

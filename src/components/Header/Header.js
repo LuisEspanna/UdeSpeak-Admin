@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { click } 
 from '../../state/reducers/sidebarSlice'
 import UdespeakLogo from '../icons/UdespeakLogo'
-import Searchbarx from '../searchBar/Searchbar'
+import Searchbar from '../searchbarx/Searchbarx'
 
 export default function Header() {
     const dispatch = useDispatch()
@@ -26,7 +26,7 @@ export default function Header() {
                 <HamburguerIcon />
             </Button>
 
-            <Searchbarx/>
+            <Searchbar/>
         </div>
     )
 }
