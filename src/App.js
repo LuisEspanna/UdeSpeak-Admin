@@ -1,20 +1,25 @@
 import './App.scss'
-import Header from './components/header/Header';
-import Sidebar from './components/sidebar/Sidebar';
-import { useSelector } from 'react-redux';
-import LevelsAndGroups from './views/LevelsAndGroups';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Restore from './pages/Restore';
 
 function App() {
-  const sidebarState = useSelector((state) => state.sidebar.isOpen)
 
   return (
-    <div className="App">
-      <Header/>
-      <Sidebar isOpen={sidebarState}/>
-      <div className='view-container'>
-        <LevelsAndGroups/>
-      </div>      
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Dashboard/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/restore' element={<Restore/>}/>
+      </Routes>
+    </Router>
   );
 }
 
