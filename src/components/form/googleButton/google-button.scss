@@ -1,0 +1,38 @@
+@import '../../../styles/colors.scss';
+
+.gbutton{
+ 
+    width: 100%;
+    padding: 0.7em;
+    border-radius: 2em;
+    background-color: white;
+    border: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-position: center;
+    transition: background 0.8s;
+    color: $color-gray;
+    transition: color 0.5s;
+    border: 1px solid #C0C0C0;
+    
+
+    &:hover{
+        background: rgb(248, 248, 248) radial-gradient(circle, transparent 1%, rgb(245, 245, 245)  1%) center/15000%;
+        transition: color 2s;
+        transition: background 0.8s;
+    }
+
+    &:active{
+        background-color: #ffffffb0;
+        background-size: 100%;
+        transition: background 0s;
+    }
+
+    svg{
+        width: 1.6em;
+        height: 1.5em;
+        margin-right: 0.7em;
+    }
+}
