@@ -17,7 +17,7 @@ export default function Login() {
           <UdespeakLogo/>
         </div>
           <GoogleButton/>      
-        <hr className='w-100'/> 
+        <hr className='w-100 '/> 
         <form>
           <span>Inicia con tu correo electrónico</span>
           <input type='email' required placeholder='Correo' className='my-4'/>

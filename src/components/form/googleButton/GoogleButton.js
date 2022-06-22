@@ -6,7 +6,7 @@ export default function GoogleButton() {
   return (
     <button className='gbutton'>
       <GoogleIcon/>
-      Inicia sesión con Google
+      Inicia con Google
     </button>
   )
 }
