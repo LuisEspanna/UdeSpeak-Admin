@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import constants from '../config/constants.json'
 import {db} from '../services/firebase'
 
 export default function useUsers() {
-    const [users, setUsers] = useState([]);
 
-    const getUsers = async() => {
+    const getAll = async() => {
         const userRef = db.collection(constants.COLLECTION_USERS);
         const snapshot = await userRef.get();
         const localUsers = [];
@@ -15,7 +14,25 @@ export default function useUsers() {
             localUsers.push(user);
         });
 
-        setUsers(localUsers);
+        return(localUsers);
+    }
+
+    const getUser = async(uid) => {
+        const userRef = db.collection(constants.COLLECTION_USERS).doc(uid);
+        const snapshot = await userRef.get();
+        return snapshot.data();
+    }
+
+    const saveUser = (user) => {
+        console.log('Saving user' , user)
+    }
+
+    const editUser = (user) => {
+        console.log('Editing user' , user)
+    }
+
+    const deleteUser = (uid) => {
+        console.log('Editing user' , uid)
     }
 
     useEffect(() => {
@@ -24,6 +41,10 @@ export default function useUsers() {
     
 
     return {
-        users
+        getAll,
+        getUser,
+        saveUser,
+        editUser,
+        deleteUser
     };
 }
