@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import constants from '../config/constants.json'
 import {db} from '../services/firebase'
 
@@ -33,12 +32,7 @@ export default function useUsers() {
 
     const deleteUser = (uid) => {
         console.log('Editing user' , uid)
-    }
-
-    useEffect(() => {
-        getUsers();
-    }, []);
-    
+    }    
 
     return {
         getAll,

@@ -3,6 +3,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/database';
 import 'firebase/compat/auth';
 import 'firebase/compat/messaging';
+import { getAuth } from 'firebase/auth';
 
 let firebaseConfig = {
   apiKey: `${process.env.REACT_APP_API_KEY}`,
@@ -14,13 +15,12 @@ let firebaseConfig = {
   measurementId: `${process.env.REACT_APP_MEASUREMENT_ID}`
 };
 
-console.log(firebaseConfig)
-
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 const rtdb = firebase.database();
-const auth = firebase.auth;
+const Auth = firebase.auth;
+const auth = getAuth(app);
 
 const sendFCM = async (data = {}) => {
   const body = {
@@ -42,6 +42,7 @@ const sendFCM = async (data = {}) => {
 export {
   db,
   rtdb,
-  auth,
-  sendFCM
+  Auth,
+  sendFCM,
+  auth
 };

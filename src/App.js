@@ -12,7 +12,7 @@ import Restore from './pages/Restore';
 import { useSelector } from 'react-redux'
 
 function App() {
-  const auth = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.user?.isLogged);
 
   return (
     <Router>

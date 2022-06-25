@@ -10,10 +10,12 @@ const exampleUser = {
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: exampleUser,
+  initialState: {
+    isLogged: false
+  },
   reducers: {
     setUser: (state, action) => {
-      state = { state, ...action.payload}
+      Object.assign(state, action.payload);
     }
   },
 })
