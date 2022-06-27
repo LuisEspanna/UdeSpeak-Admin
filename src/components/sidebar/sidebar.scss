@@ -21,12 +21,21 @@ $sidebar-w: 16.25em;
     }
 
     &-close{
-        width: 0px;
-        max-width: 0px;
         transform: translate(-$sidebar-w);
     }
 
     transition: 0.5s ease;
+
+    .content-sidebar{
+        margin-top: 2em;
+        width: 100%;
+        padding: 0.3em;
+    }
+
+    .title{
+        color: rgb(77, 77, 77);
+        font-weight: bold;
+    }
 }
 
 /* Extra small devices (phones, 600px and down) */

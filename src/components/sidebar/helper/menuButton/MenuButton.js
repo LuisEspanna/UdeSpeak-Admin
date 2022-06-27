@@ -4,8 +4,8 @@ import './menu-button.scss';
 export default function MenuButton({label, icon}) {
   return (
     <button className='menuButton'>
-        <div>{icon}</div>
-        <div>{label}</div>
+        <div className='icon'>{icon}</div>
+        <div className='label'>{label}</div>
     </button>
   )
 }

@@ -86,7 +86,13 @@ export default function useGoogleLogin () {
       .then(result => {
         console.log('Bye');
         window.sessionStorage.clear();
-        dispatch(setUser(null));
+        dispatch(setUser({
+          isLogged:false,
+          displayName:undefined,
+          email:undefined,
+          photoURL:undefined,
+          uid:undefined
+        }));
       });
   };
 

@@ -1,3 +1,47 @@
+@import '../../../../styles/colors.scss';
+
 .menuButton{
-    
+    position: relative;
+    display: flex;
+    width: 92%;
+    height: 3em;
+    border: none;
+    background-color: white;
+    text-decoration: none;
+    color: $color-gray;    
+    cursor: pointer;
+    border-radius: 0.7em;
+    align-items: center;
+    margin: 0.7em;
+    justify-content: flex-start;
+    padding-left: 2em;
+
+    background-position: center;
+    transition: background 0.8s;
+    transition: color 0.5s;
+
+    &:hover{
+        background: $color-accent radial-gradient(circle, transparent 1%, $color-accent 1%) center/15000%;
+        color: $color-primary;
+        transition: color 2s;
+        transition: background 0.8s;
+    }
+
+    &:active{
+        background-color: #ffffffb0;
+        background-size: 100%;
+        transition: background 0s;
+    }
+
+    .label{
+        text-align: start;
+        display: inline-block;
+    }
+
+    .icon{
+        text-align: start;
+        display: inline-block;
+        background-color: #000;
+        margin-right: 0.65em;
+    }
 }

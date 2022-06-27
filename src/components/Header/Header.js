@@ -7,10 +7,12 @@ import { click }
 from '../../state/reducers/sidebarSlice'
 import UdespeakLogo from '../icons/UdespeakLogo'
 import Searchbar from '../searchbarx/Searchbarx'
+import useGoogleLogin from '../../hooks/useGoogleLogin'
 
 export default function Header() {
     const dispatch = useDispatch()
     const sidebarState = useSelector((state) => state.sidebar.isOpen)
+    const {logout} = useGoogleLogin()
     
     return (
         <div className='header d-flex'>
@@ -27,6 +29,12 @@ export default function Header() {
             </Button>
 
             <Searchbar/>
+
+            <Button
+                onClick={() => logout()}
+            >
+                Logout
+            </Button>
         </div>
     )
 }
