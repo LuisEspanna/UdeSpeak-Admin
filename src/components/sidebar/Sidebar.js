@@ -1,9 +1,10 @@
 import React from 'react'
 import './sidebar.scss'
-import menu from '../../config/menu.json'
+import menuContent from '../../config/menu'
 import MenuButton from './helper/menuButton/MenuButton'
 
 export default function Sidebar({className, isOpen}) {
+  const menu = menuContent();
   return (
     <nav className={`sidebar ${className ? className : ''} sidebar${isOpen ? '-open' : '-close'}`}>
       <div className='content-sidebar'>

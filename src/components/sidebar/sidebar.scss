@@ -9,6 +9,7 @@ $sidebar-w: 16.25em;
     top: 5.25em;
     bottom: 0px;
     z-index: 100;
+    user-select: none;
     
     &-open{
         width: $sidebar-w;
@@ -35,6 +36,7 @@ $sidebar-w: 16.25em;
     .title{
         color: rgb(77, 77, 77);
         font-weight: bold;
+        font-size: 0.9em;
     }
 }
 
