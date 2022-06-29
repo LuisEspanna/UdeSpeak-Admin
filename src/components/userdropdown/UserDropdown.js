@@ -5,6 +5,8 @@ import useOnClickOutside from '../../hooks/useOnClickOutside'
 import GearIcon from '../icons/GearIcon';
 import './userDropdown.scss';
 import {auth} from '../../services/firebase'
+import Button from '../button/Button';
+import LogoutIcon from '../icons/LogoutIcon';
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
@@ -35,7 +37,12 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
         {
             show &&
             <div className='dropdown-window' style={{ left: xWPos, top: yWpos }}>
-                <button onClick={() => dispatch(logout())}>Cerrar sesión</button>
+                <Button
+                    onClick={() => logout()}
+                >
+                    <LogoutIcon/>
+                    Cerrar sesión
+                </Button>
             </div>
         }
         </div>

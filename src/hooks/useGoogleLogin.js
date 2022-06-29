@@ -82,7 +82,7 @@ export default function useGoogleLogin () {
    * @param {function} next
    */
   const logout = (next) => {
-    Auth().signOut()
+    return Auth().signOut()
       .then(result => {
         console.log('Bye');
         window.sessionStorage.clear();
