@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Auth, auth } from '../services/firebase';
+import { Auth, auth, db } from '../services/firebase';
 import { useDispatch } from 'react-redux';
 import {createUserWithEmailAndPassword}  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
+import constants from '../config/constants.json'
 //import Swal from 'sweetalert2';
 
 // Redyx actions
@@ -14,26 +15,23 @@ export default function useGoogleLogin () {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const {getUser} = useUsers();
+  const COLLECTION_USERS = constants.COLLECTION_USERS;
 
   useEffect(() => {
     setProvider(new Auth.GoogleAuthProvider());
     const uid = window.sessionStorage.getItem('uid');
-    if ( uid ) readUserInfo(uid);
+    if ( uid ) {
+      // Load info from db, automatically login
+      readUserInfo(uid).then((user)=>{
+        window.sessionStorage.setItem('uid', uid);
+        dispatch(setUser(user));
+      })
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const readUserInfo = async( uid ) => {
     const res = await getUser(uid);
-    console.log("useGoogleLogin", res, uid);
     return res;
-    /*
-    if (user?.admin) {
-        dispatch(setUser(user));
-        window.sessionStorage.setItem('uid', uid);
-      } else {
-        Swal.fire('No tiene permisos!', '', 'error');
-        logout();
-      }
-    */
   };
 
   /**
@@ -45,11 +43,20 @@ export default function useGoogleLogin () {
       .then(result => {
         const uid = result?.user?.uid || '';
         readUserInfo(uid).then(userRes => {
-          if(userRes !== undefined)dispatch(setUser(userRes))
+          if(userRes !== undefined){
+            console.log("Loading from database") 
+            dispatch(setUser(userRes))
+          }
           else{
             // Save on database
             const localUser = getUserDataFromResult(result?.user);
-            dispatch(setUser(localUser));
+            console.log("Saving on database")
+            const newUser = {...localUser};
+            delete newUser['isLogged'];
+
+            db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(()=>{              
+              dispatch(setUser(localUser));
+            });
           }
         });
         window.sessionStorage.setItem('uid', uid);
