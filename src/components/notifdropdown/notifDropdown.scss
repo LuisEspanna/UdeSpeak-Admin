@@ -1,0 +1,24 @@
+@import '../card/card.scss';
+
+.notif-dropdown{
+    width: 2em;
+    height: 2em;
+    user-select: none;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 1em;
+    margin-left: 1em;
+    position: relative;
+
+    .dropdown-window{
+        @extend .ccard;
+        padding: 7px;
+        position: fixed;
+        z-index: 10;
+        top: 4em;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+        border-radius: 9px;
+    }
+}
