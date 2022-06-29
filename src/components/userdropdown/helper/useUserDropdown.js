@@ -26,6 +26,5 @@ export default function useUserDropdown(user) {
         handleShow,
         handleLogout,
         setShow
-
     }
 }

@@ -23,8 +23,10 @@ export default function useGoogleLogin () {
     if ( uid ) {
       // Load info from db, automatically login
       readUserInfo(uid).then((user)=>{
+        const newUser = {...user}
+        newUser.isLogged = true;
         window.sessionStorage.setItem('uid', uid);
-        dispatch(setUser(user));
+        dispatch(setUser(newUser));
       })
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -44,8 +46,10 @@ export default function useGoogleLogin () {
         const uid = result?.user?.uid || '';
         readUserInfo(uid).then(userRes => {
           if(userRes !== undefined){
-            console.log("Loading from database") 
-            dispatch(setUser(userRes))
+            console.log("Loading from database")
+            const newUser = {...userRes}
+            newUser.isLogged = true
+            dispatch(setUser(newUser))
           }
           else{
             // Save on database
@@ -54,7 +58,7 @@ export default function useGoogleLogin () {
             const newUser = {...localUser};
             delete newUser['isLogged'];
 
-            db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(()=>{              
+            db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(()=>{             
               dispatch(setUser(localUser));
             });
           }

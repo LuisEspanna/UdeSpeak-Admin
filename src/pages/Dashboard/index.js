@@ -4,11 +4,13 @@ import Sidebar from '../../components/sidebar/Sidebar'
 import LevelsAndGroups from '../../views/LevelsAndGroups'
 import { useSelector } from 'react-redux'
 import './dashboard.scss'
+import usePermissions from '../../hooks/usePermissions'
 
 
 export default function Dashboard() {
 
     const sidebarState = useSelector((state) => state.sidebar.isOpen)
+    usePermissions();
 
     return (
         <div className='dashboard'>

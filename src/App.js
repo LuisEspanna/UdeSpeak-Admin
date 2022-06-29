@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Restore from './pages/Restore';
 import { useSelector } from 'react-redux'
 import NotFound404 from './pages/NotFound404/NotFound404';
+import FirstSetup from './pages/FirstSetup/FirstSetup';
 
 function App() {
   const auth = useSelector((state) => state.user?.isLogged);
@@ -23,6 +24,7 @@ function App() {
         <Route path='/register' element={!auth ? <Register/> : <Navigate to='/'/>}/>
         <Route path='/restore' element={!auth ? <Restore/> : <Navigate to='/'/>}/>
         <Route path='/dashboard' element={ auth ? <Dashboard/> : <Navigate to='/login'/>}/>
+        <Route path='/first-setup' element={ auth ? <FirstSetup/> : <Navigate to='/login'/>}/>
         <Route path='*' element={<NotFound404/>}/>
       </Routes>
     </Router>
