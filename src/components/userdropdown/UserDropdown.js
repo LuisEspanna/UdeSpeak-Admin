@@ -4,6 +4,7 @@ import useGoogleLogin from '../../hooks/useGoogleLogin';
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 import GearIcon from '../icons/GearIcon';
 import './userDropdown.scss';
+import {auth} from '../../services/firebase'
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
@@ -25,7 +26,10 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
         >
             <div className='cover' onClick={handleClick}/>
             <div className='avatar'>
-                <img src={user.photoURL} alt=''/>
+                <img 
+                    src={auth.currentUser.photoURL}
+                    referrerPolicy="no-referrer" alt=''
+                />
             </div>
             <GearIcon/>
         {
