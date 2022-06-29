@@ -31,7 +31,7 @@ export default function Header() {
 
             <Searchbar/>
             <NotifDropdown/>
-            <UserDropDown xWPos={-140} user={user}/>
+            <UserDropDown xWPos={-172} user={user}/>
         </div>
     )
 }

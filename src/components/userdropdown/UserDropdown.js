@@ -1,35 +1,27 @@
-import React, { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux';
-import useGoogleLogin from '../../hooks/useGoogleLogin';
+import React, { useRef } from 'react'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 import GearIcon from '../icons/GearIcon';
 import './userDropdown.scss';
-import {auth} from '../../services/firebase'
 import Button from '../button/Button';
 import LogoutIcon from '../icons/LogoutIcon';
+import useUserDropdown from './helper/useUserDropdown';
+import UserIcon from '../icons/UserIcon';
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
-    const [show, setShow] = useState(false)
     const ref = useRef()
-    const {logout} = useGoogleLogin()
-    const dispatch = useDispatch()
-
+    const {show, displayName, setShow, handleShow, handleLogout} = useUserDropdown(user);
     useOnClickOutside(ref, () => setShow(false));
-
-    const handleClick = () => {
-        setShow(!show);
-    };
 
     return (
         <div
             ref={ref}
-            className={`user-dropdown ${className}`}
+            className={`user-dropdown ${className} ${show ? 'user-dropdown-active' : ''} `}
         >
-            <div className='cover' onClick={handleClick}/>
+            <div className='cover' onClick={handleShow}/>
             <div className='avatar'>
                 <img 
-                    src={auth.currentUser.photoURL}
+                    src={user.photoURL}
                     referrerPolicy="no-referrer" alt=''
                 />
             </div>
@@ -37,8 +29,21 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
         {
             show &&
             <div className='dropdown-window' style={{ left: xWPos, top: yWpos }}>
+                <p className='title'><b>Buenos días, </b> {displayName} </p>
                 <Button
-                    onClick={() => logout()}
+                   
+                >
+                    <GearIcon/>
+                    Ajustes de cuenta
+                </Button>
+                <Button
+                   
+                >
+                    <UserIcon/>
+                    Perfil social
+                </Button>
+                <Button
+                    onClick={handleLogout}
                 >
                     <LogoutIcon/>
                     Cerrar sesión
