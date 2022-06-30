@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {createUserWithEmailAndPassword}  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
 import constants from '../config/constants.json'
-//import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 // Redyx actions
 import { setUser } from '../state/reducers/userSlice';
@@ -107,8 +107,15 @@ export default function useGoogleLogin () {
       });
   };
 
-  const singUpWithEmailAndPassword = (email, password) => 
-    createUserWithEmailAndPassword(auth, email, password);
+  const singUpWithEmailAndPassword = (email, password) => {
+    createUserWithEmailAndPassword(auth, email, password).catch((error)=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error
+      });
+    });
+  };
 
 
   return {

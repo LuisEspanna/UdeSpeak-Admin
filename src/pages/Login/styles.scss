@@ -9,6 +9,7 @@
     overflow: auto;
     justify-content: center;
     align-items: center;
+    font-size: 0.95em;
 
     a{
         text-decoration: none;
@@ -100,4 +101,17 @@
             left: -0.5em;
         }
     }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .login{
+        min-width: 20em;
+        overflow: auto;
+        .ccard{            
+            min-width: 100%;
+            min-height: 100%;
+            border-radius: 0;
+        }
+    }  
 }
