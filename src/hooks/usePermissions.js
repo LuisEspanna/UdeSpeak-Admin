@@ -26,7 +26,7 @@ export default function usePermissions() {
                     setIsStudent(true);
                     break;
                 default:
-                    navigate("/first-setup", {replace: true});
+                    //navigate("/first-setup", {replace: true});
                     break;
             }
         }

@@ -7,7 +7,7 @@ import GoogleButton from '../../components/form/googleButton/GoogleButton'
 import useGoogleLogin from '../../hooks/useGoogleLogin'
 
 export default function Login() {
-  const { login } = useGoogleLogin();
+  const { googleLogin, loginWithEmailAndPassword } = useGoogleLogin();
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -18,7 +18,8 @@ export default function Login() {
   }
 
   const handleSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
+    loginWithEmailAndPassword(user.email, user.password);
   }
   
 
@@ -32,7 +33,7 @@ export default function Login() {
         <div className='logo'>
           <UdespeakLogo/>
         </div>
-          <GoogleButton onClick={login}/>      
+          <GoogleButton onClick={googleLogin}/>      
         <hr className='w-100 '/> 
         <form onSubmit={handleSubmit}>
           <span>Inicia con tu correo electrónico</span>

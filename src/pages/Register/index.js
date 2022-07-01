@@ -7,7 +7,7 @@ import '../Login/styles.scss'
 import Swal from 'sweetalert2';
 
 export default function Register() {
-  const { login, singUpWithEmailAndPassword } = useGoogleLogin();
+  const { googleLogin, register } = useGoogleLogin();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -28,7 +28,7 @@ export default function Register() {
         text: 'Las contraseñas no coinciden'
       })
     else 
-      singUpWithEmailAndPassword(user.email, user.password)
+      register(user.email, user.password, user.name)
   }
   
 
@@ -39,7 +39,7 @@ export default function Register() {
           <span className='dot1'/>
           <span className='dot2'/>
         </div>
-          <GoogleButton onClick={login}/>      
+          <GoogleButton onClick={googleLogin}/>      
         <hr className='w-100 '/> 
         <form onSubmit={handleSubmit}>
           <input name='name' type='text' required placeholder='Nombre completo' className='' aria-required onChange={handleChange}/>

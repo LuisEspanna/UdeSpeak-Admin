@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Auth, auth, db } from '../services/firebase';
 import { useDispatch } from 'react-redux';
-import {createUserWithEmailAndPassword}  from 'firebase/auth';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword}  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
 import constants from '../config/constants.json'
 import Swal from 'sweetalert2';
@@ -40,33 +40,17 @@ export default function useGoogleLogin () {
    * Receive a next function that it will be executed
    * @param {function} next
    */
-  const login = (next) => {
+  const googleLogin = (next) => {
     Auth().signInWithPopup(provider)
       .then(result => {
-        const uid = result?.user?.uid || '';
-        readUserInfo(uid).then(userRes => {
-          if(userRes !== undefined){
-            console.log("Loading from database")
-            const newUser = {...userRes}
-            newUser.isLogged = true
-            dispatch(setUser(newUser))
-          }
-          else{
-            // Save on database
-            const localUser = getUserDataFromResult(result?.user);
-            console.log("Saving on database")
-            const newUser = {...localUser};
-            delete newUser['isLogged'];
-
-            db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(()=>{             
-              dispatch(setUser(localUser));
-            });
-          }
-        });
-        window.sessionStorage.setItem('uid', uid);
+        login(result?.user);
       })
       .catch(err => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error
+        });
       });
   };
 
@@ -83,7 +67,11 @@ export default function useGoogleLogin () {
         readUserInfo(result?.user?.uid || '');
       })
       .catch(err => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error
+        });
         setError(err);
       });
   };
@@ -107,22 +95,72 @@ export default function useGoogleLogin () {
       });
   };
 
-  const singUpWithEmailAndPassword = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password).catch((error)=>{
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error
+  const register = (email, password, displayName) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        const user = result?.user;
+        user.displayName=displayName;
+        login(user);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error
+        });
       });
+  };
+
+  const loginWithEmailAndPassword = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        login(result?.user);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error
+        });
+      });
+  };
+
+  /**
+   * Function that receive a login result, save info in local storage and
+   * set the info in the state and the db
+   * @param {*} user 
+   */
+  const login = (user) => {
+    const uid = user?.uid || '';
+    readUserInfo(uid).then(userRes => {
+      if (userRes !== undefined) {
+        console.log("Loading from database")
+        const newUser = { ...userRes }
+        newUser.isLogged = true
+        dispatch(setUser(newUser))
+      }
+      else {
+        // Save on database
+        const localUser = getUserDataFromResult(user);
+        console.log("Saving on database")
+        const newUser = { ...localUser };
+        delete newUser['isLogged'];
+
+        db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(() => {
+          dispatch(setUser(localUser));
+        });
+      }
     });
+    window.sessionStorage.setItem('uid', uid);
   };
 
 
   return {
     error,
-    login,
+    googleLogin,
     logout,
     otherAccount,
-    singUpWithEmailAndPassword
+    register,
+    loginWithEmailAndPassword
   };
 }
