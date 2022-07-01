@@ -13,6 +13,7 @@ import useUsers from '../hooks/useUsers';
 export default function useGoogleLogin () {
   const [provider, setProvider] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const {getUser} = useUsers();
   const COLLECTION_USERS = constants.COLLECTION_USERS;
@@ -22,11 +23,14 @@ export default function useGoogleLogin () {
     const uid = window.sessionStorage.getItem('uid');
     if ( uid ) {
       // Load info from db, automatically login
+      setIsLoading(true);
       readUserInfo(uid).then((user)=>{
         const newUser = {...user}
         newUser.isLogged = true;
         window.sessionStorage.setItem('uid', uid);
         dispatch(setUser(newUser));
+      }).finally(()=>{
+        setIsLoading(false);
       })
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -41,6 +45,7 @@ export default function useGoogleLogin () {
    * @param {function} next
    */
   const googleLogin = (next) => {
+    setIsLoading(true);
     Auth().signInWithPopup(provider)
       .then(result => {
         login(result?.user);
@@ -51,6 +56,8 @@ export default function useGoogleLogin () {
           title: 'Oops...',
           text: error
         });
+      }).finally(()=>{
+        setIsLoading(false);
       });
   };
 
@@ -81,6 +88,7 @@ export default function useGoogleLogin () {
    * @param {function} next
    */
   const logout = (next) => {
+    setIsLoading(true);
     return Auth().signOut()
       .then(result => {
         console.log('Bye');
@@ -92,10 +100,14 @@ export default function useGoogleLogin () {
           photoURL:undefined,
           uid:undefined
         }));
+      })
+      .finally(()=>{
+        setIsLoading(false);
       });
   };
 
   const register = (email, password, displayName) => {
+    setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         const user = result?.user;
@@ -108,10 +120,14 @@ export default function useGoogleLogin () {
           title: 'Oops...',
           text: error
         });
+      })
+      .finally(()=>{
+        setIsLoading(false);
       });
   };
 
   const loginWithEmailAndPassword = (email, password) => {
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         login(result?.user);
@@ -122,6 +138,9 @@ export default function useGoogleLogin () {
           title: 'Oops...',
           text: error
         });
+      })
+      .finally(()=>{
+        setIsLoading(false);
       });
   };
 
@@ -157,6 +176,7 @@ export default function useGoogleLogin () {
 
   return {
     error,
+    isLoading,
     googleLogin,
     logout,
     otherAccount,

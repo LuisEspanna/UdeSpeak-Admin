@@ -5,9 +5,10 @@ import './styles.scss'
 import UdespeakLogo from '../../components/icons/UdespeakLogo'
 import GoogleButton from '../../components/form/googleButton/GoogleButton'
 import useGoogleLogin from '../../hooks/useGoogleLogin'
+import ProgressBar from '../../components/progressbar/ProgressBar'
 
 export default function Login() {
-  const { googleLogin, loginWithEmailAndPassword } = useGoogleLogin();
+  const { isLoading, googleLogin, loginWithEmailAndPassword } = useGoogleLogin();
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -47,6 +48,7 @@ export default function Login() {
           <a href='/register'>Registrate</a>
         </div>
       </Card>
+      <ProgressBar isLoading={isLoading}/>
     </div>
   )
 }
