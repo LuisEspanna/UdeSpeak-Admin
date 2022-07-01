@@ -6,6 +6,7 @@ import Button from '../button/Button';
 import LogoutIcon from '../icons/LogoutIcon';
 import useUserDropdown from './helper/useUserDropdown';
 import UserIcon from '../icons/UserIcon';
+import userImg from '../../assets/images/userImg.png';
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
@@ -21,7 +22,7 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
             <div className='cover' onClick={handleShow}/>
             <div className='avatar'>
                 <img 
-                    src={user.photoURL}
+                    src={user.photoURL !== 'null' ? user.photoURL : userImg}
                     referrerPolicy="no-referrer" alt=''
                 />
             </div>
