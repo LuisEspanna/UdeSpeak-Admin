@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Auth, auth, db } from '../services/firebase';
 import { useDispatch } from 'react-redux';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword}  from 'firebase/auth';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail}  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
 import constants from '../config/constants.json'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 // Redyx actions
 import { setUser } from '../state/reducers/userSlice';
@@ -17,6 +18,8 @@ export default function useGoogleLogin () {
   const dispatch = useDispatch();
   const {getUser} = useUsers();
   const COLLECTION_USERS = constants.COLLECTION_USERS;
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     setProvider(new Auth.GoogleAuthProvider());
@@ -145,6 +148,36 @@ export default function useGoogleLogin () {
   };
 
   /**
+   * 
+   * @param {String} email 
+   */
+  const recoverAccount = (email) => {
+    setIsLoading(true);
+    sendPasswordResetEmail(auth, email)
+      .then((result) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Revisa tu correo: ',
+          text: "El proceso finalizó correctamente, se envió un correo a " + email
+        }).then(res => {
+          if(res.isConfirmed || res.isDismissed){
+            navigate("/", {replace: true})
+          }
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error
+        });
+      })
+      .finally(()=>{
+        setIsLoading(false);
+      });
+  };
+
+  /**
    * Function that receive a login result, save info in local storage and
    * set the info in the state and the db
    * @param {*} user 
@@ -181,6 +214,7 @@ export default function useGoogleLogin () {
     logout,
     otherAccount,
     register,
-    loginWithEmailAndPassword
+    loginWithEmailAndPassword,
+    recoverAccount
   };
 }
