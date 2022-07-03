@@ -1,0 +1,49 @@
+@import "../../styles/colors.scss";
+@import "../Restore/styles.scss";
+
+.first-setup {
+    @extend .recover;
+
+    select {
+        height: 2.7em;
+        color: rgba($color: $color-gray, $alpha: 0.8);
+
+        &:focus {
+            box-shadow: none;
+            border: 1px solid rgba($color: $color-gray, $alpha: 0.5);
+        }
+    }
+
+    form{
+        .access-key {
+            margin-top: 0.7em;
+            border-radius: 0.5em !important;
+    
+        }
+    }
+
+    .description {
+        font-size: 0.91em;
+        text-align: center;
+        align-self: center;
+        justify-content: center;
+        display: flex;
+        margin-top: 2.5em;
+        height: 10em;
+        overflow-y: auto;
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .recover {
+        min-width: 20em;
+        overflow: auto;
+
+        .ccard {
+            min-width: 100%;
+            min-height: 100%;
+            border-radius: 0;
+        }
+    }
+}

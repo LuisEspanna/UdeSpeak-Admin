@@ -1,6 +1,8 @@
 {
     "COLLECTION_USERS": "users",
-    "PERMISSIONS_ADMIN": "admin",
-    "PERMISSIONS_TEACHER": "teacher",
-    "PERMISSIONS_STUDENT": "student"
+    "COLLECTION_PERMISSIONS": "permissions",
+    "COLLECTION_ACCESS_KEYS": "access-keys",
+    "PERMISSIONS_ADMIN": "Administrador",
+    "PERMISSIONS_TEACHER": "Docente",
+    "PERMISSIONS_STUDENT": "Estudiante"
 }
