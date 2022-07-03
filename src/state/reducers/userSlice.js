@@ -8,10 +8,13 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       Object.assign(state, action.payload);
+    },
+    setPermission: (state, action) => {
+      state.permission = action.payload;
     }
   },
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, setPermission } = userSlice.actions
 
 export default userSlice.reducer

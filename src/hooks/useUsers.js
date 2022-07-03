@@ -27,7 +27,8 @@ export default function useUsers() {
     }
 
     const editUser = (user) => {
-        console.log('Editing user' , user)
+        const userRef = db.collection(constants.COLLECTION_USERS).doc(user.uid);
+        return userRef.update(user);
     }
 
     const deleteUser = (uid) => {

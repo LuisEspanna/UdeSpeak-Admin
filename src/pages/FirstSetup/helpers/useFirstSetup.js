@@ -2,6 +2,10 @@ import {useState, useEffect} from 'react'
 import { db, auth } from '../../../services/firebase'
 import constants from '../../../config/constants.json'
 import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from 'react-redux';
+import useUsers from '../../../hooks/useUsers';
+import { setPermission } from '../../../state/reducers/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const dataExamle = [
     {
@@ -23,7 +27,10 @@ export default function useFirstSetup() {
     const [permissions, setPermissions] = useState(dataExamle)
     const [currOption, setCurrOption] = useState(dataExamle[0])
     const [accessKey, setAccessKey] = useState('')
-    
+    const { editUser } = useUsers()
+    const dispatch = useDispatch()
+    const currentUser = useSelector((state) => state.user)
+    const navigate = useNavigate()
 
     useEffect(() => {
       //getAll();
@@ -60,14 +67,9 @@ export default function useFirstSetup() {
             saveInDatabase()
         } else{
             if(accessKey.length > 0 ){
-                console.log('Teacher / admin verification...')
                 loadAccessKeys();
-            }            
+            }          
         }
-    }
-
-    const saveInDatabase = () => {
-        showModal('Genial!', 'El proceso finalizó correctamente', 'success');
     }
 
     const loadAccessKeys = async () => {
@@ -81,21 +83,40 @@ export default function useFirstSetup() {
                 saveInDatabase();
             }
             else{
-                showModal('Error!', 'La clave de acceso no corresponde con el rol seleccionado', 'error')
+                showModal('Error!', 'La clave de acceso no corresponde con el rol seleccionado', 'error');
             }
         } else {
-            showModal('Error!','Clave no encontrada, contacte con el administrador', 'error')
+            showModal('Error!','Clave no encontrada, contacte con el administrador', 'error');
         }
 
         setIsLoading(false);
     }
 
+    const saveInDatabase = () => {
+        //Save in database
+        
+        const newUser = {...currentUser, permission: `${currOption.name}`}
+        delete newUser['isLogged'];
+
+        editUser(newUser)
+        .then(()=>{
+            dispatch(setPermission(currOption.name));
+            showModal('Genial!', 'El proceso finalizó correctamente', 'success')
+            .finally(()=>{
+                navigate("/dashboard", {replace: true});
+            });
+        })
+        .catch((err)=>{
+            showModal('Error!', err, 'error');
+        })
+    }
+
     const showModal = (title, message, icon) => {
-        Swal.fire({
+        return Swal.fire({
             title: title,
             icon: icon,
             text: message
-        })
+        });
     }
 
     return {
