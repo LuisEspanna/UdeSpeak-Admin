@@ -1,0 +1,33 @@
+@import '../../styles/colors.scss';
+
+.notFound{
+    padding: 3em;
+    text-align: center;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .image{
+        width: 100%;
+        max-height: 50%;
+
+        svg{
+            width: 100%;
+        }
+        margin-bottom: 1.4em;
+    }
+
+    .title{
+        font-family: 'poppins-bold';
+        font-size: 2em;
+        color: $color-primary-dark;
+    }
+
+    .button-primary{
+        margin-top: 1.3em;
+        max-width: 10em;
+        min-width: 10em;
+        align-self: center;
+    }
+}

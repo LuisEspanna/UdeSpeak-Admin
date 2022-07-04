@@ -19,7 +19,7 @@ export default function useGoogleLogin () {
   const {getUser} = useUsers();
   const COLLECTION_USERS = constants.COLLECTION_USERS;
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setProvider(new Auth.GoogleAuthProvider());
