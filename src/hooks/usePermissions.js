@@ -11,7 +11,6 @@ export default function usePermissions() {
     const [isStudent, setIsStudent] = useState(false);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
-    
 
     useEffect(() => {
         if(user) {
@@ -30,7 +29,6 @@ export default function usePermissions() {
                     break;
             }
         }
-        console.log();
     }, [navigate, user])
     
 

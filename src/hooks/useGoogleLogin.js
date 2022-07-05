@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 // Redyx actions
 import { setUser } from '../state/reducers/userSlice';
 import useUsers from '../hooks/useUsers';
+import useDbCounters from './useDbCounters';
 
 export default function useGoogleLogin () {
   const [provider, setProvider] = useState(null);
@@ -20,6 +21,7 @@ export default function useGoogleLogin () {
   const COLLECTION_USERS = constants.COLLECTION_USERS;
 
   const navigate = useNavigate();
+  const { incrementUsers } = useDbCounters();
 
   useEffect(() => {
     setProvider(new Auth.GoogleAuthProvider());
@@ -200,6 +202,7 @@ export default function useGoogleLogin () {
 
         db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(() => {
           dispatch(setUser(localUser));
+          incrementUsers(1);
         });
       }
     });

@@ -2,6 +2,8 @@
     "COLLECTION_USERS": "users",
     "COLLECTION_PERMISSIONS": "permissions",
     "COLLECTION_ACCESS_KEYS": "access-keys",
+    "COLLECTION_COUNTERS": "counters",
+    "COLLECTION_LEVELS": "levels",
     "PERMISSIONS_ADMIN": "Administrador",
     "PERMISSIONS_TEACHER": "Docente",
     "PERMISSIONS_STUDENT": "Estudiante"
