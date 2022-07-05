@@ -3,11 +3,12 @@ import { Auth, auth, db } from '../services/firebase';
 import { useDispatch } from 'react-redux';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail}  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
-import constants from '../config/constants.json'
+//import constants from '../config/constants.json'
+import { COLLECTIONS } from '../constants'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
-// Redyx actions
+// Redux actions
 import { setUser } from '../state/reducers/userSlice';
 import useUsers from '../hooks/useUsers';
 import useDbCounters from './useDbCounters';
@@ -18,7 +19,6 @@ export default function useGoogleLogin () {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const {getUser} = useUsers();
-  const COLLECTION_USERS = constants.COLLECTION_USERS;
 
   const navigate = useNavigate();
   const { incrementUsers } = useDbCounters();
@@ -103,7 +103,8 @@ export default function useGoogleLogin () {
           displayName:undefined,
           email:undefined,
           photoURL:undefined,
-          uid:undefined
+          uid:undefined,
+          permission: undefined
         }));
       })
       .finally(()=>{
@@ -200,7 +201,7 @@ export default function useGoogleLogin () {
         const newUser = { ...localUser };
         delete newUser['isLogged'];
 
-        db.collection(COLLECTION_USERS).doc(localUser.uid).set(newUser).then(() => {
+        db.collection(COLLECTIONS.USERS).doc(localUser.uid).set(newUser).then(() => {
           dispatch(setUser(localUser));
           incrementUsers(1);
         });

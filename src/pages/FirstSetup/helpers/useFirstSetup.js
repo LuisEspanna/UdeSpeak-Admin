@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { db, auth } from '../../../services/firebase'
-import constants from '../../../config/constants.json'
+import { COLLECTIONS, PERMISSIONS } from '../../../constants'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../../../hooks/useUsers';
@@ -49,7 +49,7 @@ export default function useFirstSetup() {
     const getAll = async() => {
         setLoading(true);
         setIsLoading(true);
-        const permissionsRef = db.collection(constants.COLLECTION_PERMISSIONS);
+        const permissionsRef = db.collection(COLLECTIONS.PERMISSIONS);
         const snapshot = await permissionsRef.get();
         const localPermissions = [];
         
@@ -67,7 +67,7 @@ export default function useFirstSetup() {
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(currOption.name === constants.PERMISSIONS_STUDENT){
+        if(currOption.name === PERMISSIONS.STUDENT){
             saveInDatabase()
         } else{
             if(accessKey.length > 0 ){
@@ -78,7 +78,7 @@ export default function useFirstSetup() {
 
     const loadAccessKeys = async () => {
         setIsLoading(true);
-        const accessRef = db.collection(constants.COLLECTION_ACCESS_KEYS).doc(accessKey);
+        const accessRef = db.collection(COLLECTIONS.ACCESS_KEYS).doc(accessKey);
         const snapshot = await accessRef.get();
         const dbAccessKey = snapshot.data();
 

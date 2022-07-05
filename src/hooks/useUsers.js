@@ -1,10 +1,10 @@
-import constants from '../config/constants.json'
-import {db} from '../services/firebase'
+import { COLLECTIONS } from '../constants'
+import { db } from '../services/firebase'
 
 export default function useUsers() {
 
     const getAll = async() => {
-        const userRef = db.collection(constants.COLLECTION_USERS);
+        const userRef = db.collection(COLLECTIONS.USERS);
         const snapshot = await userRef.get();
         const localUsers = [];
         
@@ -17,7 +17,7 @@ export default function useUsers() {
     }
 
     const getUser = async(uid) => {
-        const userRef = db.collection(constants.COLLECTION_USERS).doc(uid);
+        const userRef = db.collection(COLLECTIONS.USERS).doc(uid);
         const snapshot = await userRef.get();
         return snapshot.data();
     }
@@ -27,7 +27,7 @@ export default function useUsers() {
     }
 
     const editUser = (user) => {
-        const userRef = db.collection(constants.COLLECTION_USERS).doc(user.uid);
+        const userRef = db.collection(COLLECTIONS.USERS).doc(user.uid);
         return userRef.update(user);
     }
 

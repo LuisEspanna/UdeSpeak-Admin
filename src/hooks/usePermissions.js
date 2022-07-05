@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import constants from '../config/constants.json'
+import { PERMISSIONS } from '../constants'
 
 
 export default function usePermissions() {
@@ -15,13 +15,13 @@ export default function usePermissions() {
     useEffect(() => {
         if(user) {
             switch (user.permission) {
-                case constants.PERMISSIONS_ADMIN:
+                case PERMISSIONS.ADMIN:
                     setIsAdmin(true);
                     break;
-                case constants.PERMISSIONS_TEACHER:
+                case PERMISSIONS.TEACHER:
                     setIsTeacher(true);
                     break;
-                case constants.PERMISSIONS_STUDENT:
+                case PERMISSIONS.STUDENT:
                     setIsStudent(true);
                     break;
                 default:

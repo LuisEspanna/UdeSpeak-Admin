@@ -4,7 +4,7 @@ import Button from '../../components/button/Button'
 import './styles.scss'
 import useFirstSetup from './helpers/useFirstSetup'
 import ProgressBar from '../../components/progressbar/ProgressBar'
-import constants from '../../config/constants.json'
+import { PERMISSIONS } from '../../constants'
 
 export default function FirstSetup() {
   const {isLoading, permissions, currOption, accessKey, loading,
@@ -35,7 +35,7 @@ export default function FirstSetup() {
                 }
               </select>
               {
-                (currOption.name !== constants.PERMISSIONS_STUDENT) &&
+                (currOption.name !== PERMISSIONS.STUDENT) &&
                 <input
                   name='access-key'
                   className='access-key'
@@ -56,7 +56,7 @@ export default function FirstSetup() {
               <div className='action-area'>
                 <Button className='my-3' active={true}>
                   {
-                    currOption.name === constants.PERMISSIONS_STUDENT ? 'Enviar' : 'Siguiente'
+                    currOption.name === PERMISSIONS.STUDENT ? 'Enviar' : 'Siguiente'
                   }
                 </Button>
                 <div className='my-2'>

@@ -1,11 +1,10 @@
-import {useState, useEffect} from 'react'
-import constants from '../config/constants.json'
+import { useState, useEffect } from 'react'
+import { COLLECTIONS } from '../constants'
 import { db } from '../services/firebase'
 import { increment } from 'firebase/firestore'
 
 export default function useDbCounters() {
 
-    const { COLLECTION_COUNTERS, COLLECTION_USERS, COLLECTION_LEVELS } = constants;
     const [counters, setCounters] = useState({});
 
     useEffect(() => {
@@ -14,7 +13,7 @@ export default function useDbCounters() {
 
 
     const readCounters = async() => {
-        const ref = db.collection(COLLECTION_COUNTERS);
+        const ref = db.collection(COLLECTIONS.COUNTERS);
         const snapshot = await ref.get();
         const localCounters = {};
         
@@ -26,14 +25,14 @@ export default function useDbCounters() {
     }
 
     const incrementUsers = (value) => {
-        const ref = db.collection(COLLECTION_COUNTERS).doc(COLLECTION_USERS);
+        const ref = db.collection(COLLECTIONS.COUNTERS).doc(COLLECTIONS.USERS);
         return ref.update({
             value: increment(value)
         });
     }
 
     const incrementLevels = (value) => {
-        const ref = db.collection(COLLECTION_COUNTERS).doc(COLLECTION_LEVELS);
+        const ref = db.collection(COLLECTIONS.COUNTERS).doc(COLLECTIONS.LEVELS);
         return ref.update({
             value: increment(value)
         });
