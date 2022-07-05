@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../../../hooks/useUsers';
 import { setPermission } from '../../../state/reducers/userSlice'
 import { useNavigate } from 'react-router-dom'
-
+/*
 const dataExamle = [
     {
         "description": "Los docentes unicamente podran getionar sus cursos, cuestionarios y visualizar el progreso de sus estudiantes.",
@@ -21,11 +21,13 @@ const dataExamle = [
         "description": "Tiene acceso a todo el contenido, solo otro administrador puede dar acceso mediante un código."
     }
 ]
+*/
 
 export default function useFirstSetup() {
+    const [loading, setLoading] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
-    const [permissions, setPermissions] = useState(dataExamle)
-    const [currOption, setCurrOption] = useState(dataExamle[0])
+    const [permissions, setPermissions] = useState([])
+    const [currOption, setCurrOption] = useState(undefined)
     const [accessKey, setAccessKey] = useState('')
     const { editUser } = useUsers()
     const dispatch = useDispatch()
@@ -33,7 +35,7 @@ export default function useFirstSetup() {
     const navigate = useNavigate()
 
     useEffect(() => {
-      //getAll();
+      getAll();
     }, [])
     
     const onChangeOption = (option) => {
@@ -45,6 +47,7 @@ export default function useFirstSetup() {
     }
 
     const getAll = async() => {
+        setLoading(true);
         setIsLoading(true);
         const permissionsRef = db.collection(constants.COLLECTION_PERMISSIONS);
         const snapshot = await permissionsRef.get();
@@ -56,8 +59,9 @@ export default function useFirstSetup() {
         });
 
         setPermissions(localPermissions);
+        setCurrOption(localPermissions[0]);
         setIsLoading(false);
-        console.log(localPermissions)
+        setLoading(false);
         return(localPermissions);
     }
     
@@ -124,6 +128,7 @@ export default function useFirstSetup() {
         permissions,
         currOption,
         accessKey,
+        loading,
         getAll,
         onChangeOption,
         handleSubmit,
