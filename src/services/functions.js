@@ -13,4 +13,7 @@ const getUserDataFromResult = (userResult) => {
 }
 
 
-module.exports = {getUserDataFromResult}
+
+module.exports = {
+  getUserDataFromResult
+}

@@ -1,27 +1,12 @@
 import {useState, useEffect} from 'react'
-import { db, auth } from '../../../services/firebase'
+import { readFromFirestore, auth } from '../../../services/firebase'
 import { COLLECTIONS, PERMISSIONS } from '../../../constants'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../../../hooks/useUsers';
 import { setPermission } from '../../../state/reducers/userSlice'
 import { useNavigate } from 'react-router-dom'
-/*
-const dataExamle = [
-    {
-        "description": "Los docentes unicamente podran getionar sus cursos, cuestionarios y visualizar el progreso de sus estudiantes.",
-        "name": "Docente"
-    },
-    {
-        "name": "Estudiante",
-        "description": "Los estudiantes unicamente podran visualizar sus indices de desempeno,  para las demas funcionalidades  te invitamos a descargar  nuestra aplicacion movil. "
-    },
-    {
-        "name": "Administrador",
-        "description": "Tiene acceso a todo el contenido, solo otro administrador puede dar acceso mediante un código."
-    }
-]
-*/
+
 
 export default function useFirstSetup() {
     const [loading, setLoading] = useState(true)
@@ -49,8 +34,7 @@ export default function useFirstSetup() {
     const getAll = async() => {
         setLoading(true);
         setIsLoading(true);
-        const permissionsRef = db.collection(COLLECTIONS.PERMISSIONS);
-        const snapshot = await permissionsRef.get();
+        const snapshot = await readFromFirestore(COLLECTIONS.PERMISSIONS);
         const localPermissions = [];
         
         snapshot.forEach(doc => {
@@ -78,8 +62,7 @@ export default function useFirstSetup() {
 
     const loadAccessKeys = async () => {
         setIsLoading(true);
-        const accessRef = db.collection(COLLECTIONS.ACCESS_KEYS).doc(accessKey);
-        const snapshot = await accessRef.get();
+        const snapshot = await readFromFirestore(COLLECTIONS.ACCESS_KEYS, accessKey);
         const dbAccessKey = snapshot.data();
 
         if(auth.currentUser.uid === dbAccessKey?.uid){
@@ -97,8 +80,6 @@ export default function useFirstSetup() {
     }
 
     const saveInDatabase = () => {
-        //Save in database
-        
         const newUser = {...currentUser, permission: `${currOption.name}`}
         delete newUser['isLogged'];
 

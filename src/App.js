@@ -9,7 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Restore from './pages/Restore';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import NotFound404 from './pages/NotFound404/NotFound404';
 import FirstSetup from './pages/FirstSetup/FirstSetup';
 

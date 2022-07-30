@@ -16,33 +16,67 @@ let firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-
+const firestore = firebase.firestore;
+/*
 const db = firebase.firestore();
 const rtdb = firebase.database();
+*/
+
+/**
+ * @param {String} collection 
+ * @param {String} document 
+ * @param {Object} data 
+ * @returns 
+ */
+ const saveOnFirestore = async(collection, document, data) => {
+  if(document)return  firestore().collection(collection).doc(document).set(data);
+  else return firestore().collection(collection).add(data);
+}
+
+/**
+* @param {String} collection 
+* @param {String} document 
+* @returns 
+*/
+const readFromFirestore = async(collection, document) => {
+  if(document)return  firestore().collection(collection).doc(document).get();
+  else return firestore().collection(collection).get();
+}
+
+/**
+* 
+* @param {String} collection
+* @param {String} document
+* @param {*} data 
+*/
+const updateFirestoreDoc = async(collection, document, data) => {
+  if(document)return  firestore().collection(collection).doc(document).update(data);
+}
+
+/**
+* 
+* @param {String} collection
+* @param {String} document
+* @param {*} data 
+*/
+const incrementFieldValue = async(collection, document, value) => {
+  const increment = firestore.FieldValue.increment(value);
+  return firestore().collection(collection).doc(document).update({
+     value : increment
+  });
+}
+
+
+
 const Auth = firebase.auth;
 const auth = getAuth(app);
 
-const sendFCM = async (data = {}) => {
-  const body = {
-    to: '/topics/all',
-    data
-  };
-
-  const response = await fetch('https://fcm.googleapis.com/fcm/send', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json; UTF-8',
-      Authorization: `key=${firebaseConfig.serverKey}`
-    }),
-    body: JSON.stringify(body)
-  });
-  return response.json();
-};
 
 export {
-  db,
-  rtdb,
   Auth,
-  sendFCM,
-  auth
+  auth,
+  saveOnFirestore,
+  readFromFirestore,
+  updateFirestoreDoc,
+  incrementFieldValue
 };

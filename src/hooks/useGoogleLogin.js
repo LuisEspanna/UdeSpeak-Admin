@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Auth, auth, db } from '../services/firebase';
+import { Auth, auth, saveOnFirestore } from '../services/firebase';
 import { useDispatch } from 'react-redux';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail}  from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail }  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
 //import constants from '../config/constants.json'
 import { COLLECTIONS } from '../constants'
@@ -201,7 +201,7 @@ export default function useGoogleLogin () {
         const newUser = { ...localUser };
         delete newUser['isLogged'];
 
-        db.collection(COLLECTIONS.USERS).doc(localUser.uid).set(newUser).then(() => {
+        saveOnFirestore(COLLECTIONS.USERS, localUser.uid, newUser).then(() => {
           dispatch(setUser(localUser));
           incrementUsers(1);
         });

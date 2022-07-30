@@ -1,11 +1,10 @@
 import { COLLECTIONS } from '../constants'
-import { db } from '../services/firebase'
+import { readFromFirestore, saveOnFirestore, updateFirestoreDoc } from '../services/firebase'
 
 export default function useUsers() {
 
     const getAll = async() => {
-        const userRef = db.collection(COLLECTIONS.USERS);
-        const snapshot = await userRef.get();
+        const snapshot = readFromFirestore(COLLECTIONS.USERS);
         const localUsers = [];
         
         snapshot.forEach(doc => {
@@ -17,28 +16,26 @@ export default function useUsers() {
     }
 
     const getUser = async(uid) => {
-        const userRef = db.collection(COLLECTIONS.USERS).doc(uid);
-        const snapshot = await userRef.get();
-        return snapshot.data();
+        const res = await readFromFirestore(COLLECTIONS.USERS, uid);
+        return res.data();
     }
 
-    const saveUser = (user) => {
-        console.log('Saving user' , user)
+    const createUser = async(user) => {
+        return await saveOnFirestore(COLLECTIONS.USERS, user.uid, user);
     }
 
-    const editUser = (user) => {
-        const userRef = db.collection(COLLECTIONS.USERS).doc(user.uid);
-        return userRef.update(user);
+    const editUser = async(user) => {
+        return updateFirestoreDoc(COLLECTIONS.USERS, user.uid, user);
     }
 
     const deleteUser = (uid) => {
-        console.log('Editing user' , uid)
-    }    
+        console.log('Editing user' , uid);
+    }
 
     return {
         getAll,
         getUser,
-        saveUser,
+        createUser,
         editUser,
         deleteUser
     };
