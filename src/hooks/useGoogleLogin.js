@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Auth, auth } from '../services/firebase';
 import { useDispatch } from 'react-redux';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail }  from 'firebase/auth';
-import { getUserDataFromResult } from '../services/functions'
-import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Auth, auth } from '../services/firebase';
+import { createUserWithEmailAndPassword,
+         signInWithEmailAndPassword,
+         sendPasswordResetEmail }  from 'firebase/auth';
+import { getUserDataFromResult } from '../services/functions';
+import Swal from 'sweetalert2';
 
 // Redux actions
 import { setUser } from '../state/reducers/userSlice';
@@ -162,7 +164,7 @@ export default function useGoogleLogin () {
           text: "El proceso finalizó correctamente, se envió un correo a " + email
         }).then(res => {
           if(res.isConfirmed || res.isDismissed){
-            navigate("/", {replace: true})
+            navigate("/", {replace: true});
           }
         });
       })
@@ -187,7 +189,7 @@ export default function useGoogleLogin () {
     if(user?.uid !== null && user?.uid !== undefined){
       getUser(user?.uid).then(userRes => {
         if (userRes !== undefined) {
-          console.log("Loading from database")
+          console.log("Loading from database");
           const newUser = { ...userRes }
           newUser.isLogged = true;
           dispatch(setUser(newUser));

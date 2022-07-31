@@ -1,30 +1,30 @@
-import {useState, useEffect} from 'react'
-import { readFromFirestore, auth } from '../../../services/firebase'
-import { COLLECTIONS, PERMISSIONS } from '../../../constants'
-import Swal from 'sweetalert2'
+import {useState, useEffect} from 'react';
+import { readFromFirestore, auth } from '../../../services/firebase';
+import { COLLECTIONS, PERMISSIONS } from '../../../constants';
+import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import useUsers from '../../../hooks/useUsers';
-import { setPermission } from '../../../state/reducers/userSlice'
-import { useNavigate } from 'react-router-dom'
+import { setPermission } from '../../../state/reducers/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function useFirstSetup() {
-    const [loading, setLoading] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
-    const [permissions, setPermissions] = useState([])
-    const [currOption, setCurrOption] = useState(undefined)
-    const [accessKey, setAccessKey] = useState('')
-    const { editUser } = useUsers()
-    const dispatch = useDispatch()
-    const currentUser = useSelector((state) => state.user)
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [permissions, setPermissions] = useState([]);
+    const [currOption, setCurrOption] = useState(undefined);
+    const [accessKey, setAccessKey] = useState('');
+    const { editUser } = useUsers();
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
       getAll();
     }, [])
     
     const onChangeOption = (option) => {
-        setCurrOption(permissions[option.target.value])
+        setCurrOption(permissions[option.target.value]);
     }
 
     const handleAccessKey = (event) => {
