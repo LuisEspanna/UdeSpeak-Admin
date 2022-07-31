@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Auth, auth, saveOnFirestore } from '../services/firebase';
+import { useState, useEffect } from 'react';
+import { Auth, auth } from '../services/firebase';
 import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail }  from 'firebase/auth';
 import { getUserDataFromResult } from '../services/functions'
-//import constants from '../config/constants.json'
-import { COLLECTIONS } from '../constants'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,32 +16,32 @@ export default function useGoogleLogin () {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const {getUser} = useUsers();
+  const { getUser, createUser } = useUsers();
 
   const navigate = useNavigate();
   const { incrementUsers } = useDbCounters();
 
   useEffect(() => {
     setProvider(new Auth.GoogleAuthProvider());
-    const uid = window.sessionStorage.getItem('uid');
-    if ( uid ) {
-      // Load info from db, automatically login
+  }, [])
+  
+
+  const autoLogin = async () => {
+    setTimeout(()=>{
+      const uid = auth.currentUser?.uid;
+      if(uid === null || uid === undefined ) return;
       setIsLoading(true);
-      readUserInfo(uid).then((user)=>{
-        const newUser = {...user}
+      getUser(uid).then((user)=>{
+        const newUser = {...user};
         newUser.isLogged = true;
         window.sessionStorage.setItem('uid', uid);
         dispatch(setUser(newUser));
-      }).finally(()=>{
-        setIsLoading(false);
       })
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const readUserInfo = async( uid ) => {
-    const res = await getUser(uid);
-    return res;
-  };
+      .finally(()=>{
+          setIsLoading(false);
+      })
+    }, 1000);
+  }
 
   /**
    * Receive a next function that it will be executed
@@ -64,7 +62,7 @@ export default function useGoogleLogin () {
       }).finally(()=>{
         setIsLoading(false);
       });
-  };
+  }
 
   /**
    * Receive a next function that it will be executed
@@ -76,7 +74,7 @@ export default function useGoogleLogin () {
     });
     Auth().signInWithPopup(provider)
       .then(result => {
-        readUserInfo(result?.user?.uid || '');
+        getUser(result?.user?.uid || '');
       })
       .catch(err => {
         Swal.fire({
@@ -86,7 +84,7 @@ export default function useGoogleLogin () {
         });
         setError(err);
       });
-  };
+  }
 
   /**
    * Receive a next function that it will be executed
@@ -110,7 +108,7 @@ export default function useGoogleLogin () {
       .finally(()=>{
         setIsLoading(false);
       });
-  };
+  }
 
   const register = (email, password, displayName) => {
     setIsLoading(true);
@@ -130,7 +128,7 @@ export default function useGoogleLogin () {
       .finally(()=>{
         setIsLoading(false);
       });
-  };
+  }
 
   const loginWithEmailAndPassword = (email, password) => {
     setIsLoading(true);
@@ -148,7 +146,7 @@ export default function useGoogleLogin () {
       .finally(()=>{
         setIsLoading(false);
       });
-  };
+  }
 
   /**
    * 
@@ -178,37 +176,36 @@ export default function useGoogleLogin () {
       .finally(()=>{
         setIsLoading(false);
       });
-  };
+  }
 
   /**
    * Function that receive a login result, save info in local storage and
    * set the info in the state and the db
    * @param {*} user 
    */
-  const login = (user) => {
-    const uid = user?.uid || '';
-    readUserInfo(uid).then(userRes => {
-      if (userRes !== undefined) {
-        console.log("Loading from database")
-        const newUser = { ...userRes }
-        newUser.isLogged = true
-        dispatch(setUser(newUser))
-      }
-      else {
-        // Save on database
-        const localUser = getUserDataFromResult(user);
-        console.log("Saving on database")
-        const newUser = { ...localUser };
-        delete newUser['isLogged'];
+   const login = (user) => {   
+    if(user?.uid !== null && user?.uid !== undefined){
+      getUser(user?.uid).then(userRes => {
+        if (userRes !== undefined) {
+          console.log("Loading from database")
+          const newUser = { ...userRes }
+          newUser.isLogged = true;
+          dispatch(setUser(newUser));
+        }
+        else {
+          const localUser = getUserDataFromResult(user);
+          console.log("Saving on database");
+          const newUser = { ...localUser };
+          delete newUser['isLogged'];
 
-        saveOnFirestore(COLLECTIONS.USERS, localUser.uid, newUser).then(() => {
-          dispatch(setUser(localUser));
-          incrementUsers(1);
-        });
-      }
-    });
-    window.sessionStorage.setItem('uid', uid);
-  };
+          createUser(newUser).then(()=>{
+            dispatch(setUser(localUser));
+            incrementUsers(1);
+          });
+        }
+      });
+    }
+  }
 
 
   return {
@@ -219,6 +216,7 @@ export default function useGoogleLogin () {
     otherAccount,
     register,
     loginWithEmailAndPassword,
-    recoverAccount
+    recoverAccount,
+    autoLogin
   };
 }

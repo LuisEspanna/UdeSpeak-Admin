@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Card from '../../components/card/Card'
 import Button from '../../components/button/Button'
 import './styles.scss'
@@ -8,7 +8,7 @@ import useGoogleLogin from '../../hooks/useGoogleLogin'
 import ProgressBar from '../../components/progressbar/ProgressBar'
 
 export default function Login() {
-  const { isLoading, googleLogin, loginWithEmailAndPassword } = useGoogleLogin();
+  const { isLoading, googleLogin, loginWithEmailAndPassword, autoLogin } = useGoogleLogin();
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -22,6 +22,10 @@ export default function Login() {
     e.preventDefault();
     loginWithEmailAndPassword(user.email, user.password);
   }
+  
+  useEffect(() => {
+    autoLogin();
+  }, [autoLogin]);
   
 
   return (
