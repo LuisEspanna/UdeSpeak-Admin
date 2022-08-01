@@ -19,7 +19,7 @@ export default function NotifDropdown({ className, xWPos, yWpos }) {
             ref={ref}
             className={`notif-dropdown ${className}`}
         >
-            <Button onClick={handleClick}>
+            <Button onClick={handleClick} type={'primary'}>
                 <NotificationIcon/>
             </Button>
         {

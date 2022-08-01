@@ -22,6 +22,7 @@ export default function Header() {
             </div>
             
             <Button
+                type={'primary'}
                 active={sidebarState}
                 className='me-3'
                 onClick={() => dispatch(click())}

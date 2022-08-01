@@ -17,10 +17,6 @@ let firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore;
-/*
-const db = firebase.firestore();
-const rtdb = firebase.database();
-*/
 
 /**
  * @param {String} collection 

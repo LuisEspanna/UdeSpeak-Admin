@@ -4,7 +4,7 @@ import { readFromFirestore, saveOnFirestore, updateFirestoreDoc } from '../servi
 export default function useUsers() {
 
     const getAll = async() => {
-        const snapshot = readFromFirestore(COLLECTIONS.USERS);
+        const snapshot = await readFromFirestore(COLLECTIONS.USERS);
         const localUsers = [];
         
         snapshot.forEach(doc => {

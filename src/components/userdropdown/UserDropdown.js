@@ -6,7 +6,7 @@ import Button from '../button/Button';
 import LogoutIcon from '../icons/LogoutIcon';
 import useUserDropdown from './helper/useUserDropdown';
 import UserIcon from '../icons/UserIcon';
-import userImg from '../../assets/images/userImg.png';
+import Avatar from '../avatar/Avatar';
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
@@ -20,30 +20,26 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
             className={`user-dropdown ${className} ${show ? 'user-dropdown-active' : ''} `}
         >
             <div className='cover' onClick={handleShow}/>
-            <div className='avatar'>
-                <img 
-                    src={user.photoURL !== 'null' ? user.photoURL : userImg}
-                    referrerPolicy="no-referrer" alt=''
-                />
-            </div>
+            <Avatar photoURL={user.photoURL}/>
             <GearIcon/>
         {
             show &&
             <div className='dropdown-window' style={{ left: xWPos, top: yWpos }}>
                 <p className='title'><b>Buenos días, </b> {displayName} </p>
                 <Button
-                   
+                   type={'primary'}
                 >
                     <GearIcon/>
                     Ajustes de cuenta
                 </Button>
                 <Button
-                   
+                   type={'primary'}
                 >
                     <UserIcon/>
                     Perfil social
                 </Button>
-                <Button
+                <Button                    
+                    type={'primary'}
                     onClick={handleLogout}
                 >
                     <LogoutIcon/>

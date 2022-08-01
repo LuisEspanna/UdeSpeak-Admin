@@ -45,7 +45,7 @@ export default function Login() {
           <input name='email' type='email' required placeholder='Correo' className='my-3' onChange={handleChange}/>
           <input name='password' type='password' required placeholder='Contraseña' onChange={handleChange}/>
           <a href='/restore' className='my-3'>Olvidaste tu Contraseña?</a>
-          <Button className='my-2' active={true}>Iniciar sesión</Button>
+          <Button type={'primary'} className='my-2' active={true}>Iniciar sesión</Button>
         </form>
         <div className='my-2'>
           <span>¿No tienes una cuenta? </span>

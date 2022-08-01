@@ -46,7 +46,7 @@ export default function Register() {
           <input name='email' type='email' required placeholder='Correo' className='mt-3' aria-required onChange={handleChange}/>
           <input name='password' type='password' required placeholder='Contraseña' className='mt-3' aria-required onChange={handleChange}/>
           <input name='cpassword' type='password' required placeholder='Confirmar contraseña' className='my-3' aria-required onChange={handleChange}/>
-          <Button className='my-2' active={true}>Iniciar sesión</Button>
+          <Button type={'primary'} className='my-2' active={true}>Iniciar sesión</Button>
         </form>
         <div className='my-2'>
           <span>¿ya tienes una cuenta? </span>

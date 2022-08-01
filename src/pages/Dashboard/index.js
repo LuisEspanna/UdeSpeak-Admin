@@ -1,10 +1,13 @@
-import React from 'react'
-import Header from '../../components/header/Header'
-import Sidebar from '../../components/sidebar/Sidebar'
-import LevelsAndGroups from '../../views/LevelsAndGroups'
-import { useSelector } from 'react-redux'
-import './dashboard.scss'
-import usePermissions from '../../hooks/usePermissions'
+import React from 'react';
+import Header from '../../components/header/Header';
+import Sidebar from '../../components/sidebar/Sidebar';
+import { useSelector } from 'react-redux';
+import './dashboard.scss';
+import usePermissions from '../../hooks/usePermissions';
+
+//Views
+//import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
+import UsersView from '../../views/users/UsersView';
 
 
 export default function Dashboard() {
@@ -17,7 +20,7 @@ export default function Dashboard() {
             <Header />
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
-              <LevelsAndGroups/>
+              <UsersView/>
             </div>
         </div>
     )

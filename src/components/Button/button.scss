@@ -3,8 +3,8 @@
 .button{
     border-radius: 0.688em;
     background-color: $color-accent;
-    min-height: 2.125em;
-    min-width: 2.125em;
+    min-height: 2.125em !important;
+    min-width: 2.125em !important;
     border: 0px;
     display: flex;
     align-items: center;
@@ -28,6 +28,10 @@
         background-size: 100%;
         transition: background 0s;
     }
+
+    .title{
+        font-size: 0.8em;
+    }
 }
 
 .button-primary{
@@ -46,7 +50,6 @@
     }
     
     &-active{
-
         background: $color-primary radial-gradient(circle, transparent 1%, $color-primary 1%) center/15000%;
         color: white;
         .icon{
@@ -60,10 +63,20 @@
 .button-danger{
     @extend .button;
     background-color: #FBE9E7;
+    color: #D9491D;
 
+    
     &:hover{
         background: #D9491D radial-gradient(circle, transparent 1%, #D9491D 1%) center/15000%;
-        color: $white;
+        color: $white;        
+        transition: color 2s;
+        transition: background 0.8s;
+    }
+
+    &:active{
+        background-color: #ffffffb0;
+        background-size: 100%;
+        transition: background 0s;
     }
 
     .icon{
@@ -79,9 +92,8 @@
     }
     
     &-active{
-
-        background: $color-primary radial-gradient(circle, transparent 1%, $color-primary 1%) center/15000%;
-
+        background: #D9491D radial-gradient(circle, transparent 1%, #D9491D 1%) center/15000%;
+        color: white;
         .icon{
             fill: #fff;
             stroke: white;

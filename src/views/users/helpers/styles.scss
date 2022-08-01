@@ -1,0 +1,26 @@
+.userInfo{
+    .nickname{
+        font-weight: bold;
+        font-size: 0.875em;
+        font-family: "poppins-regular"
+    }
+
+    .email{
+        font-size: 0.8em;
+        color: #616161;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        margin-left: 1em;
+    }
+
+    .avatar{
+        img{
+            width: 2.8em;
+        }
+    }
+
+    table{
+        font-size: small;
+    }
+}

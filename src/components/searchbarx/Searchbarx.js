@@ -11,7 +11,8 @@ export default function Searchbar({className}) {
   return (
     <>
       <Button
-          className='button-primary header-search-btn'
+          type={'primary'}
+          className='header-search-btn'
           active={active}
           onClick={() => setActive(!active)}
         >
@@ -20,7 +21,7 @@ export default function Searchbar({className}) {
       <div className={`search-bar-desktop  ${className ? className : ''}`}>
         <SearchIcon className='search-icon' />
         <input type='text' className='input-text me-auto' placeholder='Search' />
-        <Button className='mx-2'>
+        <Button type={'primary'} className='mx-2'>
           <SettingsIcon className='icon' />
         </Button>
       </div>
@@ -30,11 +31,12 @@ export default function Searchbar({className}) {
           <div className='search-bar'>
             <SearchIcon className='search-icon' />
             <input type='text' className='input-text me-auto' placeholder='Search' />
-            <Button className='mx-2'>
+            <Button type={'primary'} className='mx-2'>
               <SettingsIcon className='icon' />
             </Button>
             <Button
-              className='button-danger me-2'
+              type={'danger'}
+              className='me-2'
               onClick={() => setActive(false)}
             >
               <CloseIcon/>

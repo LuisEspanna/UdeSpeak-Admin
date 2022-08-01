@@ -40,7 +40,7 @@ export default function Restore() {
           <span className='title'>Ingresa el correo electónico asociado a tu cuenta</span>
           <input name='email' type='email' required placeholder='Correo electrónico' className='mt-3' aria-required onChange={handleChange} />
           <div className='action-area'>
-            <Button className='my-3' active={true}>Enviar</Button>
+            <Button type={'primary'} className='my-3' active={true}>Enviar</Button>
             <div className='my-2'>
               <span>¿ya tienes una cuenta? </span>
               <a href='/login'>Inicia sesión</a>
