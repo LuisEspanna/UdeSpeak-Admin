@@ -5,6 +5,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/messaging';
 import { getAuth } from 'firebase/auth';
 
+
 let firebaseConfig = {
   apiKey: `${process.env.REACT_APP_API_KEY}`,
   authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
@@ -62,6 +63,18 @@ const incrementFieldValue = async(collection, document, value) => {
   });
 }
 
+/**
+ * @param {String} collection
+ * @param {String} document
+ * @param {String} field 
+ * @param {String} comparator
+ * @param {any} value 
+ * @returns 
+ */
+const readFromFirestoreWhere = async(collection, document, field, comparator, value) => {
+  if(document)return  firestore().collection(collection).doc(document).where(field, comparator, value).get();
+  else return firestore().collection(collection).where(field, comparator, value).get();
+}
 
 
 const Auth = firebase.auth;
@@ -74,5 +87,6 @@ export {
   saveOnFirestore,
   readFromFirestore,
   updateFirestoreDoc,
-  incrementFieldValue
+  incrementFieldValue,
+  readFromFirestoreWhere
 };

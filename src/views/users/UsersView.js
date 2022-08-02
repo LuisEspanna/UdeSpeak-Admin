@@ -5,7 +5,7 @@ import useUsersView from './hooks/useUsersView'
 
 export default function Users() {
 
-  const { users } = useUsersView();
+  const { users, handleUser } = useUsersView();
 
   return (
     <div>
@@ -19,7 +19,7 @@ export default function Users() {
           <p className='title'>Estudiantes</p>
           {
             users.map((user, i)=> //<div key={i}>{JSON.stringify(user)}</div>
-              <UserInfo key={i} user={user}/>
+              <UserInfo key={i} user={user} onOpen={handleUser}/>
             )
           }
         </Card>

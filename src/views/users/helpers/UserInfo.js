@@ -3,12 +3,13 @@ import Avatar from '../../../components/avatar/Avatar';
 import Button from '../../../components/button/Button';
 import './styles.scss';
 
-export default function UserInfo({ user }) {
+export default function UserInfo({ user, onOpen }) {
 
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
         setOpen(!open);
+        if (!open && onOpen) onOpen(user);
     }
 
     return (
@@ -38,24 +39,30 @@ export default function UserInfo({ user }) {
                         </div>
                     </div>
                     <p className='my-4'>Permisos</p>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Codigo</th>
-                                <th scope="col">Fecha de vencimiento</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    {
+                        user?.permissions && <table className="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Codigo</th>
+                                    <th scope="col">Fecha de vencimiento</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    user?.permissions?.map((p, i) => 
+                                    <tr key={i}>
+                                        <td>{p.name}</td>
+                                        <td>{p.key}</td>
+                                        <td>{JSON.stringify(p.expires)}</td>
+                                        <td></td>
+                                    </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    }
                 </div>
             }
         </div>

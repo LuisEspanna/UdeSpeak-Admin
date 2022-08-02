@@ -1,5 +1,10 @@
 import { COLLECTIONS } from '../constants'
-import { readFromFirestore, saveOnFirestore, updateFirestoreDoc } from '../services/firebase'
+import {
+    readFromFirestore,
+    saveOnFirestore,
+    updateFirestoreDoc,
+    readFromFirestoreWhere
+} from '../services/firebase'
 
 export default function useUsers() {
 
@@ -32,11 +37,17 @@ export default function useUsers() {
         console.log('Editing user' , uid);
     }
 
+    const getUserPermissions = async(user) => {
+        const res = await readFromFirestoreWhere(COLLECTIONS.ACCESS_KEYS, undefined, 'uid', '==', user.uid);
+        return res;
+    }
+
     return {
         getAll,
         getUser,
         createUser,
         editUser,
-        deleteUser
+        deleteUser,
+        getUserPermissions
     };
 }
