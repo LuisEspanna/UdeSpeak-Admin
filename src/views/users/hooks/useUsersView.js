@@ -7,6 +7,7 @@ export default function useUsersView() {
     const [currentUser, setCurrentUser] = useState(undefined);
     const [users, setUsers] = useState([]);
     const [isLoading, setisLoading] = useState(false);
+    const [isEditing, setIsEdditing] = useState(false);
 
     useEffect(() => {
         async function fetchUsers(){
@@ -23,20 +24,57 @@ export default function useUsersView() {
         getUserPermissions(user).then(res => {
             const localPermissions = [];
             res.forEach(doc => {
-                console.log(doc);
                 const permission = {
-                    ...doc.data(), key: doc.id
+                    ...doc.data(), 
+                    key: doc.id,
+                    expires: doc.data()['expires'].toDate()
                 }
+
                 localPermissions.push(permission);
             });
             Object.assign(user, {permissions: localPermissions});
         }).finally(() => setisLoading(false));
     }
 
+    const handleDelete = () => {
+        console.log('Borrar permisos...');
+    }
+
+    const handleDate = (event, permission, index) => {
+        setIsEdditing(true);
+        const localPermissions = currentUser.permissions;
+
+        const newPermissions = [
+            ...localPermissions.slice(0, index),
+            {...permission, expires: new Date(event.target.value)},
+            ...localPermissions.slice(index + 1)];
+
+        Object.assign(currentUser, {permissions: newPermissions});
+        console.log(users);
+    }
+
+    const handleSave = () => {
+        setIsEdditing(false);
+    }
+
+    const handleEdit = () => {
+        setIsEdditing(true);
+    }
+
+    const handleType = (event) => {
+        console.log(event.target.value);
+    }
+
     return {
         users,
         currentUser,
         isLoading,
-        handleUser
+        isEditing,
+        handleUser,
+        handleDelete,
+        handleDate,
+        handleSave,
+        handleEdit,
+        handleType
     }
 }

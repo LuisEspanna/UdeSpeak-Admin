@@ -1,7 +1,7 @@
 .userInfo{
     .nickname{
         font-weight: bold;
-        font-size: 0.875em;
+        font-size: 1em;
         font-family: "poppins-regular"
     }
 
@@ -20,7 +20,10 @@
         }
     }
 
-    table{
-        font-size: small;
+    .table-container{
+        overflow: auto;
+        svg{
+            width: 1.5em;
+        }
     }
 }

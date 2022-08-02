@@ -84,9 +84,10 @@ const auth = getAuth(app);
 export {
   Auth,
   auth,
+  firestore,
   saveOnFirestore,
   readFromFirestore,
   updateFirestoreDoc,
   incrementFieldValue,
-  readFromFirestoreWhere
+  readFromFirestoreWhere,
 };

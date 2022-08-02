@@ -5,7 +5,7 @@ import { Auth, auth } from '../services/firebase';
 import { createUserWithEmailAndPassword,
          signInWithEmailAndPassword,
          sendPasswordResetEmail }  from 'firebase/auth';
-import { getUserDataFromResult } from '../services/functions';
+import { getUserDataFromResult } from '../functions';
 import Swal from 'sweetalert2';
 
 // Redux actions

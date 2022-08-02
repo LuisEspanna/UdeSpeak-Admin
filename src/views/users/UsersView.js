@@ -1,11 +1,13 @@
-import React from 'react'
-import Card from '../../components/card/Card'
+import React from 'react';
+import Card from '../../components/card/Card';
 import UserInfo from './helpers/UserInfo';
-import useUsersView from './hooks/useUsersView'
+import useUsersView from './hooks/useUsersView';
+import './styles.scss';
 
 export default function Users() {
 
-  const { users, handleUser } = useUsersView();
+  const viewProps = useUsersView();
+  const { users } = viewProps;
 
   return (
     <div>
@@ -14,12 +16,16 @@ export default function Users() {
         <div className='col'><Card/></div>
         <div className='col'><Card/></div>
       </div>
-      <div className='content'>
+      <div>
         <Card>
-          <p className='title'>Estudiantes</p>
+          <p className='view-title'>Estudiantes</p>
           {
-            users.map((user, i)=> //<div key={i}>{JSON.stringify(user)}</div>
-              <UserInfo key={i} user={user} onOpen={handleUser}/>
+            users.map((user, i)=>
+              <UserInfo
+                key={i}
+                user={user}
+                {...viewProps}
+              />
             )
           }
         </Card>
