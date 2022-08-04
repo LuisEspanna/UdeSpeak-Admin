@@ -62,7 +62,7 @@ export default function UserInfo({ user, handleUser, isEditing, handleDate, hand
                                                 <td>
                                                     {
                                                         isEditing ?
-                                                        <select onChange={handleType} className="form-select" defaultValue={p.name}>
+                                                        <select onChange={(e) => handleType(e, p, i)} className="form-select" defaultValue={p.name}>
                                                             <option value={'Administrador'}>Administrador</option>
                                                             <option value={'Docente'}>Docente</option>                                                            
                                                         </select> : p.name
@@ -73,12 +73,13 @@ export default function UserInfo({ user, handleUser, isEditing, handleDate, hand
                                                 <td>
                                                     {
                                                         isEditing ?
-                                                            <input
+                                                            <>
+                                                                <p style={{fontSize: '0.67em', marginBottom: 0}}>{toDateFormat(p.expires)}</p>
+                                                                <input
                                                                 type="datetime-local"
                                                                 onChange={(e) => handleDate(e, p, i)}
-                                                                min={toISOFormat(new Date())}
-                                                            //placeholder={toDateFormatted(p.expires).substring(0, 16)}
-                                                            /> : toDateFormat(p.expires)
+                                                                min={toISOFormat(new Date())}/>
+                                                            </> : toDateFormat(p.expires)
                                                     }
                                                 </td>
                                                 <td>

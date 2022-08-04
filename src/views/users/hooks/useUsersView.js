@@ -41,7 +41,6 @@ export default function useUsersView() {
     }
 
     const handleDate = (event, permission, index) => {
-        setIsEdditing(true);
         const localPermissions = currentUser.permissions;
 
         const newPermissions = [
@@ -50,10 +49,9 @@ export default function useUsersView() {
             ...localPermissions.slice(index + 1)];
 
         Object.assign(currentUser, {permissions: newPermissions});
-        console.log(users);
     }
 
-    const handleSave = () => {
+    const handleSave = (permission) => {
         setIsEdditing(false);
     }
 
@@ -61,8 +59,14 @@ export default function useUsersView() {
         setIsEdditing(true);
     }
 
-    const handleType = (event) => {
-        console.log(event.target.value);
+    const handleType = (event, permission, index) => {
+        const localPermissions = currentUser.permissions;
+        const newPermissions = [
+            ...localPermissions.slice(0, index),
+            {...permission, name: event.target.value},
+            ...localPermissions.slice(index + 1)];
+
+        Object.assign(currentUser, {permissions: newPermissions});
     }
 
     return {
