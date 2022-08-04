@@ -7,7 +7,16 @@ import TrashIcon from '../../../components/icons/TrashIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 import PencilIcon from '../../../components/icons/PencilIcon';
 
-export default function UserInfo({ user, handleUser, isEditing, handleDate, handleDelete, handleSave, handleEdit, handleType }) {
+export default function UserInfo({ 
+    user,
+    handleUser,
+    isEditing,
+    handleDate,
+    handleDelete,
+    handleSave,
+    handleEdit,
+    handleType,
+    currentUser }) {
 
     const [open, setOpen] = useState(false);
 
@@ -44,7 +53,7 @@ export default function UserInfo({ user, handleUser, isEditing, handleDate, hand
                     </div>
                     <p className='my-4'>Permisos</p>
                     {
-                        user?.permissions &&
+                        currentUser?.permissions &&
                         <div className='table-container'>
                             <table className="table">
                                 <thead>
@@ -57,7 +66,7 @@ export default function UserInfo({ user, handleUser, isEditing, handleDate, hand
                                 </thead>
                                 <tbody>
                                     {
-                                        user?.permissions?.map((p, i) =>
+                                        currentUser?.permissions?.map((p, i) =>
                                             <tr key={i}>
                                                 <td>
                                                     {
@@ -85,11 +94,11 @@ export default function UserInfo({ user, handleUser, isEditing, handleDate, hand
                                                 <td>
                                                     <div>
                                                         {
-                                                            isEditing ? <SaveIcon onClick={handleSave} className='mx-2' /> :
-                                                                <div>
+                                                            isEditing ? <SaveIcon onClick={() => handleSave(i)} className='mx-2' /> :
+                                                            <div>
                                                                     <PencilIcon onClick={handleEdit} />
                                                                     <TrashIcon onClick={handleDelete} className='mx-2' />
-                                                                </div>
+                                                            </div>
                                                         }
 
                                                     </div>

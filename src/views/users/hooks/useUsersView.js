@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { COLLECTIONS } from '../../../constants';
 import useUsers from '../../../hooks/useUsers';
+import { updateFirestoreDoc, firestore } from '../../../services/firebase';
 
 export default function useUsersView() {
     const { getAll, getUserPermissions } = useUsers();
@@ -20,7 +22,6 @@ export default function useUsersView() {
     
     const handleUser = (user) => {
         setisLoading(true);
-        setCurrentUser(user);
         getUserPermissions(user).then(res => {
             const localPermissions = [];
             res.forEach(doc => {
@@ -32,7 +33,7 @@ export default function useUsersView() {
 
                 localPermissions.push(permission);
             });
-            Object.assign(user, {permissions: localPermissions});
+            setCurrentUser({...user, permissions: localPermissions});
         }).finally(() => setisLoading(false));
     }
 
@@ -48,11 +49,27 @@ export default function useUsersView() {
             {...permission, expires: new Date(event.target.value)},
             ...localPermissions.slice(index + 1)];
 
-        Object.assign(currentUser, {permissions: newPermissions});
+        setCurrentUser({...currentUser, permissions: newPermissions});
     }
 
-    const handleSave = (permission) => {
-        setIsEdditing(false);
+    const handleSave = (index) => {
+        const permission = currentUser.permissions[index];
+        const newData = {
+            ...permission,
+            expires: firestore.Timestamp.fromDate(permission.expires),
+        };
+
+        delete newData['key'];
+
+        console.log(newData);
+        console.log(users);
+
+        setIsEdditing(true);
+        
+        updateFirestoreDoc(COLLECTIONS.ACCESS_KEYS, permission.key, newData)
+        .finally(()=>{
+            setIsEdditing(false);
+        });
     }
 
     const handleEdit = () => {
@@ -66,7 +83,7 @@ export default function useUsersView() {
             {...permission, name: event.target.value},
             ...localPermissions.slice(index + 1)];
 
-        Object.assign(currentUser, {permissions: newPermissions});
+        setCurrentUser({...currentUser, permissions: newPermissions});
     }
 
     return {
