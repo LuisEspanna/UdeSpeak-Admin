@@ -108,7 +108,9 @@ export default function UserInfo({
                                     }
                                 </tbody>
                             </table>
-                            <Button title='Crear' onClick={handleCreate} type='primary' />
+                            <div className='d-flex justify-content-end'>
+                                <Button title='Agregar permisos' onClick={handleCreate} type='primary' style={{width: '10em'}}/>
+                            </div>
                         </div>
                     }
                 </div>

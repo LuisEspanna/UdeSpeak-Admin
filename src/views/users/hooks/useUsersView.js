@@ -7,11 +7,12 @@ import {
     deleteFromFirestore,
     saveOnFirestore
 } from '../../../services/firebase';
+import Swal from 'sweetalert2';
 
 
 export default function useUsersView() {
     const { getAll, getUserPermissions } = useUsers();
-    
+
     const [currentUser, setCurrentUser] = useState(undefined);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -19,51 +20,70 @@ export default function useUsersView() {
     const [currentPermission, setCurrentPermission] = useState(undefined);
 
     useEffect(() => {
-        async function fetchUsers(){
+        async function fetchUsers() {
             const localUsers = await getAll();
             setUsers(localUsers);
         }
         fetchUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
     const handleUser = (user) => {
         setIsLoading(true);
         getUserPermissions(user).then(res => {
             const localPermissions = [];
             res.forEach(doc => {
                 const permission = {
-                    ...doc.data(), 
+                    ...doc.data(),
                     key: doc.id,
                     expires: doc.data()['expires'].toDate()
                 }
 
                 localPermissions.push(permission);
             });
-            setCurrentUser({...user, permissions: localPermissions});
+            setCurrentUser({ ...user, permissions: localPermissions });
         }).finally(() => setIsLoading(false));
     }
 
     const handleDelete = (index) => {
-        if(currentUser.permissions.length > 0){
-            const permission = currentUser.permissions[index];
-            const newPermissions = [
-                ...currentUser.permissions.slice(0, index),
-                ...currentUser.permissions.slice(index + 1)];
-            
-            setIsLoading(true);
-            deleteFromFirestore(COLLECTIONS.ACCESS_KEYS, permission.key)
-            .then(()=> {
-                setCurrentUser({...currentUser, permissions: newPermissions});
+        if (currentUser.permissions.length > 0) {
 
-                if(newPermissions.length === 0){
-                    updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, {permission: 'Estudiante'});
+            Swal.fire({
+                title: 'Estás seguro?',
+                text: "Esta acción no podrá revertirse",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const permission = currentUser.permissions[index];
+                    const newPermissions = [
+                        ...currentUser.permissions.slice(0, index),
+                        ...currentUser.permissions.slice(index + 1)];
+
+                    setIsLoading(true);
+                    deleteFromFirestore(COLLECTIONS.ACCESS_KEYS, permission.key)
+                        .then(() => {
+                            setCurrentUser({ ...currentUser, permissions: newPermissions });
+
+                            if (newPermissions.length === 0) {
+                                updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, { permission: 'Estudiante' });
+                            }
+                        })
+                        .finally(() => {
+                            Swal.fire(
+                                'Eliminado!',
+                                'El proceso finalizó correctamente.',
+                                'success'
+                            )
+                            setIsLoading(false);
+                            setIsEdditing(false);
+                        });
                 }
             })
-            .finally(()=> {
-                setIsLoading(false);
-                setIsEdditing(false);
-            });            
         }
     }
 
@@ -72,10 +92,10 @@ export default function useUsersView() {
 
         const newPermissions = [
             ...localPermissions.slice(0, index),
-            {...permission, expires: new Date(event.target.value)},
+            { ...permission, expires: new Date(event.target.value) },
             ...localPermissions.slice(index + 1)];
 
-        setCurrentUser({...currentUser, permissions: newPermissions});
+        setCurrentUser({ ...currentUser, permissions: newPermissions });
     }
 
     const handleSave = (index) => {
@@ -90,14 +110,14 @@ export default function useUsersView() {
         setIsLoading(true);
 
         updateFirestoreDoc(COLLECTIONS.ACCESS_KEYS, permission.key, newData)
-        .finally(()=>{
-            const newPermission = {permission: currentUser.permissions[index].name};
-            updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, newPermission)
-            .finally(()=>{
-                setIsEdditing(false);
-                setIsLoading(false);
+            .finally(() => {
+                const newPermission = { permission: currentUser.permissions[index].name };
+                updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, newPermission)
+                    .finally(() => {
+                        setIsEdditing(false);
+                        setIsLoading(false);
+                    });
             });
-        });
     }
 
     const handleEdit = (permissionIndex) => {
@@ -109,22 +129,22 @@ export default function useUsersView() {
         const localPermissions = currentUser.permissions;
         const newPermissions = [
             ...localPermissions.slice(0, index),
-            {...permission, name: event.target.value},
+            { ...permission, name: event.target.value },
             ...localPermissions.slice(index + 1)];
 
-        setCurrentUser({...currentUser, permissions: newPermissions});
+        setCurrentUser({ ...currentUser, permissions: newPermissions });
     }
 
     const handleCreate = () => {
         const date = new Date();
         const data = {
-           expires: firestore.Timestamp.fromDate(date),
-           name: 'Estudiante',
-           uid: currentUser.uid 
+            expires: firestore.Timestamp.fromDate(date),
+            name: 'Estudiante',
+            uid: currentUser.uid
         }
         saveOnFirestore(COLLECTIONS.ACCESS_KEYS, null, data).then((res) => {
             const localPermissions = currentUser.permissions;
-            const newPermission = { ...data, key: res.id, expires: date};
+            const newPermission = { ...data, key: res.id, expires: date };
             const newPermissions = [...localPermissions, newPermission];
 
             setCurrentUser({ ...currentUser, permissions: newPermissions });

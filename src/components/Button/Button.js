@@ -3,9 +3,10 @@ import './button.scss';
 import PropTypes from 'prop-types';
 
 
-export default function Button({className, title, onClick, children, active, type}) {
+export default function Button({className, title, onClick, children, active, type, style}) {
   return (
     <button
+        style={style}
         className={`button-${type} ${className ? className : ''} ${active ? `button-${type}-active` : ''}`}
         onClick={onClick}
     >
