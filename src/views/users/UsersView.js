@@ -22,8 +22,9 @@ export default function Users() {
           {
             users.map((user, i)=>
               <UserInfo
-                key={i}
-                user={user}
+                key = {i}
+                user = {user}
+                userIndex = {i}
                 {...viewProps}
               />
             )

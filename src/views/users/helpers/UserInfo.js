@@ -7,7 +7,7 @@ import TrashIcon from '../../../components/icons/TrashIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 import PencilIcon from '../../../components/icons/PencilIcon';
 
-export default function UserInfo({ 
+export default function UserInfo({
     user,
     handleUser,
     isEditing,
@@ -16,7 +16,10 @@ export default function UserInfo({
     handleSave,
     handleEdit,
     handleType,
-    currentUser }) {
+    currentUser,
+    handleCreate,
+    currentPermission
+}) {
 
     const [open, setOpen] = useState(false);
 
@@ -66,48 +69,46 @@ export default function UserInfo({
                                 </thead>
                                 <tbody>
                                     {
-                                        currentUser?.permissions?.map((p, i) =>
-                                            <tr key={i}>
-                                                <td>
-                                                    {
-                                                        isEditing ?
+                                        currentUser?.permissions?.map((p, i) => (
+                                            (isEditing && i === currentPermission) ?
+                                                <tr key={i}>
+                                                    <td>
                                                         <select onChange={(e) => handleType(e, p, i)} className="form-select" defaultValue={p.name}>
                                                             <option value={'Administrador'}>Administrador</option>
-                                                            <option value={'Docente'}>Docente</option>                                                            
-                                                        </select> : p.name
-                                                    }
-                                                    
-                                                </td>
-                                                <td>{p.key}</td>
-                                                <td>
-                                                    {
-                                                        isEditing ?
-                                                            <>
-                                                                <p style={{fontSize: '0.67em', marginBottom: 0}}>{toDateFormat(p.expires)}</p>
-                                                                <input
+                                                            <option value={'Docente'}>Docente</option>
+                                                            <option value={'Estudiante'}>Estudiante</option>                                                            
+                                                        </select>
+                                                    </td>
+                                                    <td>{p.key}</td>
+                                                    <td>
+                                                        <p style={{ fontSize: '0.67em', marginBottom: 0 }}>{toDateFormat(p.expires)}</p>
+                                                            <input
                                                                 type="datetime-local"
                                                                 onChange={(e) => handleDate(e, p, i)}
-                                                                min={toISOFormat(new Date())}/>
-                                                            </> : toDateFormat(p.expires)
-                                                    }
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        {
-                                                            isEditing ? <SaveIcon onClick={() => handleSave(i)} className='mx-2' /> :
-                                                            <div>
-                                                                    <PencilIcon onClick={handleEdit} />
-                                                                    <TrashIcon onClick={handleDelete} className='mx-2' />
-                                                            </div>
-                                                        }
-
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                                min={toISOFormat(new Date())} 
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <SaveIcon onClick={() => handleSave(i)} className='mx-2' />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                : <tr key={i}>
+                                                    <td>{p.name}</td>
+                                                    <td>{p.key}</td>
+                                                    <td>{toDateFormat(p.expires)}</td>
+                                                    <td>
+                                                        <PencilIcon onClick={() => handleEdit(i)} />
+                                                        <TrashIcon onClick={() => handleDelete(i)} className='mx-2' />
+                                                    </td>
+                                                </tr>
+                                        )
                                         )
                                     }
                                 </tbody>
                             </table>
+                            <Button title='Crear' onClick={handleCreate} type='primary' />
                         </div>
                     }
                 </div>

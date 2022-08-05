@@ -76,6 +76,16 @@ const readFromFirestoreWhere = async(collection, document, field, comparator, va
   else return firestore().collection(collection).where(field, comparator, value).get();
 }
 
+/**
+* @param {String} collection 
+* @param {String} document 
+* @returns 
+*/
+const deleteFromFirestore = async(collection, document) => {
+  if(document)return  firestore().collection(collection).doc(document).delete();
+  else return firestore().collection(collection).delete();
+}
+
 
 const Auth = firebase.auth;
 const auth = getAuth(app);
@@ -90,4 +100,5 @@ export {
   updateFirestoreDoc,
   incrementFieldValue,
   readFromFirestoreWhere,
+  deleteFromFirestore
 };

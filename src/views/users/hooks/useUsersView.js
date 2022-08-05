@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 import { COLLECTIONS } from '../../../constants';
 import useUsers from '../../../hooks/useUsers';
-import { updateFirestoreDoc, firestore } from '../../../services/firebase';
+import {
+    updateFirestoreDoc,
+    firestore,
+    deleteFromFirestore,
+    saveOnFirestore
+} from '../../../services/firebase';
+
 
 export default function useUsersView() {
     const { getAll, getUserPermissions } = useUsers();
     
     const [currentUser, setCurrentUser] = useState(undefined);
     const [users, setUsers] = useState([]);
-    const [isLoading, setisLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEdditing] = useState(false);
+    const [currentPermission, setCurrentPermission] = useState(undefined);
 
     useEffect(() => {
         async function fetchUsers(){
@@ -21,7 +28,7 @@ export default function useUsersView() {
     }, []);
     
     const handleUser = (user) => {
-        setisLoading(true);
+        setIsLoading(true);
         getUserPermissions(user).then(res => {
             const localPermissions = [];
             res.forEach(doc => {
@@ -34,11 +41,30 @@ export default function useUsersView() {
                 localPermissions.push(permission);
             });
             setCurrentUser({...user, permissions: localPermissions});
-        }).finally(() => setisLoading(false));
+        }).finally(() => setIsLoading(false));
     }
 
-    const handleDelete = () => {
-        console.log('Borrar permisos...');
+    const handleDelete = (index) => {
+        if(currentUser.permissions.length > 0){
+            const permission = currentUser.permissions[index];
+            const newPermissions = [
+                ...currentUser.permissions.slice(0, index),
+                ...currentUser.permissions.slice(index + 1)];
+            
+            setIsLoading(true);
+            deleteFromFirestore(COLLECTIONS.ACCESS_KEYS, permission.key)
+            .then(()=> {
+                setCurrentUser({...currentUser, permissions: newPermissions});
+
+                if(newPermissions.length === 0){
+                    updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, {permission: 'Estudiante'});
+                }
+            })
+            .finally(()=> {
+                setIsLoading(false);
+                setIsEdditing(false);
+            });            
+        }
     }
 
     const handleDate = (event, permission, index) => {
@@ -61,19 +87,22 @@ export default function useUsersView() {
 
         delete newData['key'];
 
-        console.log(newData);
-        console.log(users);
+        setIsLoading(true);
 
-        setIsEdditing(true);
-        
         updateFirestoreDoc(COLLECTIONS.ACCESS_KEYS, permission.key, newData)
         .finally(()=>{
-            setIsEdditing(false);
+            const newPermission = {permission: currentUser.permissions[index].name};
+            updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, newPermission)
+            .finally(()=>{
+                setIsEdditing(false);
+                setIsLoading(false);
+            });
         });
     }
 
-    const handleEdit = () => {
+    const handleEdit = (permissionIndex) => {
         setIsEdditing(true);
+        setCurrentPermission(permissionIndex);
     }
 
     const handleType = (event, permission, index) => {
@@ -86,16 +115,35 @@ export default function useUsersView() {
         setCurrentUser({...currentUser, permissions: newPermissions});
     }
 
+    const handleCreate = () => {
+        const date = new Date();
+        const data = {
+           expires: firestore.Timestamp.fromDate(date),
+           name: 'Estudiante',
+           uid: currentUser.uid 
+        }
+        saveOnFirestore(COLLECTIONS.ACCESS_KEYS, null, data).then((res) => {
+            const localPermissions = currentUser.permissions;
+            const newPermission = { ...data, key: res.id, expires: date};
+            const newPermissions = [...localPermissions, newPermission];
+
+            setCurrentUser({ ...currentUser, permissions: newPermissions });
+            console.log(res);
+        });
+    }
+
     return {
         users,
         currentUser,
         isLoading,
         isEditing,
+        currentPermission,
         handleUser,
         handleDelete,
         handleDate,
         handleSave,
         handleEdit,
-        handleType
+        handleType,
+        handleCreate
     }
 }

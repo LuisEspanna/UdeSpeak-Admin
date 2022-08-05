@@ -2,6 +2,7 @@ import React from 'react'
 import './button.scss';
 import PropTypes from 'prop-types';
 
+
 export default function Button({className, title, onClick, children, active, type}) {
   return (
     <button
