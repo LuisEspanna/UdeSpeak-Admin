@@ -22,6 +22,7 @@ export default function NotFound404() {
       <Button
         active={true}
         onClick={handleClick}
+        type='primary'
       >
         Volver
       </Button>

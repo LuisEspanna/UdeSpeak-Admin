@@ -54,7 +54,7 @@ export default function FirstSetup() {
                 </span>
               </div>
               <div className='action-area'>
-                <Button className='my-3' active={true}>
+                <Button className='my-3' active={true} type='primary'>
                   {
                     currOption.name === PERMISSIONS.STUDENT ? 'Enviar' : 'Siguiente'
                   }

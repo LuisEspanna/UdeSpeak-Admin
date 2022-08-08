@@ -18,15 +18,33 @@ export default function useUsersView() {
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEdditing] = useState(false);
     const [currentPermission, setCurrentPermission] = useState(undefined);
+    const [counters, setCounters] = useState({
+        Administrador: 0,
+        Docente: 0,
+        Estudiante: 0
+    });
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filterApplied, setFilterApplied] = useState('Administrador');
 
     useEffect(() => {
         async function fetchUsers() {
             const localUsers = await getAll();
             setUsers(localUsers);
+            const newCounters = {};
+            const localFilteredUsers = [];
+
+            localUsers.forEach((user)=>{
+                newCounters[user.permission] = (newCounters[user.permission] ? newCounters[user.permission] : 0) + 1;
+                if(filterApplied === user.permission) localFilteredUsers.push(user);
+            });
+            setCounters(newCounters);
+            setFilteredUsers(localFilteredUsers);
         }
         fetchUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+
 
     const handleUser = (user) => {
         setIsLoading(true);
@@ -151,18 +169,34 @@ export default function useUsersView() {
         });
     }
 
+    const handleFilter = (filterText) => {
+        setFilterApplied(filterText);
+
+        const localUsers = [...users];
+        const localFilteredUsers = [];
+
+        localUsers.forEach((user)=>{
+            if(filterText === user.permission) localFilteredUsers.push(user);
+        });
+        setFilteredUsers(localFilteredUsers);
+    }
+
     return {
         users,
         currentUser,
         isLoading,
         isEditing,
         currentPermission,
+        counters,
+        filteredUsers,
+        filterApplied,
         handleUser,
         handleDelete,
         handleDate,
         handleSave,
         handleEdit,
         handleType,
-        handleCreate
+        handleCreate,
+        handleFilter
     }
 }

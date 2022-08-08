@@ -8,20 +8,38 @@ import './styles.scss';
 export default function Users() {
 
   const viewProps = useUsersView();
-  const { users } = viewProps;
+  const { filteredUsers, counters, filterApplied, handleFilter } = viewProps;
 
   return (
     <div>
       <div className='row g-3 mb-3'>
-        <div className='col'><InfoCard type='dark'/></div>
-        <div className='col'><InfoCard type='primary'/></div>
-        <div className='col'><InfoCard type='primary'/></div>
+        <div className='col'>
+          <InfoCard
+            type='dark'
+            title={counters.Administrador || 0}
+            description='Administradores'
+            onClick={()=>handleFilter('Administrador')}/>
+        </div>
+        <div className='col'>
+          <InfoCard 
+            type='primary'
+            title={counters.Docente || 0}
+            description='Docentes'
+            onClick={()=>handleFilter('Docente')}/>
+        </div>
+        <div className='col'>
+          <InfoCard
+            type='primary' 
+            title={counters.Estudiante || 0} 
+            description='Estudiantes'
+            onClick={()=>handleFilter('Estudiante')}/>
+        </div>
       </div>
       <div>
         <Card>
-          <p className='view-title'>Estudiantes</p>
+          <p className='view-title'>{filterApplied}</p>
           {
-            users.map((user, i)=>
+            filteredUsers.map((user, i)=>
               <UserInfo
                 key = {i}
                 user = {user}
