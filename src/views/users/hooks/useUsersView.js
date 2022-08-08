@@ -148,7 +148,6 @@ export default function useUsersView() {
             const newPermissions = [...localPermissions, newPermission];
 
             setCurrentUser({ ...currentUser, permissions: newPermissions });
-            console.log(res);
         });
     }
 

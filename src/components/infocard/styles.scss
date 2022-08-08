@@ -1,0 +1,71 @@
+@import '../../styles/colors.scss';
+
+.info-card{
+    border-radius: 1.5em;
+    overflow: hidden;
+    background-color: rgb(110, 110, 110);
+    align-items: center;
+    min-height: 7em;
+    min-width: 7em;
+    display: flex;
+    color: #FFF;
+    position: relative;
+
+    h4{
+        margin-top: 1em;
+        font-weight: bold;
+    }
+
+    .text-container{
+        text-align: center;
+    }
+}
+
+.dot{
+    height: 12.5em;
+    width: 12.5em;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.info-card-primary{
+    @extend .info-card;
+    background-color: #17B6BB;
+
+    .dot1{        
+        @extend .dot;    
+        background-color: rgba($color: #159397, $alpha: 0.5);           
+        left:11.5em;
+        top: -6.8125em;
+    }
+    
+    .dot2{        
+        @extend .dot;    
+        background-color: rgba($color:  #41c6ca, $alpha: 0.9);           
+        top:-8.9em;
+        left: 6em;
+    }
+}
+
+.info-card-dark{
+    @extend .info-card;
+    background-color: #12778D;
+
+    .dot1{        
+        @extend .dot;    
+        background-color: rgba($color: #08677C, $alpha: 0.7);           
+        left:11.5em;
+        top: -6.8125em;
+    }
+    
+    .dot2{        
+        @extend .dot;    
+        background-color: rgba($color: #1588A1, $alpha: 0.7);           
+        top: -8.9em;
+        left: 6em;
+    }
+}
+
+
+
