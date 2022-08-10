@@ -5,7 +5,7 @@ import SettingsIcon from '../icons/SettingsIcon'
 import CloseIcon from '../icons/CloseIcon'
 import './searchbarx.scss'
 
-export default function Searchbar({className}) {
+export default function Searchbar({className, onChange, value}) {
   const [active, setActive] = useState(false)
 
   return (
@@ -20,7 +20,7 @@ export default function Searchbar({className}) {
       </Button>
       <div className={`search-bar-desktop  ${className ? className : ''}`}>
         <SearchIcon className='search-icon' />
-        <input type='text' className='input-text me-auto' placeholder='Search' />
+        <input type='text' className='input-text me-auto' placeholder='Search' value={value} onChange={onChange}/>
         <Button type={'primary'} className='mx-2'>
           <SettingsIcon className='icon' />
         </Button>
@@ -30,7 +30,7 @@ export default function Searchbar({className}) {
         <div className='win-searchbar'>
           <div className='search-bar'>
             <SearchIcon className='search-icon' />
-            <input type='text' className='input-text me-auto' placeholder='Search' />
+            <input type='text' className='input-text me-auto' placeholder='Search' value={value} onChange={onChange}/>
             <Button type={'primary'} className='mx-2'>
               <SettingsIcon className='icon' />
             </Button>

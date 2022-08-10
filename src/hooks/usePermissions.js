@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { PERMISSIONS } from '../constants'
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { PERMISSIONS } from '../constants';
 
 
 export default function usePermissions() {
