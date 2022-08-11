@@ -24,6 +24,7 @@ function App() {
         <Route path='/register' element={!auth ? <Register/> : <Navigate to='/'/>}/>
         <Route path='/restore' element={!auth ? <Restore/> : <Navigate to='/'/>}/>
         <Route path='/dashboard' element={ auth ? <Dashboard/> : <Navigate to='/login'/>}/>
+        <Route path='/dashboard/:view' element={ auth ? <Dashboard/> : <Navigate to='/login'/>}/>
         <Route path='/first-setup' element={ auth ? <FirstSetup/> : <Navigate to='/login'/>}/>
         <Route path='*' element={<NotFound404/>}/>
       </Routes>

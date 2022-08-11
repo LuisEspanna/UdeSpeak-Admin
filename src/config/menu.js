@@ -21,7 +21,7 @@ const menu = () => {
                     "title": "Autenticación",
                     "icon": <KeyIcon/>,
                     "permission": "all",                
-                    "url": "/auth"                   
+                    "url": "/dashboard/auth"                   
                 }
             ]
         },
@@ -32,17 +32,17 @@ const menu = () => {
                 {
                     "title": "Funciones y grupos",
                     "permission": "all",                
-                    "url": "/levelsandgroups"
+                    "url": "/dashboard/levelsandgroups"
                 },
                 {
                     "title": "Cuestionarios",
                     "permission": "all",      
-                    "url": "/questionnaires"
+                    "url": "/dashboard/questionnaires"
                 },
                 {
                     "title": "Usuarios",
                     "permission": "admin",                
-                    "url": "/users"
+                    "url": "/dashboard/users"
                 }
             ]
         }

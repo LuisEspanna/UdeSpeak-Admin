@@ -26,4 +26,19 @@
             width: 1.5em;
         }
     }
+
+    .arrow-btn{
+        cursor: pointer;
+        user-select: none;
+
+        .open{
+            transform: rotate(180deg);
+            transition: 0.5s;
+        }
+
+        .closed{
+            transform: rotate(0deg);
+            transition: 0.5s;
+        }
+    }
 }

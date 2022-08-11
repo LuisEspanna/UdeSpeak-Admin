@@ -1,19 +1,21 @@
 import React from 'react';
+import './dashboard.scss';
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/sidebar/Sidebar';
 import { useSelector } from 'react-redux';
-import './dashboard.scss';
 import usePermissions from '../../hooks/usePermissions';
-
+import { DashboardProvider} from '../../context/dashboard-context';
+import { useParams } from "react-router-dom";
 //Views
 //import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
 import UsersView from '../../views/users/UsersView';
 
-import { DashboardProvider} from '../../context/dashboard-context';
+
 
 function Dashboard() {
 
     const sidebarState = useSelector((state) => state.sidebar.isOpen);
+    const { view } = useParams();
     usePermissions();
 
     return (
@@ -21,7 +23,11 @@ function Dashboard() {
             <Header/>
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
-              <UsersView/>
+                { view === 'users' && <UsersView/> }
+                { view === 'language' && <div>Idiomas</div> }
+                { view === 'auth' && <div>Auth</div> }
+                { view === 'levelsandgroups' && <div>levelsandgroups</div> }
+                { view === 'questionnaires' && <div>questionnaires</div> }
             </div>
         </div>
     )

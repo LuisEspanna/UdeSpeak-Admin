@@ -6,6 +6,7 @@ import { toDateFormat, toISOFormat } from '../../../functions';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 import PencilIcon from '../../../components/icons/PencilIcon';
+import ArrowIcon from '../../../components/icons/ArrowIcon';
 
 export default function UserInfo({
     user,
@@ -36,6 +37,9 @@ export default function UserInfo({
                 </div>
                 <div className='col'>
                     {!open && <p className='email'>{user?.email}</p>}
+                </div>
+                <div className='col-1 arrow-btn' onClick={handleOpen}>
+                    <ArrowIcon className={`${open?'open':'closed'}`}/>
                 </div>
             </div>
             <hr className='hr' />
