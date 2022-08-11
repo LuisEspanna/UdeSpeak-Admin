@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Card from '../../components/card/Card';
 import InfoCard from '../../components/infocard/InfoCard';
 import UserInfo from './helpers/UserInfo';
@@ -6,12 +6,12 @@ import useUsersView from './hooks/useUsersView';
 import './styles.scss';
 
 export default function Users() {
-
-  const viewProps = useUsersView();
+  const ref = useRef();
+  const viewProps = useUsersView(ref);
   const { filteredUsers, counters, filterApplied, handleFilter } = viewProps;
 
   return (
-    <div>
+    <div ref={ref}>
       <div className='row g-3 mb-3'>
         <div className='col'>
           <InfoCard

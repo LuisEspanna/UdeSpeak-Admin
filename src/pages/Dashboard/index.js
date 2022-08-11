@@ -9,19 +9,28 @@ import usePermissions from '../../hooks/usePermissions';
 //import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
 import UsersView from '../../views/users/UsersView';
 
+import { DashboardProvider} from '../../context/dashboard-context';
 
-export default function Dashboard() {
+function Dashboard() {
 
-    const sidebarState = useSelector((state) => state.sidebar.isOpen)
+    const sidebarState = useSelector((state) => state.sidebar.isOpen);
     usePermissions();
 
     return (
         <div className='dashboard'>
-            <Header />
+            <Header/>
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
               <UsersView/>
             </div>
         </div>
+    )
+}
+
+export default function ContextDashboard () {
+    return (
+        <DashboardProvider>
+            <Dashboard/>
+        </DashboardProvider>
     )
 }

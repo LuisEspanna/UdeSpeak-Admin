@@ -9,14 +9,20 @@ import UdespeakLogo from '../icons/UdespeakLogo';
 import Searchbar from '../searchbarx/Searchbarx';
 import UserDropDown from '../userdropdown/UserDropdown';
 import NotifDropdown from '../notifdropdown/NotifDropdown';
-import useSearch from '../../hooks/useSearch';
+//import useSearch from '../../hooks/useSearch';
+import { useDashboard } from '../../context/dashboard-context';
 
 
 export default function Header() {
     const dispatch = useDispatch();
     const sidebarState = useSelector((state) => state.sidebar.isOpen);
     const user = useSelector((state) => state.user);
-    const { search, handleSearch } = useSearch();
+    //const { search, handleSearch } = useSearch();
+    const { searchAction } = useDashboard();
+    
+    const handleSearch = (event) => {
+        if(searchAction.function !== undefined && searchAction.function !== null)searchAction.function(event.target.value);
+    }
     
     return (
         <div className='header d-flex'>
@@ -33,7 +39,7 @@ export default function Header() {
                 <HamburguerIcon />
             </Button>
 
-            <Searchbar value={search} onChange={handleSearch}/>
+            <Searchbar onChange={handleSearch}/>
             <NotifDropdown/>
             <UserDropDown xWPos={-172} user={user}/>
         </div>

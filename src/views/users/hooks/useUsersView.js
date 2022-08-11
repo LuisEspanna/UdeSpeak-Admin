@@ -8,25 +8,47 @@ import {
     saveOnFirestore
 } from '../../../services/firebase';
 import Swal from 'sweetalert2';
+import { useDashboard } from '../../../context/dashboard-context';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
 
-export default function useUsersView() {
-    const { getAll, getUserPermissions } = useUsers();
-
-    const [currentUser, setCurrentUser] = useState(undefined);
+export default function useUsersView(ref) {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEdditing] = useState(false);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [currentUser, setCurrentUser] = useState(undefined);
+    const [filterApplied, setFilterApplied] = useState('Administrador');
     const [currentPermission, setCurrentPermission] = useState(undefined);
+    const { setSearchAction } = useDashboard();
     const [counters, setCounters] = useState({
         Administrador: 0,
         Docente: 0,
         Estudiante: 0
     });
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [filterApplied, setFilterApplied] = useState('Administrador');
+    const { getAll, getUserPermissions } = useUsers();
 
-    useEffect(() => {
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : handleFilterText});
+        }
+    });
+
+    const handleFilterText = (newText) => {
+        let localFilteredUsers = [];
+        if(newText.length > 0){
+            localFilteredUsers = users.filter((user)=>user.permission === filterApplied);
+            localFilteredUsers = localFilteredUsers.filter((user)=>(
+                user.email.toLowerCase().includes(newText.toLowerCase()) ||
+                user.displayName.toLowerCase().includes(newText.toLowerCase())
+            ));
+        } else {
+            localFilteredUsers = users.filter(user => filterApplied === user.permission);
+        }
+        setFilteredUsers(localFilteredUsers);
+    }
+
+    useEffect(() => {        
         async function fetchUsers() {
             const localUsers = await getAll();
             setUsers(localUsers);
@@ -43,8 +65,7 @@ export default function useUsersView() {
         fetchUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
+    
 
     const handleUser = (user) => {
         setIsLoading(true);
