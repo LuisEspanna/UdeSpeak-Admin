@@ -30,6 +30,11 @@ const menu = () => {
             "permission": "all",
             "children": [
                 {
+                    "title": "Languages",
+                    "permission": "all",                
+                    "url": "/dashboard/languages"
+                },
+                {
                     "title": "Funciones y grupos",
                     "permission": "all",                
                     "url": "/dashboard/levelsandgroups"

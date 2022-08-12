@@ -15,7 +15,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 export default function useUsersView(ref) {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isEditing, setIsEdditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(undefined);
     const [filterApplied, setFilterApplied] = useState('Administrador');
@@ -119,7 +119,7 @@ export default function useUsersView(ref) {
                                 'success'
                             )
                             setIsLoading(false);
-                            setIsEdditing(false);
+                            setIsEditing(false);
                         });
                 }
             })
@@ -153,14 +153,14 @@ export default function useUsersView(ref) {
                 const newPermission = { permission: currentUser.permissions[index].name };
                 updateFirestoreDoc(COLLECTIONS.USERS, currentUser.uid, newPermission)
                     .finally(() => {
-                        setIsEdditing(false);
+                        setIsEditing(false);
                         setIsLoading(false);
                     });
             });
     }
 
     const handleEdit = (permissionIndex) => {
-        setIsEdditing(true);
+        setIsEditing(true);
         setCurrentPermission(permissionIndex);
     }
 

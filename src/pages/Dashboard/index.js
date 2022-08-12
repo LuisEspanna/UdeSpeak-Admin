@@ -7,8 +7,10 @@ import usePermissions from '../../hooks/usePermissions';
 import { DashboardProvider} from '../../context/dashboard-context';
 import { useParams } from "react-router-dom";
 //Views
-//import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
 import UsersView from '../../views/users/UsersView';
+import Languages from '../../views/languages/Languages';
+import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
+
 
 
 
@@ -24,9 +26,9 @@ function Dashboard() {
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
                 { view === 'users' && <UsersView/> }
-                { view === 'language' && <div>Idiomas</div> }
+                { view === 'languages' && <Languages/> }
                 { view === 'auth' && <div>Auth</div> }
-                { view === 'levelsandgroups' && <div>levelsandgroups</div> }
+                { view === 'levelsandgroups' && <LevelsAndGroupsView/> }
                 { view === 'questionnaires' && <div>questionnaires</div> }
             </div>
         </div>

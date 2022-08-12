@@ -3,7 +3,8 @@ const COLLECTIONS = {
     PERMISSIONS: 'permissions',
     ACCESS_KEYS: 'access-keys',
     COUNTERS: 'counters',
-    LEVELS: 'levels'
+    LEVELS: 'levels',
+    LANGUAGES: 'languages'
 }
 
 const PERMISSIONS = {
