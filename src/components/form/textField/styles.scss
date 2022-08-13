@@ -1,0 +1,108 @@
+@import '../../../styles/colors.scss';
+
+$gray: #9b9b9b;
+
+.form__group {
+  position: relative;
+  padding-top: 0.5em;
+  background-color: inherit;
+
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #FAFDFF inset !important;
+    -webkit-text-fill-color: #818181 !important;
+  }
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border: 1.5px solid $gray;
+  border-radius: 0.3em;
+  outline: 0;
+  font-size: 1rem;
+  color: #818181;
+  height: 3em;
+  background: transparent;
+  transition: border-color 0.2s;
+  z-index: 100;
+  position: relative;
+  padding: 0.5em;
+  padding-left: 1em;
+  font-weight: 100;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1rem;
+    cursor: text;
+    z-index: 2;
+  }
+}
+
+.form__label {
+  position: absolute;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $gray;
+  z-index: 2;
+  margin-left: 1em;
+  border-radius: 0.2em;
+  padding: 0.2em;
+  top: 1.1em;
+  background-color: inherit
+}
+
+.form__field_active{
+  ~ .form__label {
+    position: absolute;
+    top: -0.3em;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.7rem;
+    color: $gray;
+    font-weight:700;
+    z-index: 100;
+    background-color: inherit;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-weight: 600;
+  }
+  padding-bottom: 6px;  
+  font-weight: 500;
+  border-width: 1px;
+  border-radius: 0.3em;
+  z-index: 2;    
+  border-color: border-color;
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: -0.3em;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.7rem;
+    color: $color-primary;
+    font-weight:700;
+    z-index: 100;
+    background-color: inherit;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-weight: 600;
+  }
+  padding-bottom: 6px;
+  border-width: 2px;
+  border-radius: 0.3em;
+  z-index: 2;    
+  border-color: $color-primary;
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
+}

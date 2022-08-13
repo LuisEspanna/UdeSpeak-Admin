@@ -4,7 +4,7 @@ import useLanguages from '../../../hooks/useLanguages';
 export default function useLanguageView() {
     const [languages, setLanguages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
     const [currentLanguage, setCurrentLanguage] = useState(undefined);
 
     const { getAll } = useLanguages();
@@ -22,15 +22,19 @@ export default function useLanguageView() {
 
 
     const handleEdit = (index) => {
-        setIsEditing(true);
         setCurrentLanguage(languages[index]);
+    }
+
+    const handleCreate = (index) => {
+        setIsCreating(true);
     }
 
     return {
         languages,
         isLoading,
-        isEditing,
         currentLanguage,
-        handleEdit
+        isCreating,
+        handleEdit,
+        handleCreate
     }
 }

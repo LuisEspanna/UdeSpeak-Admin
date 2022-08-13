@@ -94,7 +94,7 @@ export default function UserInfo({
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <SaveIcon onClick={() => handleSave(i)} className='mx-2' />
+                                                            <SaveIcon  onClick={() => handleSave(i)} className='icon mx-2' />
                                                         </div>
                                                     </td>
                                                 </tr>

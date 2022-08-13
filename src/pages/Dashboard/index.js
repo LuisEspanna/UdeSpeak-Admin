@@ -8,7 +8,7 @@ import { DashboardProvider} from '../../context/dashboard-context';
 import { useParams } from "react-router-dom";
 //Views
 import UsersView from '../../views/users/UsersView';
-import Languages from '../../views/languages/Languages';
+import Languages from '../../views/languages/LanguagesView';
 import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
 
 
