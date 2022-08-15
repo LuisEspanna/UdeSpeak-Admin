@@ -23,8 +23,24 @@ const toISOFormat = (date) => {
   return moment(date).format().toString();
 }
 
+/**
+ * 
+ * @param {Number} length 
+ * @returns 
+ */
+const idGenerator = (length) => {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 module.exports = {
   getUserDataFromResult,
   toDateFormat,
-  toISOFormat
+  toISOFormat,
+  idGenerator
 }

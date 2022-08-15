@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
+import { COLLECTIONS, STORAGE } from '../../../constants';
+import { idGenerator } from '../../../functions';
 import useLanguages from '../../../hooks/useLanguages';
+import { saveFileOnFirebase, saveOnFirestore } from '../../../services/firebase';
+
 
 export default function useLanguageView() {
     const [languages, setLanguages] = useState([]);
@@ -25,9 +29,27 @@ export default function useLanguageView() {
         setCurrentLanguage(languages[index]);
     }
 
-    const handleCreate = (index) => {
+    const handleCreate = () => {
         setIsCreating(true);
     }
+
+    const handleSave = (item) => {
+        //New language
+        if(item?.id === null || item?.id === undefined){
+            if(typeof(item.image) === 'object'){
+                const imageName = idGenerator(20);
+                saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
+                    if(downloadURL !== null){
+                        const newLanguage = {...item, image: downloadURL};
+                        saveOnFirestore(COLLECTIONS.LANGUAGES, null, newLanguage).then(()=>{
+                            console.log('Saved!')
+                        });
+                    };     
+                })
+            }
+        }
+    }
+
 
     return {
         languages,
@@ -35,6 +57,7 @@ export default function useLanguageView() {
         currentLanguage,
         isCreating,
         handleEdit,
-        handleCreate
+        handleCreate,
+        handleSave
     }
 }

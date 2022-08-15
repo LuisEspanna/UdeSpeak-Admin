@@ -5,7 +5,7 @@ import TextField from '../../../components/form/textField/TextField';
 import CloseIcon from '../../../components/icons/CloseIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 
-export default function LanguageInput() {
+export default function LanguageInput({onSave}) {
     const [state, setState] = useState({
         name: '',
         image: ''
@@ -20,7 +20,7 @@ export default function LanguageInput() {
     }
 
     const handleSave = (e) => {
-        console.log(state);
+        if(onSave)onSave(state);
     }
 
     return (

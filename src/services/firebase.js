@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/database';
 import 'firebase/compat/auth';
+import 'firebase/compat/storage';
 import 'firebase/compat/messaging';
 import { getAuth } from 'firebase/auth';
 
@@ -18,6 +19,7 @@ let firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore;
+const storage = firebase.storage();
 
 /**
  * @param {String} collection 
@@ -86,6 +88,23 @@ const deleteFromFirestore = async(collection, document) => {
   else return firestore().collection(collection).delete();
 }
 
+/**
+* @param {String} route 
+* @param {String} fileName 
+* @param {File} file
+* @returns 
+*/
+const saveFileOnFirebase = async(route, fileName, file) => {
+  const ref = storage.ref(route+'/'+fileName);
+  return ref.put(file).then(snapshot => {
+    if(snapshot.state === 'success'){ 
+      return storage.ref(snapshot.ref.fullPath).getDownloadURL();  
+    } else {
+      return null;
+    }
+  });
+}
+
 
 const Auth = firebase.auth;
 const auth = getAuth(app);
@@ -100,5 +119,6 @@ export {
   updateFirestoreDoc,
   incrementFieldValue,
   readFromFirestoreWhere,
-  deleteFromFirestore
+  deleteFromFirestore,
+  saveFileOnFirebase
 };

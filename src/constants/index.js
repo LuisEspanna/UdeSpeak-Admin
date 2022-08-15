@@ -13,10 +13,15 @@ const PERMISSIONS = {
     STUDENT: 'Estudiante'
 }
 
+const STORAGE = {
+    LANGUAGES: 'languages',
+}
+
 
 module.exports = {
     COLLECTIONS,
-    PERMISSIONS
+    PERMISSIONS,
+    STORAGE
 }
 
 

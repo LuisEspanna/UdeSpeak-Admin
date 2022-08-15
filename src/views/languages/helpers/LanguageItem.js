@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LanguageItem({language, handleEdit, currentLanguage, handleSave}) {
+export default function LanguageItem({language, onEdit, currentLanguage, onSave}) {
     return (
         currentLanguage.id === language.id ?
         <div className='language-item'>
@@ -8,10 +8,9 @@ export default function LanguageItem({language, handleEdit, currentLanguage, han
             <div>Imagen</div>
             <div>Nombre</div>
             <div>id</div>
-            <div onClick={handleEdit}>Editar</div>
+            <div onClick={onEdit}>Editar</div>
         </div> : <div>
             <input type='text' placeholder='Nombre'/>
-
         </div>
     )
 }
