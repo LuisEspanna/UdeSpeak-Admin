@@ -7,7 +7,7 @@ export default function ArrowIcon(props) {
             <defs>
                 <linearGradient id="paint0_linear_1470_339" x1="0.0224305" y1="-6.22302" x2="0.0224305" y2="18.5904" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#CBD0D3" />
-                    <stop offset="1" stop-color="#DBEAF4" />
+                    <stop offset="1" stopColor="#DBEAF4" />
                 </linearGradient>
             </defs>
         </svg>

@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { COLLECTIONS, STORAGE } from '../../../constants';
 import { idGenerator } from '../../../functions';
 import useLanguages from '../../../hooks/useLanguages';
-import { saveFileOnFirebase, saveOnFirestore } from '../../../services/firebase';
+import { saveFileOnFirebase, saveOnFirestore
+    //, updateFirestoreDoc
+} from '../../../services/firebase';
 
 
 export default function useLanguageView() {
@@ -37,6 +39,7 @@ export default function useLanguageView() {
         //New language
         if(item?.id === null || item?.id === undefined){
             if(typeof(item.image) === 'object'){
+                //TODO Validate if not exist
                 const imageName = idGenerator(20);
                 saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
                     if(downloadURL !== null){
@@ -46,6 +49,12 @@ export default function useLanguageView() {
                         });
                     };     
                 })
+            } else {
+                /*
+                updateFirestoreDoc(STORAGE.LANGUAGES, item.id, item).then(()=>{
+                    console.log('Updated!')
+                });
+                */
             }
         }
     }
