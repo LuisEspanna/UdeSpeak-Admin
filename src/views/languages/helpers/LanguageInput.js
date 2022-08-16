@@ -5,11 +5,11 @@ import TextField from '../../../components/form/textField/TextField';
 import CloseIcon from '../../../components/icons/CloseIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 
-export default function LanguageInput({onSave}) {
+export default function LanguageInput({onSave, language, onCancel}) {
     const [state, setState] = useState({
-        name: '',
-        image: ''
-    })
+        name: language ? language.name : '',
+        image: language ? language.image : ''
+    });
 
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: (e.target.value) });
@@ -23,12 +23,18 @@ export default function LanguageInput({onSave}) {
         if(onSave)onSave(state);
     }
 
+    const handleCancel = () => {
+        if(onCancel)onCancel();
+    }
+
     return (
         <div className='language-item'>
             <div className='row align-items-center'>
                 <div className='image-container'>
                     {
-                        state.image ? <img src={URL.createObjectURL(state.image)} id="output" alt='' /> : <img src={defaultImage} alt='' />
+                        state.image && typeof(state.image) === 'object'? 
+                        <img src={URL.createObjectURL(state.image)} id="output" alt='' /> : 
+                        <img src={language?.image || defaultImage} alt='' />
                     }
                 </div>
                 <input type='file' accept='image/*' onChange={loadFile} placeholder='imagen' name='image' />
@@ -41,7 +47,7 @@ export default function LanguageInput({onSave}) {
                         <SaveIcon className='icon'/>
                         <span className='mx-1'>Guardar</span>
                     </Button>
-                    <Button type='danger' className='p-1'>
+                    <Button type='danger' className='p-1' onClick={handleCancel}>
                         <CloseIcon className='icon'/>
                         <span className='mx-1'>Cancelar</span>
                     </Button>

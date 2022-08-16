@@ -8,10 +8,8 @@ import './styles.scss';
 export default function LanguagesView() {
   const {
     languages,
-    currentLanguage,
     isLoading,
-    isCreating, 
-    handleEdit,
+    isCreating,
     handleSave } = useLanguageView();
 
   return (
@@ -25,8 +23,7 @@ export default function LanguagesView() {
               <LanguageItem
                 key={index}
                 language={language}
-                onEdit={()=>handleEdit(index)}
-                currentLanguage={currentLanguage}
+                onSave={handleSave}
             />)
           }
           

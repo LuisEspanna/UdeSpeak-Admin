@@ -39,6 +39,15 @@
             background-color: aqua;
             top: 2em;
         }
+
+        #edit-icon{
+            display: none;
+        }
+
+        &:hover #edit-icon{
+            display: block;
+        }
+
     }
 
     span{
