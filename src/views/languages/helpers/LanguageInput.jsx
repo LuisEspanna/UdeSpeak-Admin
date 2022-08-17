@@ -5,7 +5,7 @@ import TextField from '../../../components/form/textField/TextField';
 import CloseIcon from '../../../components/icons/CloseIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 
-export default function LanguageInput({onSave, language, onCancel}) {
+export default function LanguageInput({onSave, language, onCancel, className}) {
     const [state, setState] = useState({
         name: language ? language.name : '',
         image: language ? language.image : ''
@@ -16,11 +16,16 @@ export default function LanguageInput({onSave, language, onCancel}) {
     }
 
     const loadFile = (e) => {
-        setState({...state, [e.target.name]: e.target.files[0]})
+        setState({...state, [e.target.name]: e.target.files[0]});
     }
 
-    const handleSave = (e) => {
-        if(onSave)onSave(state);
+    const handleSave = () => {
+        if(state.image && state.name.length > 0){
+            if(onSave)onSave(state);
+            if(language?.id === null || language?.id === undefined) setState({name: '', image: ''});
+        }else{
+            console.log('Error');
+        }
     }
 
     const handleCancel = () => {
@@ -28,7 +33,7 @@ export default function LanguageInput({onSave, language, onCancel}) {
     }
 
     return (
-        <div className='language-item'>
+        <div className={`language-item ${className? className: ''}`}>
             <div className='row align-items-center'>
                 <div className='image-container'>
                     {

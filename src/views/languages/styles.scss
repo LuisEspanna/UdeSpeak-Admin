@@ -40,11 +40,14 @@
             top: 2em;
         }
 
-        #edit-icon{
+        .auto-hide-icon{
             display: none;
+            cursor: pointer;
+            min-width: 1.7em;
+            height: 1.7em;
         }
 
-        &:hover #edit-icon{
+        &:hover .auto-hide-icon{
             display: block;
         }
 

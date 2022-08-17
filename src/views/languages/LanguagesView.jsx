@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../components/button/Button';
 import Card from '../../components/card/Card';
 import LanguageInput from './helpers/LanguageInput';
 import LanguageItem from './helpers/LanguageItem';
@@ -10,13 +11,29 @@ export default function LanguagesView() {
     languages,
     isLoading,
     isCreating,
-    handleSave } = useLanguageView();
+    handleSave,
+    handleDelete,
+    handleCreate,
+  } = useLanguageView();
 
   return (
     <div className='language-view'>
         <Card>
-          <div>Idiomas</div>
-          {!isCreating && <LanguageInput onSave={handleSave}/>}
+          <h4>Idiomas</h4>
+          {!isCreating ? 
+            <div className='d-flex justify-content-center my-3'>
+              <Button
+                type='primary'
+                title={'Crear idioma'}
+                className='px-2'
+                onClick={handleCreate}
+              />
+            </div> :
+            <LanguageInput
+              onSave={handleSave}
+              className='mb-3'
+              onCancel={handleCreate}
+            />}
           {
             isLoading ? <div>Cargando...</div> : 
             languages.map((language, index) => 
@@ -24,9 +41,10 @@ export default function LanguagesView() {
                 key={index}
                 language={language}
                 onSave={handleSave}
+                onDelete={handleDelete}
+                className='mb-3'
             />)
-          }
-          
+          }          
         </Card>
     </div>
   )

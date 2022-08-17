@@ -105,6 +105,15 @@ const saveFileOnFirebase = async(route, fileName, file) => {
   });
 }
 
+/**
+* @param {String} fileURL
+* @returns 
+*/
+const deleteFileFromFirebase = async(fileURL) => {
+  const ref = storage.refFromURL(fileURL);
+  return ref.delete();
+}
+
 
 const Auth = firebase.auth;
 const auth = getAuth(app);
@@ -120,5 +129,6 @@ export {
   incrementFieldValue,
   readFromFirestoreWhere,
   deleteFromFirestore,
-  saveFileOnFirebase
+  saveFileOnFirebase,
+  deleteFileFromFirebase
 };

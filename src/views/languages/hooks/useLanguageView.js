@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import { COLLECTIONS, STORAGE } from '../../../constants';
 import { idGenerator } from '../../../functions';
 import useLanguages from '../../../hooks/useLanguages';
-import { saveFileOnFirebase, saveOnFirestore
-    , updateFirestoreDoc
+import { saveFileOnFirebase,
+    saveOnFirestore, 
+    updateFirestoreDoc,
+    deleteFromFirestore,
+    deleteFileFromFirebase
 } from '../../../services/firebase';
 
 
@@ -11,7 +14,6 @@ export default function useLanguageView() {
     const [languages, setLanguages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
-    const [currentLanguage, setCurrentLanguage] = useState(undefined);
 
     const { getAll } = useLanguages();
 
@@ -27,15 +29,21 @@ export default function useLanguageView() {
     }, []);
 
 
-    const handleEdit = (index) => {
-        setCurrentLanguage(languages[index]);
+    const handleDelete = (item) => {
+        //TODO: Agregar barra de carga
+        deleteFromFirestore(STORAGE.LANGUAGES, item.id).then(()=>{
+            setLanguages(languages.filter((language)=>language.id !== item.id));
+            if(item.image && typeof(item.image) === 'string' && item.image.length)
+                deleteFileFromFirebase(item.image);
+        });
     }
 
     const handleCreate = () => {
-        setIsCreating(true);
+        setIsCreating(!isCreating);
     }
 
     const handleSave = (item) => {
+        //TODO: Agregar barra de carga
         //New language
         const imageName = idGenerator(20);
 
@@ -45,8 +53,8 @@ export default function useLanguageView() {
                 saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
                     if(downloadURL !== null){
                         const newLanguage = {...item, image: downloadURL};
-                        saveOnFirestore(COLLECTIONS.LANGUAGES, null, newLanguage).then(()=>{
-                            console.log('Saved!')
+                        saveOnFirestore(COLLECTIONS.LANGUAGES, null, newLanguage).then((res)=>{
+                            setLanguages([...languages, {...newLanguage, id: res.id}]);
                         });
                     };     
                 })
@@ -54,10 +62,8 @@ export default function useLanguageView() {
         } 
         //Editing language
         else {
-            console.log(item);
-            if(item.prevImage) {
-                //TODO: Deleting previus image
-                // Save on firestore
+            if(item.prevImage && typeof(item.prevImage)==='string') {
+                deleteFileFromFirebase(item.prevImage);
                 saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
                     if(downloadURL !== null){
                         const newItem = {...item, image: downloadURL};
@@ -65,23 +71,37 @@ export default function useLanguageView() {
                         delete newItem['prevImage'];
                         updateFirestoreDoc(STORAGE.LANGUAGES, item.id, newItem).then(()=>{
                             const index = languages.findIndex((language) => language.id === item.id);
-                            setLanguages([...languages.slice(0, index), {...newItem, id: item.id}, ...languages.slice(index + 1)]);
-                            console.log('Updated!');
+                            setLanguages(
+                                [...languages.slice(0, index), 
+                                {...newItem, id: item.id},
+                                ...languages.slice(index + 1)]
+                            );
                         });
                     };
                 })
-            }        
+            } else {
+                const newItem = {...item};
+                delete newItem['id'];
+                updateFirestoreDoc(STORAGE.LANGUAGES, item.id, newItem).then(()=>{
+                    const index = languages.findIndex((language) => language.id === item.id);
+                    setLanguages(
+                        [...languages.slice(0, index),
+                        {...newItem, id: item.id},
+                        ...languages.slice(index + 1)
+                    ]);
+                });
+            }
         }
+        setIsCreating(false);
     }
 
 
     return {
         languages,
         isLoading,
-        currentLanguage,
-        isCreating,
-        handleEdit,
+        isCreating,        
         handleCreate,
-        handleSave
+        handleSave,
+        handleDelete,
     }
 }
