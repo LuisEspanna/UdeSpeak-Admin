@@ -3,7 +3,7 @@ import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LanguageInput from './LanguageInput';
 
-export default function LanguageItem({language, onSave, onDelete, className}) {
+export default function LanguageItem({language, onSave, onDelete, className, onClick}) {
     const [state, setState] = useState({...language});
     const [isEditing, setIsEditing] = useState(false);
 
@@ -31,6 +31,10 @@ export default function LanguageItem({language, onSave, onDelete, className}) {
         if(onDelete)onDelete(state);
     }
 
+    const handleClick = () => {
+        if(onClick)onClick(state);
+    }
+
     if(isEditing) {
         return (
             <LanguageInput 
@@ -41,18 +45,22 @@ export default function LanguageItem({language, onSave, onDelete, className}) {
             />)
     } else {
         return (
-            <div className={`language-item ${className? className: ''}`}>
+            <div className={`language-item ${className ? className : ''}`}>
                 <div className='row align-items-center'>
-                    <div className='image-container'>
-                        <img src={typeof(state.image) === 'string' ? state.image : 
-                            URL.createObjectURL(state.image)} alt='' />
-                    </div>
-                    <div className='col align-items-center'>
-                        <h6>{state.name}</h6>
+                    <div className='col' onClick={handleClick}>
+                        <div className='row align-items-center'>
+                            <div className='image-container'>
+                                <img src={typeof (state.image) === 'string' ? state.image :
+                                    URL.createObjectURL(state.image)} alt=''/>
+                            </div>
+                            <div className='col align-items-center'>
+                                <div>{state.name}</div>
+                            </div>
+                        </div>
                     </div>
                     <div className='col-2 d-flex'>
-                        <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit}/>
-                        <TrashIcon className={'auto-hide-icon'} onClick={handleDelete}/>
+                        <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
+                        <TrashIcon className={'auto-hide-icon'} onClick={handleDelete} />
                     </div>
                 </div>
             </div>

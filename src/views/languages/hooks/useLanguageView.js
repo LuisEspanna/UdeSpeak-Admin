@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { COLLECTIONS, STORAGE } from '../../../constants';
+import { COLLECTIONS, STORAGE, ROUTES } from '../../../constants';
 import { idGenerator } from '../../../functions';
 import useLanguages from '../../../hooks/useLanguages';
 import { saveFileOnFirebase,
@@ -10,6 +10,7 @@ import { saveFileOnFirebase,
     readFromFirestoreWhere
 } from '../../../services/firebase';
 import Swal from 'sweetalert2';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export default function useLanguageView() {
@@ -18,6 +19,7 @@ export default function useLanguageView() {
     const [isCreating, setIsCreating] = useState(false);
 
     const { getAll } = useLanguages();
+    const navigate = useNavigate();
 
     useEffect(() => {        
         async function fetchLanguages() {
@@ -125,6 +127,10 @@ export default function useLanguageView() {
         setIsCreating(false);
     }
 
+    const handleClick = (language) => {
+        navigate(`/${ROUTES.DASHBOARD}${ROUTES.LEVELS}${language.id}`, {replace: true});
+    }
+
 
     return {
         languages,
@@ -133,5 +139,6 @@ export default function useLanguageView() {
         handleCreate,
         handleSave,
         handleDelete,
+        handleClick
     }
 }

@@ -14,6 +14,7 @@ export default function LanguagesView() {
     handleSave,
     handleDelete,
     handleCreate,
+    handleClick
   } = useLanguageView();
 
   return (
@@ -43,6 +44,7 @@ export default function LanguagesView() {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 className='mb-3'
+                onClick={handleClick}
             />)
           }          
         </Card>

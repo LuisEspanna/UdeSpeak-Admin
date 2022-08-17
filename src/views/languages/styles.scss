@@ -6,6 +6,9 @@
         min-height: 6em;
         padding: 2em;
         position: relative;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.5s;
 
         .image-container {
             width: 5em;
@@ -51,6 +54,9 @@
             display: block;
         }
 
+        &:active{
+            background-color: #e2ecf1;
+        }
     }
 
     span{

@@ -17,11 +17,18 @@ const STORAGE = {
     LANGUAGES: 'languages',
 }
 
+const ROUTES = {
+    DASHBOARD : 'dashboard/',
+    LANGUAGES : 'languages/',
+    LEVELS : 'levels/',
+}
+
 
 module.exports = {
     COLLECTIONS,
     PERMISSIONS,
-    STORAGE
+    STORAGE,
+    ROUTES
 }
 
 
