@@ -6,8 +6,10 @@ import { saveFileOnFirebase,
     saveOnFirestore, 
     updateFirestoreDoc,
     deleteFromFirestore,
-    deleteFileFromFirebase
+    deleteFileFromFirebase,
+    readFromFirestoreWhere
 } from '../../../services/firebase';
+import Swal from 'sweetalert2';
 
 
 export default function useLanguageView() {
@@ -30,11 +32,39 @@ export default function useLanguageView() {
 
 
     const handleDelete = (item) => {
-        //TODO: Agregar barra de carga
-        deleteFromFirestore(STORAGE.LANGUAGES, item.id).then(()=>{
-            setLanguages(languages.filter((language)=>language.id !== item.id));
-            if(item.image && typeof(item.image) === 'string' && item.image.length)
-                deleteFileFromFirebase(item.image);
+        Swal.fire({
+            title: 'Estás seguro?',
+            text: "Esta acción no podrá revertirse",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                readFromFirestoreWhere(COLLECTIONS.LEVELS, null, 'language_id', '==', item.id).then((snapshot)=>{
+                    if(snapshot.docs.length === 0){
+                        deleteFromFirestore(STORAGE.LANGUAGES, item.id).then(()=>{
+                            setLanguages(languages.filter((language)=>language.id !== item.id));
+                            if(item.image && typeof(item.image) === 'string' && item.image.length)
+                                deleteFileFromFirebase(item.image);
+                        }).then(()=>{
+                            Swal.fire(
+                                'Eliminado!',
+                                'El proceso finalizó correctamente.',
+                                'success'
+                            )
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            'No se puede eliminar, está siendo usado actualmente con ' + snapshot.docs.length + ' niveles',
+                            'error'
+                        )
+                    }
+                }).finally(()=>setIsLoading(false));
+            }
         });
     }
 
