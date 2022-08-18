@@ -10,7 +10,7 @@ import { saveFileOnFirebase,
     readFromFirestoreWhere
 } from '../../../services/firebase';
 import Swal from 'sweetalert2';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function useLanguageView() {
@@ -128,7 +128,7 @@ export default function useLanguageView() {
     }
 
     const handleClick = (language) => {
-        navigate(`/${ROUTES.DASHBOARD}${ROUTES.LEVELS}${language.id}`, {replace: true});
+        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.LEVELS}/${language.id}`, {replace: true});
     }
 
 

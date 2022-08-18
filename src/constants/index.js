@@ -18,9 +18,11 @@ const STORAGE = {
 }
 
 const ROUTES = {
-    DASHBOARD : 'dashboard/',
-    LANGUAGES : 'languages/',
-    LEVELS : 'levels/',
+    DASHBOARD : 'dashboard',
+    LANGUAGES : 'languages',
+    LEVELS : 'levels',
+    USERS : 'users',
+    GROUPS : 'groups'
 }
 
 

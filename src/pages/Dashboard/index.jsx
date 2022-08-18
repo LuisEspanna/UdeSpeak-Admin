@@ -8,8 +8,9 @@ import { DashboardProvider} from '../../context/dashboard-context';
 import { useParams } from "react-router-dom";
 //Views
 import UsersView from '../../views/users/UsersView';
-import Languages from '../../views/languages/LanguagesView';
-import LevelsAndGroupsView from '../../views/levelsAndGroups/LevelsAndGroups';
+import LanguagesView from '../../views/languages/LanguagesView';
+import LevelsView from '../../views/levels/LevelsView';
+import { ROUTES } from '../../constants';
 
 
 
@@ -25,11 +26,9 @@ function Dashboard() {
             <Header/>
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
-                { view === 'users' && <UsersView/> }
-                { view === 'languages' && <Languages/> }
-                { view === 'auth' && <div>Auth</div> }
-                { view === 'levelsandgroups' && <LevelsAndGroupsView/> }
-                { view === 'questionnaires' && <div>questionnaires</div> }
+                { view === ROUTES.USERS && <UsersView/> }
+                { view === ROUTES.LANGUAGES && <LanguagesView/> }
+                { view === ROUTES.LEVELS && <LevelsView/> }
             </div>
         </div>
     )
