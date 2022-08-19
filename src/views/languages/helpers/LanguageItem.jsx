@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LanguageInput from './LanguageInput';
@@ -6,6 +6,10 @@ import LanguageInput from './LanguageInput';
 export default function LanguageItem({language, onSave, onDelete, className, onClick}) {
     const [state, setState] = useState({...language});
     const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        setState({...language});
+    }, [language]);
 
 
     const handleEdit = () => {

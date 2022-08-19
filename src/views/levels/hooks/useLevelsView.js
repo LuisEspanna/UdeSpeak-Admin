@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react';
 import uselevels from '../../../hooks/useLevels';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../constants'
 
 export default function useLevelsView() {
     const [levels, setLevels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -39,7 +43,6 @@ export default function useLevelsView() {
             editLevel(item)
             .then(()=>{
                 const index = levels.findIndex((level) => level.id === item.id);
-                console.log(index);
                 setLevels( 
                     [...levels.slice(0, index), 
                     {...item, language_id: id},
@@ -83,7 +86,7 @@ export default function useLevelsView() {
     }
 
     const handleClick = (level) => {
-        console.log(level);
+        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${level.id}`, {replace: true});
     }
 
     return {
