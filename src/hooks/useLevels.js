@@ -1,14 +1,16 @@
 import { COLLECTIONS } from '../constants'
 import {
-    readFromFirestore,
     saveOnFirestore,
     updateFirestoreDoc,
-} from '../services/firebase'
+    readFromFirestoreWhere,
+    deleteFromFirestore
+} from '../services/firebase';
 
-export default function useLevels() {
+
+export default function useLevels(language_id) {
 
     const getAll = async() => {
-        const snapshot = await readFromFirestore(COLLECTIONS.LEVELS);
+        const snapshot = await readFromFirestoreWhere(COLLECTIONS.LEVELS, null, 'language_id', '==', language_id);
         const locallevels = [];
         
         snapshot.forEach(doc => {
@@ -20,16 +22,26 @@ export default function useLevels() {
         return(locallevels);
     }
 
-    const createLevel = async(level) => {
-        return await saveOnFirestore(COLLECTIONS.LEVELS, level);
+    const createLevel = (level) => {
+        return  saveOnFirestore(COLLECTIONS.LEVELS, null, {...level, language_id});
     }
 
-    const editLevel = async(level) => {
-        return updateFirestoreDoc(COLLECTIONS.LEVELS, level.id, level);
+    const editLevel = (level) => {
+        const newLevel = {...level};
+        delete newLevel['id'];
+        return updateFirestoreDoc(COLLECTIONS.LEVELS, level.id, newLevel);
     }
 
-    const deleteLevel = (id) => {
-        console.log('Deleting level' , id);
+    const deleteLevel = async(item) => {
+        let isDeleted = false;
+        const snapshot = await readFromFirestoreWhere(COLLECTIONS.GROUPS, null, 'level_id', '==', item.id)
+        
+        if(snapshot.docs.length === 0){
+            await deleteFromFirestore(COLLECTIONS.LEVELS, item.id);
+            isDeleted = true;
+        }
+
+        return isDeleted;
     }
 
     return {

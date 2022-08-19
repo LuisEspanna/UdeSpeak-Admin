@@ -47,7 +47,7 @@ export default function useLanguageView() {
             if (result.isConfirmed) {
                 readFromFirestoreWhere(COLLECTIONS.LEVELS, null, 'language_id', '==', item.id).then((snapshot)=>{
                     if(snapshot.docs.length === 0){
-                        deleteFromFirestore(STORAGE.LANGUAGES, item.id).then(()=>{
+                        deleteFromFirestore(COLLECTIONS.LANGUAGES, item.id).then(()=>{
                             setLanguages(languages.filter((language)=>language.id !== item.id));
                             if(item.image && typeof(item.image) === 'string' && item.image.length)
                                 deleteFileFromFirebase(item.image);

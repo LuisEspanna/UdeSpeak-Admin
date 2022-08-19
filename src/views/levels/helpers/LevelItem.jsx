@@ -1,39 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
+import LevelInput from './LevelInput';
 
 
-export default function LevelInput({level, onSave, onDelete, className, onClick}) {
-  const [state, setState] = useState({...level});
-    const [isEditing, setIsEditing] = useState(false);
+export default function LevelItem({ level, onSave, onDelete, className, onClick }) {
+  const [state, setState] = useState({ ...level });
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    setState({...level});
+  }, [level]);
 
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    }
+  const handleEdit = () => {
+    setIsEditing(true);
+  }
 
-    const handleCancel = () => {
-        setIsEditing(false);
-        setState({...level});
-    }
+  const handleCancel = () => {
+    setIsEditing(false);
+    setState({ ...level });
+  }
 
-    const handleSave = (editedlevel) => {
-        setIsEditing(false);
-        const newlevel = {
-            ...editedlevel ,
-            id: level.id};
-        setState(newlevel);
-        if(onSave)onSave(newlevel);
-    }
+  const handleSave = (editedlevel) => {
+    setIsEditing(false);
+    const newlevel = {
+      ...editedlevel,
+      id: level.id
+    };
+    setState(newlevel);
+    if (onSave) onSave(newlevel);
+  }
 
-    const handleDelete = () => {
-        if(onDelete)onDelete(state);
-    }
+  const handleDelete = () => {
+    if (onDelete) onDelete(state);
+  }
 
-    const handleClick = () => {
-        if(onClick)onClick(state);
-    }
-
+  const handleClick = () => {
+    if (onClick) onClick(state);
+  }
 
 
   if (isEditing) {

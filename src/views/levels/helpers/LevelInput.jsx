@@ -16,7 +16,7 @@ export default function LevelInput({onSave, level, onCancel, className}) {
   }
 
   const handleSave = () => {
-      if(state.title.length && state.description.length > 0){
+      if(state.title.length > 0 && state.description.length > 0){
           if(onSave)onSave(state);
           if(level?.id === null || level?.id === undefined) setState({title: '', description: ''});
       }else{
@@ -36,7 +36,7 @@ export default function LevelInput({onSave, level, onCancel, className}) {
           <TextField placeholder='Nivel' onChange={handleChange} name='title' value={state.title}/>
         </div>
         <div className='col align-items-center'>
-          <TextField placeholder='Descripción' onChange={handleChange} name='description' value={state.title} />
+          <TextField placeholder='Descripción' onChange={handleChange} name='description' value={state.description} />
         </div>
         <div className='d-flex justify-content-end mt-2'>
           <Button type='primary' className='p-1 me-2' onClick={handleSave}>
