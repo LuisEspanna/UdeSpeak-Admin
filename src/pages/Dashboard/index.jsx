@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import UsersView from '../../views/users/UsersView';
 import LanguagesView from '../../views/languages/LanguagesView';
 import LevelsView from '../../views/levels/LevelsView';
+import GroupsView from '../../views/groups/GroupsView';
 import { ROUTES } from '../../constants';
 
 
@@ -29,6 +30,7 @@ function Dashboard() {
                 { view === ROUTES.USERS && <UsersView/> }
                 { view === ROUTES.LANGUAGES && <LanguagesView/> }
                 { view === ROUTES.LEVELS && <LevelsView/> }
+                { view === ROUTES.GROUPS && <GroupsView/> }
             </div>
         </div>
     )

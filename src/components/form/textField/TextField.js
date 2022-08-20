@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles.scss';
 
-export default function TextField({placeholder, onChange, name, id, required, value}) {
+export default function TextField({placeholder, onChange, name, id, required, value, className}) {
     return (
-        <div className="form__group field">
+        <div className={`form__group field ${className ? className : ''}`}>
             <input
                 type="input"
                 className={`form__field ${(value || value?.lenght > 0) ? 'form__field_active': ''}`}

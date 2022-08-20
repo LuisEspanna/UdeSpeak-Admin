@@ -3,13 +3,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PERMISSIONS } from '../constants';
 
-
 export default function usePermissions() {
-
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [isTeacher, setIsTeacher] = useState(false);
-    const [isStudent, setIsStudent] = useState(false);
     const user = useSelector((state) => state.user);
+    const [isAdmin, setIsAdmin] = useState(user?.permission === PERMISSIONS.ADMIN);
+    const [isTeacher, setIsTeacher] = useState(user?.permission === PERMISSIONS.TEACHER);
+    const [isStudent, setIsStudent] = useState(user?.permission === PERMISSIONS.STUDENT);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,10 +28,11 @@ export default function usePermissions() {
                     break;
             }
         }
-    }, [navigate, user])
+    }, [navigate, user]);
     
 
     return {
+        user,
         isAdmin,
         isTeacher,
         isStudent
