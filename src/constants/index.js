@@ -6,7 +6,8 @@ const COLLECTIONS = {
     LEVELS: 'levels',
     GROUPS: 'groups',
     LANGUAGES: 'languages',
-    QUESTIONNAIRES: 'questionnaires'
+    QUESTIONNARIES: 'questionnaries',
+    QUESTIONS: 'questions'
 }
 
 const PERMISSIONS = {
@@ -25,7 +26,8 @@ const ROUTES = {
     LEVELS : 'levels',
     USERS : 'users',
     GROUPS : 'groups',
-    QUESTIONNAIRES: 'questionnaires'
+    QUESTIONNARIES: 'questionnaries',
+    QUESTIONS: 'questions'
 }
 
 

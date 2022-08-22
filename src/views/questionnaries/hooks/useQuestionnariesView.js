@@ -1,33 +1,31 @@
 import { useState, useEffect } from 'react';
-import useGroups from '../../../hooks/useGroups';
+import useQuestionnaires from '../../../hooks/useQuestionnaires';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import usePermissions from '../../../hooks/usePermissions';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants'
 
-export default function useGroupsView() {
-    const [groups, setGroups] = useState([]);
+export default function useQuestionnariesView() {
+    const [questionnaries, setQuestionnaries] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { user } = usePermissions();
 
     const { 
         getAll,
         createGroup, 
         editGroup, 
         deleteGroup
-    } = useGroups(id);
+    } = useQuestionnaires(id);
 
     useEffect(() => {        
         async function fetchLavels() {
             setIsLoading(true);
-            const localGroups = await getAll();
-            setGroups(localGroups);
+            const localquestionnaries = await getAll();
+            setQuestionnaries(localquestionnaries);
             setIsLoading(false);
         }
         fetchLavels();
@@ -39,35 +37,29 @@ export default function useGroupsView() {
     }
 
     const handleSave = (item) => {
-        const date = new Date().getTime();
         let newGroup = {
-            ...item, 
-            user_id: user.uid,
-            displayName: user.displayName,            
-            edited_at: date
+            ...item,
         };
 
         setIsLoading(true);
         if(item?.id) {
             editGroup(newGroup)
             .then(()=>{
-                const index = groups.findIndex((group) => group.id === item.id);
-                setGroups( 
-                    [...groups.slice(0, index), 
+                const index = questionnaries.findIndex((group) => group.id === item.id);
+                setQuestionnaries( 
+                    [...questionnaries.slice(0, index),
                     {...newGroup},
-                    ...groups.slice(index + 1)]
+                    ...questionnaries.slice(index + 1)]
                 );
             })
             .finally(()=>{
                 setIsLoading(false);
                 setIsCreating(false);
             });
-        } else{            
-            newGroup.created_at = date;
-
+        } else{
             createGroup(newGroup)
             .then((res)=>{
-                setGroups([...groups, {...newGroup, id: res.id}]);
+                setQuestionnaries([...questionnaries, {...newGroup, id: res.id}]);
             })
             .finally(()=> {
                 setIsLoading(false);
@@ -85,7 +77,7 @@ export default function useGroupsView() {
                 'success'
             );
             
-            setGroups(groups.filter((group) => group.id !== item.id));
+            setQuestionnaries(questionnaries.filter((group) => group.id !== item.id));
         } else {
             Swal.fire(
                 'Error!',
@@ -96,11 +88,11 @@ export default function useGroupsView() {
     }
 
     const handleClick = (group) => {
-        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONNARIES}/${group.id}`, {replace: true});
+        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONS}/${group.id}`, {replace: true});
     }
 
     return {
-        groups,
+        questionnaries,
         isCreating,
         isLoading,
         handleCreate,

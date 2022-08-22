@@ -57,7 +57,7 @@ export default function useGroups(level_id) {
 
     const deleteGroup = async(item) => {
         let isDeleted = false;
-        const snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNAIRES, null, 'group_id', '==', item.id);
+        const snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', item.id);
         
         if(snapshot.docs.length === 0){
             await deleteFromFirestore(COLLECTIONS.GROUPS, item.id);
