@@ -3,15 +3,15 @@ import useGroups from '../../../hooks/useGroups';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import usePermissions from '../../../hooks/usePermissions';
-//import { useNavigate } from 'react-router-dom';
-//import { ROUTES } from '../../../constants'
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../constants'
 
 export default function useGroupsView() {
     const [groups, setGroups] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const { user } = usePermissions();
@@ -49,7 +49,7 @@ export default function useGroupsView() {
 
         setIsLoading(true);
         if(item?.id) {
-            editGroup(item)
+            editGroup(newGroup)
             .then(()=>{
                 const index = groups.findIndex((group) => group.id === item.id);
                 setGroups( 
@@ -65,10 +65,8 @@ export default function useGroupsView() {
         } else{            
             newGroup.created_at = date;
 
-            createGroup(item)
+            createGroup(newGroup)
             .then((res)=>{
-                console.log(res);
-                //const newGroup = {...item, id: res.id};
                 setGroups([...groups, {...newGroup, id: res.id}]);
             })
             .finally(()=> {
@@ -98,7 +96,7 @@ export default function useGroupsView() {
     }
 
     const handleClick = (group) => {
-        //navigate(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${group.id}`, {replace: true});
+        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONNAIRES}/${group.id}`, {replace: true});
     }
 
     return {

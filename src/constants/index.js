@@ -24,7 +24,8 @@ const ROUTES = {
     LANGUAGES : 'languages',
     LEVELS : 'levels',
     USERS : 'users',
-    GROUPS : 'groups'
+    GROUPS : 'groups',
+    QUESTIONNAIRES: 'questionnaires'
 }
 
 
