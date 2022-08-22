@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-import useGoogleLogin from '../../../hooks/useGoogleLogin'
+import { useState, useEffect } from 'react';
+import useGoogleLogin from '../../../hooks/useGoogleLogin';
+import { getDisplayName } from '../../../functions';
 
 export default function useUserDropdown(user) {
 
@@ -8,7 +9,7 @@ export default function useUserDropdown(user) {
     const {logout} = useGoogleLogin()
 
     useEffect(() => {
-        if(user?.displayName) setDisplayName(user.displayName.split(" ")[0] + " " + user.displayName.split(" ")[1]);
+        if(user?.displayName) setDisplayName(getDisplayName(user.displayName));
     }, [user?.displayName])
     
 

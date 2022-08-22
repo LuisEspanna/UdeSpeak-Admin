@@ -1,3 +1,5 @@
+@import '../../styles/colors.scss';
+
 .groups-view{
     .group-item{
         background: #FAFDFF;
@@ -11,17 +13,17 @@
         transition: 0.5s;
 
         .title-container{
-            text-align: center;
-            display: flex;
-            justify-content: center;
-
             .group-title {
                 color: #0FB4B9;
-                font-size: 3em;
+                font-size: 1.5em;
                 font-weight: bold;
-                align-self: center;
                 padding: 0;
                 margin: 0;
+                margin-bottom: 0.5em;
+            }
+
+            span{
+                color: $color-gray;
             }
         }
         

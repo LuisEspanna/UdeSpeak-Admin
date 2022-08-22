@@ -38,9 +38,17 @@ const idGenerator = (length) => {
   return text;
 }
 
+const getDisplayName = (userName="") => {
+  var lstText = userName.split(" ");
+  var displayName = (lstText[0] + " " + (lstText.length > 0 ? lstText[1] : ""));
+
+  return displayName;
+}
+
 module.exports = {
   getUserDataFromResult,
   toDateFormat,
   toISOFormat,
-  idGenerator
+  idGenerator,
+  getDisplayName
 }

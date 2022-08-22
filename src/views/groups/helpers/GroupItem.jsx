@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
+import { getDisplayName } from '../../../functions';
 import GroupInput from './GroupInput';
 
 
@@ -40,7 +41,6 @@ export default function GroupItem({ group, onSave, onDelete, className, onClick 
     if (onClick) onClick(state);
   }
 
-
   if (isEditing) {
     return (
       <GroupInput
@@ -55,8 +55,10 @@ export default function GroupItem({ group, onSave, onDelete, className, onClick 
         <div className='row align-items-center'>
           <div className='col' onClick={handleClick}>
             <div className='row align-items-center'>
-              <div className='col-2 title-container'>
+              <div className='col-5 title-container'>
                 <h5 className='group-title'>{state.name}</h5>
+                <span className='mt-4'>Creado por:</span>
+                <p className='m-0 p-0'>{(state.displayName ? getDisplayName(state.displayName) : '')}</p>
               </div>
               <div className='col align-items-center'>
                 <div>{state.description}</div>

@@ -7,6 +7,7 @@ import {
     firestore
 } from '../services/firebase';
 import usePermissions from './usePermissions';
+import {  } from '../functions';
 
 
 export default function useGroups(level_id) {
@@ -41,7 +42,11 @@ export default function useGroups(level_id) {
     }
 
     const createGroup = (group) => {
-        return saveOnFirestore(COLLECTIONS.GROUPS, null, {...group, level_id});
+        return saveOnFirestore(COLLECTIONS.GROUPS, null,
+        {
+            ...group,
+            level_id
+        });
     }
 
     const editGroup = (group) => {

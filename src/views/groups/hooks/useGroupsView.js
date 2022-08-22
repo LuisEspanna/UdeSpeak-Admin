@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useGroups from '../../../hooks/useGroups';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import usePermissions from '../../../hooks/usePermissions';
 //import { useNavigate } from 'react-router-dom';
 //import { ROUTES } from '../../../constants'
 
@@ -13,6 +14,7 @@ export default function useGroupsView() {
     //const navigate = useNavigate();
 
     const { id } = useParams();
+    const { user } = usePermissions();
 
     const { 
         getAll,
@@ -37,6 +39,14 @@ export default function useGroupsView() {
     }
 
     const handleSave = (item) => {
+        const date = new Date().getTime();
+        let newGroup = {
+            ...item, 
+            user_id: user.uid,
+            displayName: user.displayName,            
+            edited_at: date
+        };
+
         setIsLoading(true);
         if(item?.id) {
             editGroup(item)
@@ -44,7 +54,7 @@ export default function useGroupsView() {
                 const index = groups.findIndex((group) => group.id === item.id);
                 setGroups( 
                     [...groups.slice(0, index), 
-                    {...item, language_id: id},
+                    {...item},
                     ...groups.slice(index + 1)]
                 );
             })
@@ -52,11 +62,14 @@ export default function useGroupsView() {
                 setIsLoading(false);
                 setIsCreating(false);
             });
-        } else{
+        } else{            
+            newGroup.created_at = date;
+
             createGroup(item)
             .then((res)=>{
-                const newGroup = {...item, id: res.id};
-                setGroups([...groups, newGroup]);
+                console.log(res);
+                //const newGroup = {...item, id: res.id};
+                setGroups([...groups, {...newGroup, id: res.id}]);
             })
             .finally(()=> {
                 setIsLoading(false);
