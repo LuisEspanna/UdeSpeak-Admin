@@ -16,9 +16,9 @@ export default function useQuestionnariesView() {
 
     const { 
         getAll,
-        createGroup, 
-        editGroup, 
-        deleteGroup
+        createQuestionnary, 
+        editQuestionnary, 
+        deleteQuestionnary
     } = useQuestionnaires(id);
 
     useEffect(() => {        
@@ -43,7 +43,7 @@ export default function useQuestionnariesView() {
 
         setIsLoading(true);
         if(item?.id) {
-            editGroup(newGroup)
+            editQuestionnary(newGroup)
             .then(()=>{
                 const index = questionnaries.findIndex((group) => group.id === item.id);
                 setQuestionnaries( 
@@ -57,7 +57,7 @@ export default function useQuestionnariesView() {
                 setIsCreating(false);
             });
         } else{
-            createGroup(newGroup)
+            createQuestionnary(newGroup)
             .then((res)=>{
                 setQuestionnaries([...questionnaries, {...newGroup, id: res.id}]);
             })
@@ -69,7 +69,7 @@ export default function useQuestionnariesView() {
     }
 
     const handleDelete = async(item) => {   
-        const res = await deleteGroup(item);
+        const res = await deleteQuestionnary(item);
         if(res){
             Swal.fire(
                 'Eliminado!',

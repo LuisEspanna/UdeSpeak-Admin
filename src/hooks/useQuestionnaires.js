@@ -24,7 +24,7 @@ export default function useGroups(group_id) {
         return(items);
     }
 
-    const createGroup = (group) => {
+    const createQuestionnary = (group) => {
         return saveOnFirestore(COLLECTIONS.QUESTIONNARIES, null,
         {
             ...group,
@@ -32,15 +32,15 @@ export default function useGroups(group_id) {
         });
     }
 
-    const editGroup = (group) => {
+    const editQuestionnary = (group) => {
         const newGroup = {...group};
         delete newGroup['id'];
         return updateFirestoreDoc(COLLECTIONS.QUESTIONNARIES, group.id, newGroup);
     }
 
-    const deleteGroup = async(item) => {
+    const deleteQuestionnary = async(item) => {
         let isDeleted = false;
-        const snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', item.id);
+        const snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONS, null, 'group_id', '==', item.id);
         
         if(snapshot.docs.length === 0){
             await deleteFromFirestore(COLLECTIONS.QUESTIONNARIES, item.id);
@@ -52,8 +52,8 @@ export default function useGroups(group_id) {
 
     return {
         getAll,
-        createGroup,
-        editGroup,
-        deleteGroup,
+        createQuestionnary,
+        editQuestionnary,
+        deleteQuestionnary,
     };
 }
