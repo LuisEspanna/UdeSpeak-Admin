@@ -1,0 +1,70 @@
+@import '../../styles/colors.scss';
+
+.questions-view{
+    .question-item{
+        background: #FAFDFF;
+        box-shadow: 0px 4px 4px rgba(164, 162, 162, 0.25);
+        border-radius: 8px;
+        min-height: 8em;
+        padding: 2em;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.5s;
+
+        .title-container{
+            .question-title {
+                color: #0FB4B9;
+                font-size: 1.5em;
+                font-weight: bold;
+                padding: 0;
+                margin: 0;
+                margin-bottom: 0.5em;
+            }
+
+            span{
+                color: $color-gray;
+            }
+        }
+
+        .form-select{
+            margin-top: 1em;
+            height: 3em;
+        }
+        
+        input[type='file'] {
+            opacity: 0;
+            max-width: 6em;
+            max-height: 6em;
+            min-width: 6em;
+            min-height: 6em;
+            cursor: pointer;
+            position: absolute;
+            background-color: aqua;
+            top: 2em;
+        }
+
+        .auto-hide-icon{
+            display: none;
+            cursor: pointer;
+            min-width: 1.7em;
+            height: 1.7em;
+        }
+
+        &:hover .auto-hide-icon{
+            display: block;
+        }
+
+        &:active{
+            background-color: #e2ecf1;
+        }
+    }
+
+    span{
+        font-size: 0.8em;
+    }
+
+    .col, .col-2, .col-3, .col-4, .col-6, .col-6, .col-7, .col-8, .col-9, .col-10, .row{
+        background-color: inherit;
+    }
+}

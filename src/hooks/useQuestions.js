@@ -3,18 +3,18 @@ import {
     saveOnFirestore,
     updateFirestoreDoc,
     readFromFirestoreWhere,
-    deleteFromFirestore
+    //deleteFromFirestore
 } from '../services/firebase';
 import {  } from '../functions';
 
 
-export default function useGroups(group_id) {
+export default function useGroups(questionnary_id) {
 
     const getAll = async() => {
         const items = [];
         let snapshot;
 
-        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', group_id);
+        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'questionnary_id', '==', questionnary_id);
         snapshot?.forEach(doc => {
             const item = {...doc.data()};
             item.id = doc.id;
@@ -24,21 +24,22 @@ export default function useGroups(group_id) {
         return(items);
     }
 
-    const createQuestionnary = (group) => {
+    const createQuestion = (group) => {
         return saveOnFirestore(COLLECTIONS.QUESTIONNARIES, null,
         {
             ...group,
-            group_id
+            questionnary_id
         });
     }
 
-    const editQuestionnary = (group) => {
+    const editQuestion = (group) => {
         const newGroup = {...group};
         delete newGroup['id'];
         return updateFirestoreDoc(COLLECTIONS.QUESTIONNARIES, group.id, newGroup);
     }
 
-    const deleteQuestionnary = async(item) => {
+    const deleteQuestion = async(item) => {
+        /*
         let isDeleted = false;
         const snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONS, null, 'questionnary_id', '==', item.id);
         
@@ -47,13 +48,13 @@ export default function useGroups(group_id) {
             isDeleted = true;
         }
 
-        return isDeleted;
+        return isDeleted;*/
     }
 
     return {
         getAll,
-        createQuestionnary,
-        editQuestionnary,
-        deleteQuestionnary,
+        createQuestion,
+        editQuestion,
+        deleteQuestion,
     };
 }

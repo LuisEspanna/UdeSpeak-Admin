@@ -12,6 +12,7 @@ import LanguagesView from '../../views/languages/LanguagesView';
 import LevelsView from '../../views/levels/LevelsView';
 import GroupsView from '../../views/groups/GroupsView';
 import QuestionnariesView from '../../views/questionnaries/QuestionnariesView';
+import QuestionsView from '../../views/questions/QuestionsView';
 import { ROUTES } from '../../constants';
 
 
@@ -33,6 +34,7 @@ function Dashboard() {
                 { view === ROUTES.LEVELS && <LevelsView/> }
                 { view === ROUTES.GROUPS && <GroupsView/> }
                 { view === ROUTES.QUESTIONNARIES && <QuestionnariesView/> }
+                { view === ROUTES.QUESTIONS && <QuestionsView/> }
             </div>
         </div>
     )
