@@ -28,14 +28,10 @@ export default function QuestionInput({ onSave, question, onCancel, className })
     if (onCancel) onCancel();
   }
 
-  const handleType = (e) => {
-    console.log(e.target.value);
-  }
-
   return (
     <div className={`question-item ${className ? className : ''}`}>
       <TextField placeholder='Título' onChange={handleChange} name='title' value={state.title} />
-      <select onChange={handleType} className="form-select" defaultValue={'speaking'} name='type'>
+      <select onChange={handleChange} className="form-select" defaultValue={'speaking'} name='type'>
         <option value={'speaking'}>Speaking</option>
         <option value={'listening'}>Listening</option>
         <option value={'reading'}>Reading</option>

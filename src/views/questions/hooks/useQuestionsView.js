@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import useQuestions from '../../../hooks/useQuestions';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants'
+import { ROUTES } from '../../../constants';
+import useMyNavigation from '../../../hooks/useMyNavigation';
 
 export default function useQuestionsView() {
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    const navigate = useNavigate();
+    const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
 
@@ -37,18 +37,18 @@ export default function useQuestionsView() {
     }
 
     const handleSave = (item) => {
-        let newGroup = {
+        let newQuestion = {
             ...item,
         };
 
         setIsLoading(true);
         if(item?.id) {
-            editQuestion(newGroup)
+            editQuestion(newQuestion)
             .then(()=>{
-                const index = questions.findIndex((group) => group.id === item.id);
+                const index = questions.findIndex((question) => question.id === item.id);
                 setQuestions( 
                     [...questions.slice(0, index),
-                    {...newGroup},
+                    {...newQuestion},
                     ...questions.slice(index + 1)]
                 );
             })
@@ -57,9 +57,9 @@ export default function useQuestionsView() {
                 setIsCreating(false);
             });
         } else{
-            createQuestion(newGroup)
+            createQuestion(newQuestion)
             .then((res)=>{
-                setQuestions([...questions, {...newGroup, id: res.id}]);
+                setQuestions([...questions, {...newQuestion, id: res.id}]);
             })
             .finally(()=> {
                 setIsLoading(false);
@@ -77,7 +77,7 @@ export default function useQuestionsView() {
                 'success'
             );
             
-            setQuestions(questions.filter((group) => group.id !== item.id));
+            setQuestions(questions.filter((question) => question.id !== item.id));
         } else {
             Swal.fire(
                 'Error!',
@@ -87,8 +87,8 @@ export default function useQuestionsView() {
         }
     }
 
-    const handleClick = (group) => {
-        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONS}/${group.id}`, {replace: true});
+    const handleClick = (question) => {
+        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTION}/${question.id}`);
     }
 
     return {

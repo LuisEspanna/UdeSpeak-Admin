@@ -5,6 +5,7 @@ import useGroupsView from './hooks/useGroupsView';
 import GroupInput from './helpers/GroupInput';
 import GroupItem from './helpers/GroupItem';
 import './styles.scss';
+import NavigationButtons from '../../components/navigationButtons/NavigationButtons';
 
 export default function GroupsView() {
 
@@ -22,6 +23,7 @@ export default function GroupsView() {
     <div className='groups-view'>
         <Card>
           <h4>Grupos</h4>
+          <NavigationButtons/>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button

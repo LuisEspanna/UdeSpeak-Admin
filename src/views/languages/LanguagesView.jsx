@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../components/button/Button';
 import Card from '../../components/card/Card';
+import NavigationButtons from '../../components/navigationButtons/NavigationButtons';
 import LanguageInput from './helpers/LanguageInput';
 import LanguageItem from './helpers/LanguageItem';
 import useLanguageView from './hooks/useLanguageView';
@@ -21,6 +22,7 @@ export default function LanguagesView() {
     <div className='language-view'>
         <Card>
           <h4>Idiomas</h4>
+          <NavigationButtons/>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button

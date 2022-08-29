@@ -1,15 +1,14 @@
 import React from 'react';
 import './menu-button.scss';
-import { useNavigate } from 'react-router-dom';
+import useMyNavigation from '../../../../hooks/useMyNavigation';
 
 export default function MenuButton({label, icon, route}) {
 
-  let navigate = useNavigate();
+  let { navigateTo } = useMyNavigation();
 
   function handleClick() {
-    console.log(route)
     if(route)
-      navigate(route, {replace: true});
+      navigateTo(route);
   }
 
   return (

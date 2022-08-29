@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import useQuestionnaires from '../../../hooks/useQuestionnaires';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants'
+import { ROUTES } from '../../../constants';
+import useMyNavigation from '../../../hooks/useMyNavigation';
 
 export default function useQuestionnariesView() {
     const [questionnaries, setQuestionnaries] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    const navigate = useNavigate();
+    const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
 
@@ -88,7 +88,7 @@ export default function useQuestionnariesView() {
     }
 
     const handleClick = (group) => {
-        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONS}/${group.id}`, {replace: true});
+        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONS}/${group.id}`, {replace: true});
     }
 
     return {

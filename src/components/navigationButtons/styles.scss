@@ -1,0 +1,24 @@
+@import '../../styles/custom.scss';
+
+.navigation-buttons{
+    position: absolute;
+    right: 5em;
+    top: 4em;
+
+    .button-primary{
+        border-radius: 50%;
+
+        svg{
+            fill: #FFF;
+            padding: 0.5em;
+        }
+
+        .arrow-left{
+            @extend .rotate-left;
+        }
+
+        .arrow-right{
+            @extend .rotate-right;
+        }
+    }
+}

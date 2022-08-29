@@ -3,7 +3,7 @@ import useGroups from '../../../hooks/useGroups';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import usePermissions from '../../../hooks/usePermissions';
-import { useNavigate } from 'react-router-dom';
+import useMyNavigation from '../../../hooks/useMyNavigation';
 import { ROUTES } from '../../../constants'
 
 export default function useGroupsView() {
@@ -11,7 +11,7 @@ export default function useGroupsView() {
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    const navigate = useNavigate();
+    const {navigateTo} = useMyNavigation();
 
     const { id } = useParams();
     const { user } = usePermissions();
@@ -96,7 +96,7 @@ export default function useGroupsView() {
     }
 
     const handleClick = (group) => {
-        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONNARIES}/${group.id}`, {replace: true});
+        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTIONNARIES}/${group.id}`);
     }
 
     return {

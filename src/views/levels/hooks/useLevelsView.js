@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import uselevels from '../../../hooks/useLevels';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants'
+import { ROUTES } from '../../../constants';
+import useMyNavigation from '../../../hooks/useMyNavigation';
+
 
 export default function useLevelsView() {
     const [levels, setLevels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    const navigate = useNavigate();
+    const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
 
@@ -20,7 +21,6 @@ export default function useLevelsView() {
         editLevel, 
         deleteLevel
     } = uselevels(id);
-    //const navigate = useNavigate();
 
     useEffect(() => {        
         async function fetchLavels() {
@@ -86,7 +86,7 @@ export default function useLevelsView() {
     }
 
     const handleClick = (level) => {
-        navigate(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${level.id}`, {replace: true});
+        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${level.id}`, {replace: true});
     }
 
     return {

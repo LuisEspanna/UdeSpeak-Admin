@@ -5,6 +5,7 @@ import useLevelsView from './hooks/useLevelsView';
 import LevelInput from './helpers/LevelInput';
 import LevelItem from './helpers/LevelItem';
 import './styles.scss';
+import NavigationButtons from '../../components/navigationButtons/NavigationButtons';
 
 export default function LevelsAndGroups() {
 
@@ -22,6 +23,7 @@ export default function LevelsAndGroups() {
     <div className='levels-view'>
         <Card>
           <h4>Niveles</h4>
+          <NavigationButtons/>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button
