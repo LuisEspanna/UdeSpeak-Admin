@@ -8,7 +8,7 @@ import SaveIcon from '../../../components/icons/SaveIcon';
 export default function QuestionInput({ onSave, question, onCancel, className }) {
   const [state, setState] = useState({
     title: question ? question.title : '',
-    type: question ? question.type : ''
+    type: question ? question.type : 'speaking'
   });
 
   const handleChange = (e) => {
