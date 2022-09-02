@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ListeningTab from '../helpers/listening/ListeningView';
 import ReadingTab from '../helpers/reading/ReadingView';
 import SpeakingTab from '../helpers/speaking/SpeakingView';
@@ -7,10 +7,10 @@ import { useParams } from 'react-router-dom';
 import useQuestions from '../../../hooks/useQuestions';
 
 const views =  {
-    listening : <ListeningTab/>,
-    speaking : <SpeakingTab/>,
-    reading : <ReadingTab/>,
-    writing : <WritingTab/>
+    listening : (question) => <ListeningTab question={question}/>,
+    speaking : (question) => <SpeakingTab question={question}/>,
+    reading : (question) => <ReadingTab question={question}/>,
+    writing : (question) => <WritingTab question={question}/>
 }
 
 export default function useQuestionView() {
@@ -25,10 +25,9 @@ export default function useQuestionView() {
             setIsLoading(true);
             const localQuestion = await getQuestion(id);
             setIsLoading(false);
-            console.log(localQuestion);
             
             if(localQuestion !== null && localQuestion !== undefined){
-                setCurrentView(views[localQuestion.type]);
+                setCurrentView(views[localQuestion.type](localQuestion));
             }
         }
         fetchQuestion();

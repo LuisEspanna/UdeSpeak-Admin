@@ -6,6 +6,7 @@ import NavigationButtons from '../../components/navigationButtons/NavigationButt
 
 export default function QuestionView() {
   const { currentView } = useQuestionView();
+
   return (
     <div className='question-view'>
       <NavigationButtons/>
