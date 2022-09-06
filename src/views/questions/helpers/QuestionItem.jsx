@@ -32,7 +32,7 @@ export default function QuestionItem({ question, onDelete, className, onClick })
           </div>
         </div>
         <div className='col-2 d-flex'>
-          <TrashIcon className={'auto-hide-icon'} onClick={handleDelete} />
+          <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
         </div>
       </div>
     </div>

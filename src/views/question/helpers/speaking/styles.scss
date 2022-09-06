@@ -1,4 +1,13 @@
-.listening-view{
+@import '../../../../components/button/button.scss';
+
+.speaking-view{
     margin-top: 2em;
     background-color: #fff;
+
+    input::file-selector-button {
+        @extend .button-primary;
+        font-size: 0.9em;
+        padding: 0.5em;
+        display: inline-block;
+    }
 }

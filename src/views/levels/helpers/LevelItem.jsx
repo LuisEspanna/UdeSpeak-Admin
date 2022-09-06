@@ -65,7 +65,7 @@ export default function LevelItem({ level, onSave, onDelete, className, onClick 
           </div>
           <div className='col-2 d-flex'>
             <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-            <TrashIcon className={'auto-hide-icon'} onClick={handleDelete} />
+            <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
           </div>
         </div>
       </div>
