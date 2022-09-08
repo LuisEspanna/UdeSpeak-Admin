@@ -18,7 +18,7 @@ export default function Searchbar({className, onChange, value}) {
         >
           <SearchIcon className='icon' />
       </Button>
-      <div className={`search-bar-desktop  ${className ? className : ''}`}>
+      <div className={`search-bar-desktop mx-2 ${className ? className : ''}`}>
         <SearchIcon className='search-icon' />
         <input type='text' className='input-text me-auto' placeholder='Search' value={value} onChange={onChange}/>
         <Button type={'primary'} className='mx-2'>

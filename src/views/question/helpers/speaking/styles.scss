@@ -3,6 +3,7 @@
 .speaking-view{
     margin-top: 2em;
     background-color: #fff;
+    position: relative;
     
 
     input::file-selector-button {
@@ -10,5 +11,11 @@
         font-size: 0.9em;
         padding: 0.5em;
         display: inline-block;
+    }
+
+    .navigation-buttons{
+        position: absolute;
+        top: -2em;
+        right: 0;
     }
 }

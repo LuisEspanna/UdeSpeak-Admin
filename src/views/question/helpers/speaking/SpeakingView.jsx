@@ -24,9 +24,9 @@ export default function Speaking({ question }) {
   return (
     <>
       <Card className='w-100'>
-        <div className='speaking-view'>
-          <NavigationButtons/>
+        <div className='speaking-view'>    
           <h5><b>Speaking</b></h5>
+          <NavigationButtons/>
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
           <span className='my-4'>Subir imagen </span>

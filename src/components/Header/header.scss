@@ -38,6 +38,10 @@
             width: 8.125em;
         }
     }
+
+    .header-search-btn{
+        display: none;
+    }
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -45,6 +49,10 @@
     .header{
         .udespeak-logo{
             display: none;
+        }
+
+        .header-search-btn{
+            display: flex;
         }
     }       
 }
@@ -55,6 +63,10 @@
         .udespeak-logo{
             display: none;
         }
+
+        .header-search-btn{
+            display: flex;
+        }
     } 
 }
 
@@ -63,6 +75,10 @@
     .header{
         .udespeak-logo{
             display: flex;
+        }
+
+        .header-search-btn{
+            display: none;
         }
     } 
 }

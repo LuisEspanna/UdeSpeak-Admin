@@ -59,20 +59,12 @@
     .search-bar-desktop {
         display: none;
     }
-
-    .header-search-btn {
-        display: block;
-    }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
     .search-bar-desktop {
         display: none;
-    }
-
-    .header-search-btn {
-        display: block;
     }
 }
 
@@ -87,8 +79,4 @@
         opacity: 0;
         transition: visibility 0s, opacity 0.5s linear;
     }
-
-    .header-search-btn{
-        display: none;
-    } 
 }

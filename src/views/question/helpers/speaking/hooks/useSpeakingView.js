@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function useSpeakingView(question) {
     const [state, setState] = useState(question);
-    const [image, setImage] = useState(undefined);
+    const [image, setImage] = useState(question?.image || undefined);
 
     useEffect(() => {
       setState(question);

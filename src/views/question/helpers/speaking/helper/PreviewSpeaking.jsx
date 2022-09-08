@@ -15,9 +15,9 @@ export default function PreviewSpeaking({ image, question }) {
                 <div className='phone-question-index'>Question 5</div>
                 <div className='phone-title'>{question?.title}</div>
                 {
-                    image && typeof (image) === 'object' ?
+                    image && ((typeof (image) === 'object') ?
                         <img src={URL.createObjectURL(image)} id="output" alt='' /> :
-                        <img src={image || defaultImage} alt='' />
+                        <img src={image || defaultImage} alt='' />)
                 }
                 <div className='phone-description'>{question?.description}</div>
             </div>
