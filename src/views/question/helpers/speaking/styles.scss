@@ -3,6 +3,7 @@
 .speaking-view{
     margin-top: 2em;
     background-color: #fff;
+    
 
     input::file-selector-button {
         @extend .button-primary;

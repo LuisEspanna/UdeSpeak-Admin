@@ -19,6 +19,10 @@ const toDateFormat = (date) => {
   return moment(date).format('DD/MM/YYYY h:mm a').toString();
 }
 
+const getHour = () => {
+  return moment(new Date()).format('h:mm a').toString();
+}
+
 const toISOFormat = (date) => {
   return moment(date).format().toString();
 }
@@ -50,5 +54,6 @@ module.exports = {
   toDateFormat,
   toISOFormat,
   idGenerator,
-  getDisplayName
+  getDisplayName,
+  getHour
 }

@@ -17,4 +17,71 @@
     border-radius: 0.875em;
     transition: 0.4s ease-in;
     padding: 1.5em;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+
+    .ccard{
+        position: relative;
+    }
+}
+
+.phone-preview{
+    height: 45em;
+    max-width: 23em;
+    min-width: 23em;
+    width: 23em;
+    background-color: #F6FBFF;
+    margin-left: 2em;
+    position: relative;
+
+    .phone-header{
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5em;
+        padding-left: 1.2em;
+        padding-right: 1.2em;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .phone-container{
+        margin-top: 2em;
+        padding: 2em;
+        margin-bottom: 10em;
+        overflow: auto;
+        max-height: 35em;
+
+        .phone-question-index{
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .phone-title{
+            font-size: 1.2em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        .phone-description{
+            font-size: 1em;
+            margin-top: 1em;
+        }
+
+        img{
+            width: 100%;
+            border-radius: 0.5em;
+        }
+    }
+
+    .phone-microphone{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        height: 7em;
+        background-color: #F6FBFF;
+        bottom: 0;
+        width: 100%;
+    }
 }
