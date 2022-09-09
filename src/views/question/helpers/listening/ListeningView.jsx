@@ -7,7 +7,6 @@ import useListeningView from './hooks/useListeningView';
 export default function ListeningTab({ question }) {
 
   const { state, handleChange } = useListeningView(question);
-  console.log(state);
 
   return (
     <div className='listening-view'>

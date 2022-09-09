@@ -13,6 +13,7 @@ export default function Speaking({ question }) {
   const { 
     state,
     image,
+    isEdited,
     handleChange, 
     handleAddPossibleAnswer, 
     onChangePossibleAnswer, 
@@ -29,15 +30,25 @@ export default function Speaking({ question }) {
           <NavigationButtons/>
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
-          <span className='my-4'>Subir imagen </span>
-          <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
-          <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
-            <TrashIcon className='icon' />
-          </Button>
+          <span className='my-4'>Imagen </span>
+          {
+            typeof(image) !== 'string' && <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
+          }
+          
+          {
+            image && <>
+              {
+                typeof(image) === 'string' && <span>{image}</span>
+              }
+              <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
+                <TrashIcon className='icon'/>
+              </Button>
+            </>
+          }
           <div>
             <span className='my-4'>Descripción</span>
           </div>
-          <textarea name="description" rows="4" className='w-100' onChange={handleChange}/>
+          <textarea name="description" rows="4" className='w-100' onChange={handleChange} value={state?.description}/>
           <span className='my-4'>Respuestas correctas</span>
           <div className='d-flex'>
             {
@@ -52,7 +63,9 @@ export default function Speaking({ question }) {
           </div>
           <Button type='primary' title='Agregar posible respuesta' className='px-2' onClick={handleAddPossibleAnswer} />
           <div className='d-flex justify-content-center mt-4'>
-            <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />
+            {
+              isEdited && <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />
+            }
           </div>
         </div>
       </Card>

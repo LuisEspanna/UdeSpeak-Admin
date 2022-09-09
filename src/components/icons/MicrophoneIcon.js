@@ -13,7 +13,7 @@ export default function MicrophoneIcon(props) {
             <path d="M31.0869 46.0105C30.5811 46.0105 30.168 45.5966 30.168 45.0899V37.5476C30.168 37.0408 30.5811 36.627 31.0869 36.627C31.5927 36.627 32.0058 37.0408 32.0058 37.5476V45.0899C32.0058 45.5966 31.5927 46.0105 31.0869 46.0105Z" fill="#FAFDFF" />
             <defs>
                 <filter id="filter0_d_1375_507" x="6" y="8" width="50" height="50" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feOffset dy="2" />
                     <feGaussianBlur stdDeviation="2" />

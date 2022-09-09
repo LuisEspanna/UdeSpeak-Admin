@@ -41,13 +41,14 @@ export default function useQuestions(questionnary_id) {
         });
     }
 
-    const editQuestion = (group) => {
-        const newGroup = {...group};
-        delete newGroup['id'];
-        return updateFirestoreDoc(COLLECTIONS.QUESTIONS, group.id, newGroup);
+    const editQuestion = (item) => {
+        const newQuestion = {...item};
+        delete newQuestion['id'];
+        return updateFirestoreDoc(COLLECTIONS.QUESTIONS, item.id, newQuestion);
     }
 
-    const deleteQuestion = async(item) => {        
+    const deleteQuestion = async(item) => {
+        //TODO: Validar si hay archivos guardados
         await deleteFromFirestore(COLLECTIONS.QUESTIONS, item.id);
         return true;
     }

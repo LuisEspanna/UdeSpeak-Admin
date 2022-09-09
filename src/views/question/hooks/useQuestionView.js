@@ -27,7 +27,7 @@ export default function useQuestionView() {
             setIsLoading(false);
             
             if(localQuestion !== null && localQuestion !== undefined){
-                setCurrentView(views[localQuestion.type](localQuestion));
+                setCurrentView(views[localQuestion.type]({...localQuestion, id}));
             }
         }
         fetchQuestion();
