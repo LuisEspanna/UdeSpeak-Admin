@@ -8,12 +8,14 @@ import Chip from '../../../../components/chip/Chip';
 import PreviewSpeaking from './helper/PreviewSpeaking';
 import Card from '../../../../components/card/Card';
 import NavigationButtons from '../../../../components/navigationButtons/NavigationButtons';
+import ProgressBar from '../../../../components/progressbar/ProgressBar';
 
 export default function Speaking({ question }) {
   const { 
     state,
     image,
     isEdited,
+    isLoading,
     handleChange, 
     handleAddPossibleAnswer, 
     onChangePossibleAnswer, 
@@ -68,6 +70,7 @@ export default function Speaking({ question }) {
             }
           </div>
         </div>
+        <ProgressBar isLoading={isLoading}/>
       </Card>
       <PreviewSpeaking image={image} question={state}/>
     </>
