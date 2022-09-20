@@ -32,15 +32,20 @@ export default function Speaking({ question }) {
           <NavigationButtons/>
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
-          <span className='my-4'>Imagen </span>
+          
           {
-            typeof(image) !== 'string' && <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
+            typeof(image) !== 'string' && 
+            <>
+              <span className='my-4'>Imagen </span>
+              <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
+            </>
           }
           
           {
             image && <>
+              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Imagen </Button>
               {
-                typeof(image) === 'string' && <span>{image}</span>
+                typeof(image) === 'string' && <input disabled type='text' value={image}/>
               }
               <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
                 <TrashIcon className='icon'/>
