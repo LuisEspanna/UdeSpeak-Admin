@@ -16,6 +16,7 @@ import useQuestions from '../../../../../hooks/useQuestions';
 export default function useSpeakingView(question) {
     const [state, setState] = useState(question);
     const [image, setImage] = useState(question?.image || undefined);
+    const [audio, setAudio] = useState(question?.audio || undefined);
     const { editQuestion } = useQuestions();
     const [isLoading, setIsLoading] = useState(false);
     const [isEdited, setIsEdited] = useState(false)
@@ -31,9 +32,11 @@ export default function useSpeakingView(question) {
     }
 
     const handleAddOption = () => {
-        let possible_answers = state?.possible_answers || [];
-        possible_answers.push('');
-        setState({ ...state, possible_answers });
+        //TODO
+        setIsEdited(true);
+        let options = [...state?.options];
+        options.push({letter: '', description: '', isValid: false, id: idGenerator(7)});
+        setState({ ...state, options });   
     }
 
     const handleEditOption = (id, newValue) => {
@@ -45,21 +48,24 @@ export default function useSpeakingView(question) {
         });
 
         setState({...state, options});
+        setIsEdited(true);
     }
 
     const handleDeleteOption = (id) => {
         let options = state?.options?.filter((option) => option.id !== id);
-        setState({ ...state, options });        
+        setState({ ...state, options });     
+        setIsEdited(true);   
     }
 
     const onSave = () => {
-        if (state.possible_answers && state.possible_answers.length > 0) {
-            const possible_answers = state.possible_answers.filter((p) => p.length > 0);
-            setState({ ...state, possible_answers });
+        //TODO
+        if (state.options && state.options.length > 0) {
+            const options = state.options.filter((p) => (p.letter.length > 0 && p.description.length>0));
+            setState({ ...state, options });
 
             if ((state.description && state.description.length > 0) && (state.title && state.title.length > 0)) {
-                //Guardar imagen
-                if (typeof (image) === 'object') {
+                if (typeof (image) === 'object' || typeof (audio) === 'object') {
+                    //TODO IMAGE
                     const imageName = idGenerator(20);
                     saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
                         if (downloadURL !== null) {
@@ -79,6 +85,29 @@ export default function useSpeakingView(question) {
                             });
                         };
                     });
+
+                    //TODO AUDIO
+                    /*
+                    const imageName = idGenerator(20);
+                    saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
+                        if (downloadURL !== null) {
+                            const newQuestion = { ...state, image: downloadURL };
+                            setIsLoading(true);
+                            editQuestion(newQuestion).then(() => {
+                                setState( newQuestion );
+                                setImage(downloadURL);
+                                setIsLoading(false);
+                                setIsEdited(false);
+
+                                Swal.fire(
+                                    'OK',
+                                    'Cambios aguardados',
+                                    'success'
+                                )
+                            });
+                        };
+                    });
+                    */
                 } else {
                     editQuestion(state).then(() => {
                         setIsLoading(false);
@@ -135,6 +164,7 @@ export default function useSpeakingView(question) {
         image,
         isLoading,
         isEdited,
+        audio,
         handleChange,
         onSave,
         handleAddOption,

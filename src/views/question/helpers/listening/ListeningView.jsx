@@ -14,6 +14,7 @@ export default function Speaking({ question }) {
   const {
     state,
     image,
+    audio,
     isEdited,
     isLoading,
     handleChange,
@@ -33,22 +34,14 @@ export default function Speaking({ question }) {
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
           {
-            typeof (image) !== 'string' &&
-            <>
-              <span className='my-4'>Imagen </span>
+            !image &&
+            <div>
+              <span className=''>Imagen </span>
               <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
-            </>
+            </div>
           }
           {
-            typeof (image) !== 'string' &&
-            <>
-              <span className='my-4'>Audio </span>
-              <input type='file' accept='audio/*' onChange={handleImage} name='audio' className='mb-4 d-inline-block' />
-            </>
-          }
-
-          {
-            image && <>
+            image && <div>
               <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Imagen </Button>
               {
                 typeof (image) === 'string' && <input disabled type='text' value={image} />
@@ -56,8 +49,17 @@ export default function Speaking({ question }) {
               <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
                 <TrashIcon className='icon' />
               </Button>
-            </>
+            </div>
           }
+
+          {
+            !audio  &&
+            <div>
+              <span className='my-4'>Audio </span>
+              <input type='file' accept='audio/*' onChange={handleImage} name='audio' className='mb-4 d-inline-block' />
+            </div>
+          }
+
           <div>
             <span className='my-4'>Descripción</span>
           </div>
