@@ -59,13 +59,16 @@ export default function useSpeakingView(question) {
 
     const onSave = () => {
         //TODO
+        console.log(state)
         if (state.options && state.options.length > 0) {
             const options = state.options.filter((p) => (p.letter.length > 0 && p.description.length>0));
             setState({ ...state, options });
 
-            if ((state.description && state.description.length > 0) && (state.title && state.title.length > 0)) {
+            if ((state.description && state.description.length > 0) && 
+                (state.title && state.title.length > 0) && 
+                (audio !== undefined ) ) {
                 if (typeof (image) === 'object' || typeof (audio) === 'object') {
-                    //TODO IMAGE
+                    
                     const imageName = idGenerator(20);
                     saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
                         if (downloadURL !== null) {
@@ -85,17 +88,15 @@ export default function useSpeakingView(question) {
                             });
                         };
                     });
-
-                    //TODO AUDIO
-                    /*
-                    const imageName = idGenerator(20);
-                    saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
+                    
+                    const audioName = idGenerator(20);
+                    saveFileOnFirebase(STORAGE.QUESTION, audioName, audio).then((downloadURL) => {
                         if (downloadURL !== null) {
-                            const newQuestion = { ...state, image: downloadURL };
+                            const newQuestion = { ...state, audio: downloadURL };
                             setIsLoading(true);
                             editQuestion(newQuestion).then(() => {
                                 setState( newQuestion );
-                                setImage(downloadURL);
+                                setAudio(downloadURL);
                                 setIsLoading(false);
                                 setIsEdited(false);
 
@@ -107,7 +108,6 @@ export default function useSpeakingView(question) {
                             });
                         };
                     });
-                    */
                 } else {
                     editQuestion(state).then(() => {
                         setIsLoading(false);
@@ -159,6 +159,29 @@ export default function useSpeakingView(question) {
         setIsEdited(true);
     }
 
+    const handleAudio = (e) => {
+        if (state?.audio && typeof (state?.audio) === 'string') {
+            //Delete from db
+            setIsLoading(true);
+            deleteFileFromFirebase(state?.audio).then(() => {
+                const newQuestion = { ...state, audio: null };
+
+                editQuestion(newQuestion).then(() => {
+                    setState(newQuestion);
+                    setAudio(undefined);
+                    setIsLoading(false);
+                });
+            });
+        }
+
+        if (e.target?.files) {
+            setAudio(e.target?.files[0]);
+        } else {
+            setAudio(undefined);
+        }
+        setIsEdited(true);
+    }
+
     return {
         state,
         image,
@@ -170,6 +193,7 @@ export default function useSpeakingView(question) {
         handleAddOption,
         handleEditOption,
         handleDeleteOption,
-        handleImage
+        handleImage,
+        handleAudio
     }
 }

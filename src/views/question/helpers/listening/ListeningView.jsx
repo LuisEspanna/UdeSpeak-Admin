@@ -22,7 +22,8 @@ export default function Speaking({ question }) {
     handleEditOption,
     handleDeleteOption,
     onSave,
-    handleImage
+    handleImage,
+    handleAudio
   } = useListeningView(question);
 
   return (
@@ -56,7 +57,18 @@ export default function Speaking({ question }) {
             !audio  &&
             <div>
               <span className='my-4'>Audio </span>
-              <input type='file' accept='audio/*' onChange={handleImage} name='audio' className='mb-4 d-inline-block' />
+              <input type='file' accept='audio/*' onChange={handleAudio} name='audio' className='mb-4 d-inline-block' />
+            </div>
+          }
+          {
+            audio && <div>
+              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Audio </Button>
+              {
+                typeof (audio) === 'string' && <input disabled type='text' value={audio} />
+              }
+              <Button type='primary' className='mx-4 d-inline-block' onClick={handleAudio}>
+                <TrashIcon className='icon' />
+              </Button>
             </div>
           }
 
