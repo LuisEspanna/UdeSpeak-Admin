@@ -2,7 +2,7 @@ import React from 'react';
 import { getHour } from '../../../../../functions';
 import HeaderIcons from './HeaderIcons';
 import defaultImage from '../../../../../assets/images/image.png';
-import MicrophoneIcon from '../../../../../components/icons/MicrophoneIcon'
+import SoundIcon from '../../../../../components/icons/SoundIcon'
 
 export default function PreviewSpeaking({ image, question }) {
     return (
@@ -12,7 +12,10 @@ export default function PreviewSpeaking({ image, question }) {
                 <HeaderIcons />
             </div>
             <div className='phone-container'>
-                <div className='phone-question-index'>Question 5</div>
+                <div className='phone-question-index'>Question 1</div>
+                <div className='phone-sound-icon'>
+                    <SoundIcon />
+                </div>
                 <div className='phone-title'>{question?.title}</div>
                 {
                     image && ((typeof (image) === 'object') ?
@@ -20,9 +23,6 @@ export default function PreviewSpeaking({ image, question }) {
                         <img src={image || defaultImage} alt='' />)
                 }
                 <div className='phone-description'>{question?.description}</div>
-            </div>
-            <div className='phone-microphone'>
-                <MicrophoneIcon />
             </div>
         </div>
     )

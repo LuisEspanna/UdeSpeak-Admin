@@ -19,10 +19,12 @@ export default function useSpeakingView(question) {
     const [audio, setAudio] = useState(question?.audio || undefined);
     const { editQuestion } = useQuestions();
     const [isLoading, setIsLoading] = useState(false);
-    const [isEdited, setIsEdited] = useState(false)
+    const [isEdited, setIsEdited] = useState(false);
 
     useEffect(() => {
         setState(question);
+        setImage(question?.image || undefined);
+        setAudio(question?.audio || undefined);
     }, [question])
 
 
