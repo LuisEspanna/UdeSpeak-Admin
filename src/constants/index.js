@@ -19,6 +19,8 @@ const PERMISSIONS = {
 const STORAGE = {
     LANGUAGES: 'languages',
     QUESTION: 'question',
+    AUDIOS: 'audios',
+    IMAGES: 'images'
 }
 
 const ROUTES = {

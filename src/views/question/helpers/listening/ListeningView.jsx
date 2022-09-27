@@ -17,13 +17,15 @@ export default function Speaking({ question }) {
     audio,
     isEdited,
     isLoading,
+    isPlaying,
     handleChange,
     handleAddOption,
     handleEditOption,
     handleDeleteOption,
     onSave,
     handleImage,
-    handleAudio
+    handleAudio,
+    handlePlaying
   } = useListeningView(question);
 
   return (
@@ -116,7 +118,12 @@ export default function Speaking({ question }) {
         </div>
         <ProgressBar isLoading={isLoading} />
       </Card>
-      <PreviewListening image={image} question={state} />
+      <PreviewListening 
+        image={image}
+        sound={audio}
+        question={state} 
+        handlePlaying={handlePlaying} 
+        isPlaying={isPlaying}/>
     </>
 
   )

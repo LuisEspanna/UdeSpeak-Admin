@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getHour } from '../../../../../functions';
 import HeaderIcons from './HeaderIcons';
 import defaultImage from '../../../../../assets/images/image.png';
-import SoundIcon from '../../../../../components/icons/SoundIcon'
+import SoundIconPlay from '../../../../../components/icons/SoundIcon';
+import SoundIconPause from '../../../../../components/icons/SoundIconPause';
 
-export default function PreviewSpeaking({ image, question }) {
+export default function PreviewSpeaking({ image, question, sound, isPlaying, handlePlaying }) {
+    const [state, setState] = useState(question);
+
+    useEffect(() => {
+        setState(question);
+    }, [question]);
+
+
     return (
         <div className='phone-preview'>
             <div className='phone-header'>
@@ -14,15 +22,29 @@ export default function PreviewSpeaking({ image, question }) {
             <div className='phone-container'>
                 <div className='phone-question-index'>Question 1</div>
                 <div className='phone-sound-icon'>
-                    <SoundIcon />
+                    {
+                        isPlaying ? <SoundIconPause onClick={handlePlaying} /> : <SoundIconPlay onClick={handlePlaying} />
+                    }
                 </div>
-                <div className='phone-title'>{question?.title}</div>
+                {
+                    sound && isPlaying && ((typeof (sound) === 'object') ?
+                        <audio controls="controls" className='hidden-audio-reproductor' autoPlay>
+                            <source src={URL.createObjectURL(sound)} type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                        </audio> :
+                        <audio controls="controls" className='hidden-audio-reproductor' autoPlay>
+                            <source src={sound} type="audio/mpeg" />
+                            Your browser does not support the audio element.
+                        </audio>)
+                }
+
+                <div className='phone-title'>{state?.title}</div>
                 {
                     image && ((typeof (image) === 'object') ?
                         <img src={URL.createObjectURL(image)} id="output" alt='' /> :
                         <img src={image || defaultImage} alt='' />)
                 }
-                <div className='phone-description'>{question?.description}</div>
+                <div className='phone-description'>{state?.description}</div>
             </div>
         </div>
     )

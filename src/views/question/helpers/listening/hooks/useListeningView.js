@@ -20,6 +20,7 @@ export default function useSpeakingView(question) {
     const { editQuestion } = useQuestions();
     const [isLoading, setIsLoading] = useState(false);
     const [isEdited, setIsEdited] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
         setState(question);
@@ -27,6 +28,9 @@ export default function useSpeakingView(question) {
         setAudio(question?.audio || undefined);
     }, [question])
 
+    const handlePlaying = (e) => {
+        if(audio)  setIsPlaying(!isPlaying);
+    }
 
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: (e.target.value) });
@@ -92,7 +96,7 @@ export default function useSpeakingView(question) {
                     });
                     
                     const audioName = idGenerator(20);
-                    saveFileOnFirebase(STORAGE.QUESTION, audioName, audio).then((downloadURL) => {
+                    saveFileOnFirebase(STORAGE.AUDIOS, audioName, audio).then((downloadURL) => {
                         if (downloadURL !== null) {
                             const newQuestion = { ...state, audio: downloadURL };
                             setIsLoading(true);
@@ -190,12 +194,14 @@ export default function useSpeakingView(question) {
         isLoading,
         isEdited,
         audio,
+        isPlaying,
         handleChange,
         onSave,
         handleAddOption,
         handleEditOption,
         handleDeleteOption,
         handleImage,
-        handleAudio
+        handleAudio,
+        handlePlaying
     }
 }
