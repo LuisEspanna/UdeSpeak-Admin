@@ -10,7 +10,7 @@ import NavigationButtons from '../../../../components/navigationButtons/Navigati
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import RowOption from './helper/RowOption';
 
-export default function Speaking({ question }) {
+export default function Listening({ question }) {
   const {
     state,
     image,
@@ -31,7 +31,7 @@ export default function Speaking({ question }) {
   return (
     <>
       <Card className='w-100'>
-        <div className='speaking-view'>
+        <div className='listening-view'>
           <h5><b>Listening</b></h5>
           <NavigationButtons />
           <div className='mt-4' />

@@ -45,6 +45,15 @@ export default function PreviewSpeaking({ image, question, sound, isPlaying, han
                         <img src={image || defaultImage} alt='' />)
                 }
                 <div className='phone-description'>{state?.description}</div>
+
+                <div className='my-4'>
+                    {
+                        state?.options && state.options.map((o, i) =>
+                            <div className='option' key={i}>
+                                <span className='option-letter'>{`${o?.letter})`}</span><span>{`${o?.description}`}</span>
+                            </div>)
+                    }
+                </div>
             </div>
         </div>
     )
