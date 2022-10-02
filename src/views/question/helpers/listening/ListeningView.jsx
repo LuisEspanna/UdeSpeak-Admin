@@ -109,7 +109,7 @@ export default function Listening({ question }) {
 
 
           </div>
-          <Button type='primary' title='Agregar posible respuesta' className='px-2' onClick={handleAddOption} />
+          <Button type='primary' title='Agregar opción' className='px-2' onClick={handleAddOption} />
           <div className='d-flex justify-content-center mt-4'>
             {
               isEdited && <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />

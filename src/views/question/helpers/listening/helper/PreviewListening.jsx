@@ -4,6 +4,7 @@ import HeaderIcons from './HeaderIcons';
 import defaultImage from '../../../../../assets/images/image.png';
 import SoundIconPlay from '../../../../../components/icons/SoundIcon';
 import SoundIconPause from '../../../../../components/icons/SoundIconPause';
+import NextIcon from '../../../../../components/icons/NextIcon';
 
 export default function PreviewSpeaking({ image, question, sound, isPlaying, handlePlaying }) {
     const [state, setState] = useState(question);
@@ -53,6 +54,9 @@ export default function PreviewSpeaking({ image, question, sound, isPlaying, han
                                 <span className='option-letter'>{`${o?.letter})`}</span><span>{`${o?.description}`}</span>
                             </div>)
                     }
+                </div>
+                <div className='d-flex justify-content-end cursor-pointer'>
+                    <NextIcon/>
                 </div>
             </div>
         </div>

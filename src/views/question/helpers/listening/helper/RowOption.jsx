@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRef } from 'react';
 import Button from '../../../../../components/button/Button';
+import TrashIcon from '../../../../../components/icons/TrashIcon';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 
 export default function RowOption({option, onChange, onDelete}) {
@@ -35,7 +36,11 @@ export default function RowOption({option, onChange, onDelete}) {
             <td>
                 <input type="checkbox" checked={option.isValid || false} onChange={handleChange} name='isValid'/>
             </td>
-            <td><Button type='danger' title='Eliminar' onClick={()=>onDelete(option.id)}/></td>
+            <td>
+                <Button type='danger' onClick={()=>onDelete(option.id)}>
+                    <TrashIcon className='icon'/>
+                </Button>
+            </td>
         </tr>
     )
 }
