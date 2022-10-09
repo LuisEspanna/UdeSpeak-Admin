@@ -38,7 +38,6 @@ export default function useSpeakingView(question) {
     }
 
     const handleAddOption = () => {
-        //TODO
         setIsEdited(true);
         let options = state?.options ? [...state?.options] : [];
         options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
