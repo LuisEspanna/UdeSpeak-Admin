@@ -40,7 +40,7 @@ export default function useSpeakingView(question) {
     const handleAddOption = () => {
         //TODO
         setIsEdited(true);
-        let options = [...state?.options];
+        let options = state?.options ? [...state?.options] : [];
         options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
         setState({ ...state, options });
     }
@@ -137,7 +137,7 @@ export default function useSpeakingView(question) {
             } else {
                 Swal.fire(
                     'Error!',
-                    'La descripción es obligatoria',
+                    'Título, descripción y el audio son obligatorios',
                     'error'
                 )
             }
