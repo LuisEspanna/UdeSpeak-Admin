@@ -38,23 +38,65 @@ export default function useSpeakingView(question) {
     const handleAddQuestion = () => {
         setIsEdited(true);
         let questions = state?.questions ? [...state?.questions] : [];
-        questions.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
+        questions.push({ id: idGenerator(7) });
         setState({ ...state, questions });
-        console.log();
     }
 
-    const handleEditQuestion = (id, newValue) => {
-        
-        const questions = state.questions.map((question) => {
-            if (question.id === id)
-                return { ...question, ...newValue };
-            else
-                return question;
-        });
+    const handleEditQuestion = (e, item) => {
+        if(e.target.name === 'option'){
+            const option = e.target.value.option;
+            const question = e.target.value.parent;
+            const options = question.options;
+
+            const indexOption = options.findIndex(op => op.id === option.id);
+            const indexQuestion = state.questions.findIndex(qe => qe.id === question.id);      
+            
+            const newOptions = [
+                ...options.slice(0, indexOption),
+                option,
+                ...state.questions.slice(indexOption+1)
+            ];
+
+            const newQuestion = {...question, options: newOptions};
+            
+            const questions = [
+                ...state.questions.slice(0, indexQuestion),
+                newQuestion,
+                ...state.questions.slice(indexQuestion+1)
+            ];
+
+            setState({ ...state, questions });
+            console.log(questions);
+        } else {
+            const newQuestion = {...item, [e.target.name]: (e.target.name === 'isValid' ? e.target.checked : e.target.value)};
+            const indexQuestion = state.questions.findIndex(qe => qe.id === item.id);
+
+            const questions = [
+                ...state.questions.slice(0, indexQuestion),
+                newQuestion,
+                ...state.questions.slice(indexQuestion+1)
+            ];
+
+            setState({ ...state, questions });
+            console.log(questions);
+        }
+
+        setIsEdited(true);
+    }
+
+    const onAddQuestionOption = (question, index) => {
+        const options = question?.options || [];
+        options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
+
+        const newQuestion = {...question, options};
+
+        const questions = [
+            ...state.questions.slice(0, index),
+            newQuestion,
+            ...state.questions.slice(index+1)
+        ];
 
         setState({ ...state, questions });
-        
-        setIsEdited(true);
     }
 
     const handleDeleteOption = (id) => {
@@ -153,5 +195,6 @@ export default function useSpeakingView(question) {
         handleImage,
         handleAddQuestion,        
         handleEditQuestion,
+        onAddQuestionOption
     }
 }

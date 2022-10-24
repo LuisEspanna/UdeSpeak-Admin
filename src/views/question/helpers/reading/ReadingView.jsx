@@ -10,7 +10,7 @@ import NavigationButtons from '../../../../components/navigationButtons/Navigati
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import TextInput from 'react-autocomplete-input';
 import 'react-autocomplete-input/dist/bundle.css';
-import RowQuestion from './helper/RowQuestion';
+import QuestionItem from './helper/QuestionItem';
 
 export default function Reading({ question }) {
   const {
@@ -22,8 +22,9 @@ export default function Reading({ question }) {
     onSave,
     handleAddOption,
     handleImage,
-    handleAddQuestion,        
+    handleAddQuestion,
     handleEditQuestion,
+    onAddQuestionOption,
   } = useReadingView(question);
 
   return (
@@ -53,16 +54,16 @@ export default function Reading({ question }) {
             </div>
           }
 
-          <div className='r-container'> 
+          <div className='r-container'>
             <div>
               <span className='my-4 w-100'>Descripción</span>
             </div>
-            
-            <TextInput 
-              className='w-100 ' 
-              trigger={["@"]} 
-              options={{"@": state?.options?.map(option => option.name) || []}} 
-              onChange={text => handleChange({target: {name:'description', value: text}})}
+
+            <TextInput
+              className='w-100 '
+              trigger={["@"]}
+              options={{ "@": state?.options?.map(option => option.name) || [] }}
+              onChange={text => handleChange({ target: { name: 'description', value: text } })}
               value={state?.description || ''}
             />
             <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una opción desplegable</p>
@@ -76,53 +77,23 @@ export default function Reading({ question }) {
           </div>
 
           {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className='r-container'>
-            <div className='mb-4'><b>Preguntas</b></div>
+          <div className=''>
+            <div className='my-4'><b>Preguntas</b></div>
             {
-
-              state?.questions && state?.questions.map((question, i) => 
-                <div className='my-2' key={i}>
-                  <div>
-                    Question {i+1}
-                  </div>
-                  <textarea></textarea>
-
-                  
-                </div>
-              ) 
-              
-
-              /*
-              state?.questions &&
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Opción</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Respuesta válida</th>
-                    <th scope="col">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    state.questions.map((option, i) =>
-                      <RowQuestion
-                        key={i}
-                        option={option} 
-                        onChange={handleEditQuestion}
-                        //onDelete={handleDeleteQuestion}
-                      />
-                    )
-                  }
-                </tbody>
-                
-              </table>
-              */
+              state?.questions && state?.questions.map((questionItem, i) => 
+                <QuestionItem
+                  key={i}
+                  index={i}
+                  questionItem={questionItem}
+                  handleAddOption={onAddQuestionOption}
+                  onChange = {handleEditQuestion}
+                />
+              )
             }
-            <Button type='primary' title='Agregar pregunta' className='px-2' onClick={handleAddQuestion} />
+            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={handleAddQuestion} />
           </div>
-          
-          <div className='d-flex justify-content-center mt-4'>
+
+          <div className='d-flex justify-content-center my-4'>
             {
               isEdited && <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />
             }
@@ -130,7 +101,7 @@ export default function Reading({ question }) {
         </div>
         <ProgressBar isLoading={isLoading} />
       </Card>
-      <PreviewReading 
+      <PreviewReading
         image={image}
         question={state}
       />
