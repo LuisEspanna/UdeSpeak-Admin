@@ -35,17 +35,25 @@ export default function useSpeakingView(question) {
         */
     }
 
-    const handleEditOption = (id, newValue) => {
-        /*
-        const options = state.options.map((option) => {
-            if (option.id === id)
-                return { ...option, ...newValue };
+    const handleAddQuestion = () => {
+        setIsEdited(true);
+        let questions = state?.questions ? [...state?.questions] : [];
+        questions.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
+        setState({ ...state, questions });
+        console.log();
+    }
+
+    const handleEditQuestion = (id, newValue) => {
+        
+        const questions = state.questions.map((question) => {
+            if (question.id === id)
+                return { ...question, ...newValue };
             else
-                return option;
+                return question;
         });
 
-        setState({ ...state, options });
-        */
+        setState({ ...state, questions });
+        
         setIsEdited(true);
     }
 
@@ -72,6 +80,7 @@ export default function useSpeakingView(question) {
     }
 
     const onSave = () => {
+        // TODO: Validar opciones y preguntas
         if (state.options && state.options.length > 0) {
             const options = state.options.filter((p) => (p.letter.length > 0 && p.description.length > 0));
             setState({ ...state, options });
@@ -140,8 +149,9 @@ export default function useSpeakingView(question) {
         handleChange,
         onSave,
         handleAddOption,
-        handleEditOption,
         handleDeleteOption,
-        handleImage
+        handleImage,
+        handleAddQuestion,        
+        handleEditQuestion,
     }
 }

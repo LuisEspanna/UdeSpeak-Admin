@@ -4,7 +4,7 @@ import Button from '../../../../../components/button/Button';
 import TrashIcon from '../../../../../components/icons/TrashIcon';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 
-export default function RowOption({option, onChange, onDelete}) {
+export default function RowQuestion({option, onChange, onDelete}) {
 
     const [isEditing, setIsEditing] = useState(false);
     const ref = useRef();

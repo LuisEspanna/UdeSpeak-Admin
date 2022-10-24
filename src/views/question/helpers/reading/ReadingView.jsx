@@ -10,6 +10,7 @@ import NavigationButtons from '../../../../components/navigationButtons/Navigati
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import TextInput from 'react-autocomplete-input';
 import 'react-autocomplete-input/dist/bundle.css';
+import RowQuestion from './helper/RowQuestion';
 
 export default function Reading({ question }) {
   const {
@@ -20,7 +21,9 @@ export default function Reading({ question }) {
     handleChange,
     onSave,
     handleAddOption,
-    handleImage
+    handleImage,
+    handleAddQuestion,        
+    handleEditQuestion,
   } = useReadingView(question);
 
   return (
@@ -64,17 +67,59 @@ export default function Reading({ question }) {
             />
             <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una opción desplegable</p>
           </div>
-          
+          {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
           <div className='r-container'>
             <div className='mb-4'><b>Opciones desplegables</b></div>
 
             <Button type='primary' title='Agregar opción' className='px-2' onClick={handleAddOption} />
+            {/* TODO: edit options area */}
           </div>
 
+          {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
           <div className='r-container'>
             <div className='mb-4'><b>Preguntas</b></div>
+            {
 
-            <Button type='primary' title='Agregar pregunta' className='px-2' onClick={handleAddOption} />
+              state?.questions && state?.questions.map((question, i) => 
+                <div className='my-2' key={i}>
+                  <div>
+                    Question {i+1}
+                  </div>
+                  <textarea></textarea>
+
+                  
+                </div>
+              ) 
+              
+
+              /*
+              state?.questions &&
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Opción</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Respuesta válida</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    state.questions.map((option, i) =>
+                      <RowQuestion
+                        key={i}
+                        option={option} 
+                        onChange={handleEditQuestion}
+                        //onDelete={handleDeleteQuestion}
+                      />
+                    )
+                  }
+                </tbody>
+                
+              </table>
+              */
+            }
+            <Button type='primary' title='Agregar pregunta' className='px-2' onClick={handleAddQuestion} />
           </div>
           
           <div className='d-flex justify-content-center mt-4'>
