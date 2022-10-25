@@ -1,37 +1,64 @@
 import React
-//,  { useState, useEffect } 
+, { useState, useEffect } 
 from 'react';
 import Button from '../../../../../components/button/Button';
+import { idGenerator } from '../../../../../functions';
 import RowQuestionOption from './RowQuestionOption';
 
-export default function QuestionItem({questionItem, onChange, handleAddOption, index}) {
-    /*
+export default function QuestionItem({questionItem, onChange, index}) {
+    
     const [state, setState] = useState(questionItem);
+    const [isEditing, setisEditing] = useState(true);
 
     useEffect(() => {
         setState(questionItem);
     }, [questionItem]);
-    */
+    
     
     const handleChange = (e) => {
-        if(onChange) {
-            if(e.target.name === 'option'){
-                onChange({target: {
-                    name: 'option', 
-                    value: {option: e.target.value, parent: questionItem}
-                }});
-            } else {
-                onChange(e, questionItem);
-            }            
-        }
+        setState({...state, [e.target.name]: e.target.value});
+        setisEditing(true);
+    }
+
+    const handleAddOption = () => {
+        const options = state?.options || [];
+        options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
+        setState({...state, options});
+    }
+
+    const handleEditOption = (option) => {
+        const indexOption = state.options.findIndex(op => op.id === option.id);
+
+        const newOptions = [
+            ...state.options.slice(0, indexOption),
+            option,
+            ...state.options.slice(indexOption+1)
+        ];
+
+        setState({...state, options: newOptions});
+    }
+
+    const handleDeleteOption = (option) => {
+        const options = state.options.filter(op => op.id !== option.id);
+        setState({...state, options});
+        setisEditing(true);
+    }
+
+
+    const handleSave = () => {
+        if(onChange)onChange(state);
+        setisEditing(false);
     }
 
     return (
         <div className='my-2 r-container'>
             <div className='my-2'>Pregunta {index + 1}</div>
-            <textarea onChange={handleChange} name='title' value={questionItem?.title}/>
+            <textarea onChange={handleChange} name='title' value={state?.title}/>
             {
-                questionItem?.options &&
+                isEditing && <Button title='Guardar' type='primary' onClick={handleSave}/>
+            }
+            {
+                state?.options &&
                 <table className="table">
                     <thead>
                         <tr>
@@ -43,12 +70,12 @@ export default function QuestionItem({questionItem, onChange, handleAddOption, i
                     </thead>
                     <tbody>
                         {
-                            questionItem?.options.map((option, i) =>
+                            state?.options.map((option, i) =>
                                 <RowQuestionOption
                                     key={i}
                                     option={option}
-                                    onChange={handleChange}
-                                    //onDelete={handleDeleteQuestion}
+                                    onSave={handleEditOption}
+                                    onDelete={() => handleDeleteOption(option)}
                                 />
                             )
                         }

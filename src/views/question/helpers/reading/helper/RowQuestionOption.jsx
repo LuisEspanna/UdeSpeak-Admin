@@ -5,7 +5,7 @@ import TrashIcon from '../../../../../components/icons/TrashIcon';
 import SaveIcon from '../../../../../components/icons/SaveIcon';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 
-export default function RowQuestionOption({option, onChange, onDelete, onSave}) {
+export default function RowQuestionOption({option, onDelete, onSave}) {
 
     const [state, setState] = useState(option);
     const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +28,7 @@ export default function RowQuestionOption({option, onChange, onDelete, onSave}) 
     }
 
     const handleSave = () => {
-        if(onChange) onChange({target: {name: 'option', value: state}});
+        if(onSave) onSave(state);
         setIsEditing(false);
     }
 
@@ -60,7 +60,7 @@ export default function RowQuestionOption({option, onChange, onDelete, onSave}) 
                         </Button>
                     }
 
-                    <Button type='danger' className='mx-2'>
+                    <Button type='danger' className='mx-2' onClick={onDelete}>
                         <TrashIcon className='icon'/>
                     </Button>
                 </div>

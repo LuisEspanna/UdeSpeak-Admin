@@ -20,11 +20,9 @@ export default function Reading({ question }) {
     isEdited,
     handleChange,
     onSave,
-    handleAddOption,
     handleImage,
     handleAddQuestion,
     handleEditQuestion,
-    onAddQuestionOption,
   } = useReadingView(question);
 
   return (
@@ -72,7 +70,7 @@ export default function Reading({ question }) {
           <div className='r-container'>
             <div className='mb-4'><b>Opciones desplegables</b></div>
 
-            <Button type='primary' title='Agregar opción' className='px-2' onClick={handleAddOption} />
+            <Button type='primary' title='Agregar opción' className='px-2' />
             {/* TODO: edit options area */}
           </div>
 
@@ -85,7 +83,6 @@ export default function Reading({ question }) {
                   key={i}
                   index={i}
                   questionItem={questionItem}
-                  handleAddOption={onAddQuestionOption}
                   onChange = {handleEditQuestion}
                 />
               )
