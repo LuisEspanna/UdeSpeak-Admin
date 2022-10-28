@@ -64,21 +64,14 @@ export default function Reading({ question }) {
               onChange={text => handleChange({ target: { name: 'description', value: text } })}
               value={state?.description || ''}
             />
-            <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una opción desplegable</p>
+            <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una lista desplegable</p>
           </div>
           {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className='r-container'>
-            <div className='mb-4'><b>Opciones desplegables</b></div>
+          <div className='mt-4'>
+            <div className='mb-4'><b>Listas desplegables</b></div>
 
-            <Button type='primary' title='Agregar opción' className='px-2' />
-            {/* TODO: edit options area */}
-          </div>
-
-          {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className=''>
-            <div className='my-4'><b>Preguntas</b></div>
             {
-              state?.questions && state?.questions.map((questionItem, i) => 
+              state?.questions && state?.questions.filter((q => q.type === 'combo')).map((questionItem, i) => 
                 <QuestionItem
                   key={i}
                   index={i}
@@ -87,7 +80,24 @@ export default function Reading({ question }) {
                 />
               )
             }
-            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={handleAddQuestion} />
+            <Button type='primary' title='Agregar uns lista' className='px-2 my-4' onClick={()=>handleAddQuestion('combo')} />
+          </div>
+
+          {/*-------------------------------------------------------------------------------------------------------------  PREGUNTAS*/}
+          <br className='separator'/>
+          <div className='mt-4'>
+            <div className='my-4'><b>Preguntas</b></div>
+            {
+              state?.questions && state?.questions.filter((q => q.type === 'question')).map((questionItem, i) => 
+                <QuestionItem
+                  key={i}
+                  index={i}
+                  questionItem={questionItem}
+                  onChange = {handleEditQuestion}
+                />
+              )
+            }
+            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={()=>handleAddQuestion('question')} />
           </div>
 
           <div className='d-flex justify-content-center my-4'>

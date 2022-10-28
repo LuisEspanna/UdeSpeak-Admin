@@ -2,6 +2,9 @@ import React
 , { useState, useEffect } 
 from 'react';
 import Button from '../../../../../components/button/Button';
+import TextField from '../../../../../components/form/textField/TextField';
+import SaveIcon from '../../../../../components/icons/SaveIcon';
+import TrashIcon from '../../../../../components/icons/TrashIcon';
 import { idGenerator } from '../../../../../functions';
 import RowQuestionOption from './RowQuestionOption';
 
@@ -16,7 +19,12 @@ export default function QuestionItem({questionItem, onChange, index}) {
     
     
     const handleChange = (e) => {
-        setState({...state, [e.target.name]: e.target.value});
+        if(questionItem.type === 'question'){
+            setState({...state, [e.target.name]: e.target.value});
+        } else {
+            setState({...state, [e.target.name]: e.target.value.replaceAll(' ', '')});
+        }
+        
         setisEditing(true);
     }
 
@@ -36,6 +44,7 @@ export default function QuestionItem({questionItem, onChange, index}) {
         ];
 
         setState({...state, options: newOptions});
+        setisEditing(true);
     }
 
     const handleDeleteOption = (option) => {
@@ -51,12 +60,29 @@ export default function QuestionItem({questionItem, onChange, index}) {
     }
 
     return (
-        <div className='my-2 r-container'>
-            <div className='my-2'>Pregunta {index + 1}</div>
-            <textarea onChange={handleChange} name='title' value={state?.title}/>
+        <div className={`my-2 r-container ${isEditing ? 'r-container-is-editing' : ''}`}>
+            <div className='row my-2'>
+                <div className='col-8'>
+                    {questionItem.type === 'question' ? 'Pregunta ' : 'Lista '} {index + 1}
+                </div>
+                <div className='col d-flex justify-content-end'>
+                    {
+                        isEditing ? 
+                        <Button type='primary' onClick={handleSave}>
+                            <SaveIcon className='icon'/>
+                        </Button> : 
+                        <Button type='danger' onClick={handleSave}>
+                            <TrashIcon className='icon'/>
+                        </Button>
+                    }                    
+                </div>
+            </div>
             {
-                isEditing && <Button title='Guardar' type='primary' onClick={handleSave}/>
+                questionItem.type === 'question' ?
+                    <textarea onChange={handleChange} name='title' value={state?.title} placeholder='Texto / pregunta'/>
+                : <TextField onChange={handleChange} className='my-2' placeholder='Nombre lista desplegable' name='title' value={state?.title}/>
             }
+                                 
             {
                 state?.options &&
                 <table className="table">

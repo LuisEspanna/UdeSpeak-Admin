@@ -26,6 +26,10 @@
         min-height: 3em;
         width: 100%;
         margin-top: 1em;
+
+        &-is-editing{
+            border: 4px solid #FBE9E7;
+        }
     }
 
     textarea{

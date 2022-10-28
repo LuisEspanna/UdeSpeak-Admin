@@ -27,10 +27,10 @@ export default function useSpeakingView(question) {
     }
 
 
-    const handleAddQuestion = () => {
+    const handleAddQuestion = (type) => {
         setIsEdited(true);
         let questions = state?.questions ? [...state?.questions] : [];
-        questions.push({ id: idGenerator(7) });
+        questions.push({ id: idGenerator(7), type });
         setState({ ...state, questions });
     }
 
