@@ -5,7 +5,7 @@ import TrashIcon from '../../../../../components/icons/TrashIcon';
 import SaveIcon from '../../../../../components/icons/SaveIcon';
 import useOnClickOutside from '../../../../../hooks/useOnClickOutside';
 
-export default function RowQuestionOption({option, onDelete, onSave}) {
+export default function RowQuestionOption({option, onDelete, onSave, type}) {
 
     const [state, setState] = useState(option);
     const [isEditing, setIsEditing] = useState(false);
@@ -34,13 +34,16 @@ export default function RowQuestionOption({option, onDelete, onSave}) {
 
     return (
         <tr ref={ref}>
-            <th scope="row" onClick={()=> setIsEditing(true)}>
-                {
-                    isEditing ? 
-                    <input type='text' name='letter' onChange={handleChange} value={state.letter}/>
-                    : state.letter
-                }
-            </th>
+            {
+                type === 'question' && 
+                <th scope="row" onClick={()=> setIsEditing(true)}>                
+                    {
+                        isEditing ? 
+                        <input type='text' name='letter' onChange={handleChange} value={state.letter}/>
+                        : state.letter
+                    }
+                </th>
+            }            
             <td onClick={()=> setIsEditing(true)}>
                 {
                     isEditing ? 

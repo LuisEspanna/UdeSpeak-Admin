@@ -23,6 +23,8 @@ export default function Reading({ question }) {
     handleImage,
     handleAddQuestion,
     handleEditQuestion,
+    getWords,
+    handleDeleteQuestion
   } = useReadingView(question);
 
   return (
@@ -60,7 +62,7 @@ export default function Reading({ question }) {
             <TextInput
               className='w-100 '
               trigger={["@"]}
-              options={{ "@": state?.options?.map(option => option.name) || [] }}
+              options={{ "@": getWords() }}
               onChange={text => handleChange({ target: { name: 'description', value: text } })}
               value={state?.description || ''}
             />
@@ -71,16 +73,17 @@ export default function Reading({ question }) {
             <div className='mb-4'><b>Listas desplegables</b></div>
 
             {
-              state?.questions && state?.questions.filter((q => q.type === 'combo')).map((questionItem, i) => 
+              state?.questions && state?.questions.filter((q => q.type === 'dropdown')).map((questionItem, i) => 
                 <QuestionItem
                   key={i}
                   index={i}
                   questionItem={questionItem}
                   onChange = {handleEditQuestion}
+                  onDelete={handleDeleteQuestion}
                 />
               )
             }
-            <Button type='primary' title='Agregar uns lista' className='px-2 my-4' onClick={()=>handleAddQuestion('combo')} />
+            <Button type='primary' title='Agregar uns lista' className='px-2 my-4' onClick={()=>handleAddQuestion('dropdown')} />
           </div>
 
           {/*-------------------------------------------------------------------------------------------------------------  PREGUNTAS*/}
@@ -94,6 +97,7 @@ export default function Reading({ question }) {
                   index={i}
                   questionItem={questionItem}
                   onChange = {handleEditQuestion}
+                  onDelete={handleDeleteQuestion}
                 />
               )
             }

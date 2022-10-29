@@ -35,7 +35,6 @@ export default function useSpeakingView(question) {
     }
 
     const handleEditQuestion = (question) => {
-        console.log(question);
         const indexQuestion = state.questions.findIndex(qe => qe.id === question.id);
 
         const questions = [
@@ -44,8 +43,7 @@ export default function useSpeakingView(question) {
             ...state.questions.slice(indexQuestion+1)
         ];
 
-        setState({ ...state, questions })
-
+        setState({ ...state, questions });
         setIsEdited(true);
     }
 
@@ -129,6 +127,20 @@ export default function useSpeakingView(question) {
         setIsEdited(true);
     }
 
+    const handleDeleteQuestion = (question) => {
+        let questions = state?.questions || [];
+        questions = questions.filter(q => q.id !== question.id);
+        setState({...state, questions})
+    }
+
+    const getWords = () => {
+        let resp = [];
+        if(state?.questions){
+            resp = state?.questions?.filter(q => q.type === 'dropdown').map(q => q.title || '');
+        }
+        return resp;
+    }
+
     return {
         state,
         image,
@@ -138,6 +150,8 @@ export default function useSpeakingView(question) {
         onSave,
         handleImage,
         handleAddQuestion,        
-        handleEditQuestion
+        handleEditQuestion,
+        getWords,
+        handleDeleteQuestion
     }
 }

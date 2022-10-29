@@ -8,7 +8,7 @@ import TrashIcon from '../../../../../components/icons/TrashIcon';
 import { idGenerator } from '../../../../../functions';
 import RowQuestionOption from './RowQuestionOption';
 
-export default function QuestionItem({questionItem, onChange, index}) {
+export default function QuestionItem({questionItem, onChange, index, onDelete}) {
     
     const [state, setState] = useState(questionItem);
     const [isEditing, setisEditing] = useState(true);
@@ -71,7 +71,7 @@ export default function QuestionItem({questionItem, onChange, index}) {
                         <Button type='primary' onClick={handleSave}>
                             <SaveIcon className='icon'/>
                         </Button> : 
-                        <Button type='danger' onClick={handleSave}>
+                        <Button type='danger' onClick={() => onDelete(questionItem)}>
                             <TrashIcon className='icon'/>
                         </Button>
                     }                    
@@ -88,7 +88,7 @@ export default function QuestionItem({questionItem, onChange, index}) {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th scope="col">Opción</th>
+                            {questionItem.type === 'question' && <th scope="col">Opción</th>}                            
                             <th scope="col">Descripción</th>
                             <th scope="col">Respuesta válida</th>
                             <th scope="col">Acciones</th>
@@ -102,6 +102,7 @@ export default function QuestionItem({questionItem, onChange, index}) {
                                     option={option}
                                     onSave={handleEditOption}
                                     onDelete={() => handleDeleteOption(option)}
+                                    type={questionItem.type}
                                 />
                             )
                         }
