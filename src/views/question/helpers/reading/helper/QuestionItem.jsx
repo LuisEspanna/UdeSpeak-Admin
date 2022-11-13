@@ -30,7 +30,11 @@ export default function QuestionItem({questionItem, onChange, index, onDelete}) 
 
     const handleAddOption = () => {
         const options = state?.options || [];
-        options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
+        const newOption = { description: '', isValid: false, id: idGenerator(7) };
+        if(questionItem.type === 'question'){
+            newOption.letter = '';
+        }
+        options.push(newOption);
         setState({...state, options});
     }
 
@@ -109,7 +113,7 @@ export default function QuestionItem({questionItem, onChange, index, onDelete}) 
                     </tbody>
                 </table>
             }
-            <Button type='primary' title='Agregar opción' className='px-2' onClick={() => handleAddOption(questionItem, index)}/>
+            <Button type='primary' title='Agregar opción' className='px-2' onClick={handleAddOption}/>
         </div>
     )
 }

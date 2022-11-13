@@ -32,9 +32,19 @@ export default function PreviewSpeaking({ image, question }) {
 
                 <div className='my-4'>
                     {
-                        state?.options && state.options.map((o, i) =>
-                            <div className='option' key={i}>
-                                <span className='option-letter'>{`${o?.letter})`}</span><span>{`${o?.description}`}</span>
+                        state?.questions && state.questions.filter(q => q.type ==='question').map((q, i) =>
+                            <div className='mb-4' key={i}>
+                                {q.title}
+                                <div className='my-2'>
+                                    {
+                                        q?.options && q.options.map((o, j) => 
+                                        <div className='option' key={j}>
+                                            <span className='option-letter'>{o.letter}</span>
+                                            {o.description}
+                                        </div>
+                                        )
+                                    }
+                                </div>
                             </div>)
                     }
                 </div>
