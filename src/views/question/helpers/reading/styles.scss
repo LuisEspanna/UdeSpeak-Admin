@@ -83,6 +83,17 @@
         .phone-description{
             font-size: 1em;
             margin-top: 1em;
+            
+            div, select{
+                display: inline-block;
+            }
+
+            .form-select{
+                width: auto;
+                padding: 0;
+                padding-left: 0.5em;
+                padding-right: 2.5em;
+            } 
         }
 
         img{

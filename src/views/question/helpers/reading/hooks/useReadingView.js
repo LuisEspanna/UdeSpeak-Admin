@@ -67,10 +67,7 @@ export default function useSpeakingView(question) {
     const onSave = () => {
         console.log(state);
         // TODO: Validar opciones y preguntas
-        if (state.options && state.options.length > 0) {
-            const options = state.options.filter((p) => (p.letter.length > 0 && p.description.length > 0));
-            setState({ ...state, options });
-
+        if (state.questions && state.questions.length > 0) {
             if ((state.description && state.description.length > 0) &&
                 (state.title && state.title.length > 0)) {
                 if (typeof (image) === 'object') {
@@ -98,7 +95,7 @@ export default function useSpeakingView(question) {
         else {
             Swal.fire(
                 'Error!',
-                'No se puede guardar, debe tener al menos 1 posible respuesta',
+                'No se puede guardar, debe tener al menos una pregunta',
                 'error'
             )
         }

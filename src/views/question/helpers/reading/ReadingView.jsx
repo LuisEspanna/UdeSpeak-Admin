@@ -83,7 +83,7 @@ export default function Reading({ question }) {
                 />
               )
             }
-            <Button type='primary' title='Agregar uns lista' className='px-2 my-4' onClick={()=>handleAddQuestion('dropdown')} />
+            <Button type='primary' title='Agregar lista desplegable' className='px-2 my-4' onClick={()=>handleAddQuestion('dropdown')} />
           </div>
 
           {/*-------------------------------------------------------------------------------------------------------------  PREGUNTAS*/}

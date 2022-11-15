@@ -11,7 +11,7 @@ import RowQuestionOption from './RowQuestionOption';
 export default function QuestionItem({questionItem, onChange, index, onDelete}) {
     
     const [state, setState] = useState(questionItem);
-    const [isEditing, setisEditing] = useState(true);
+    const [isEditing, setisEditing] = useState(false);
 
     useEffect(() => {
         setState(questionItem);
@@ -59,6 +59,7 @@ export default function QuestionItem({questionItem, onChange, index, onDelete}) 
 
 
     const handleSave = () => {
+        //TODO: Validar que exista por pregunta/opcion una que sea válida
         if(onChange)onChange(state);
         setisEditing(false);
     }

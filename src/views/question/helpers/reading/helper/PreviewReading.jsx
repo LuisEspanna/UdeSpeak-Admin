@@ -11,6 +11,17 @@ export default function PreviewSpeaking({ image, question }) {
         setState(question);
     }, [question]);
 
+    const getOptions = (word) => {
+        let options = [];
+        if(state?.questions){
+            state?.questions?.forEach((q) => {
+                if(q.title === word.replace('@', '')){
+                    options = q.options;
+                }
+            });
+        }
+        return options;
+    }
 
     return (
         <div className='phone-preview'>
@@ -20,28 +31,47 @@ export default function PreviewSpeaking({ image, question }) {
             </div>
             <div className='phone-container'>
                 <div className='phone-question-index'>Question 1</div>
-                
-                
+
+
                 <div className='phone-title'>{state?.title}</div>
                 {
                     image && ((typeof (image) === 'object') ?
                         <img src={URL.createObjectURL(image)} id="output" alt='' /> :
                         <img src={image || defaultImage} alt='' />)
                 }
-                <div className='phone-description'>{state?.description}</div>
+                <div className='phone-description'>
+                    {
+                        state?.description && state?.description?.split(' ').map((word) => {
+                            if (word.includes('@')) {
+                                return (
+                                    <select className="form-select me-2" aria-label="Default select example">
+                                    {   
+                                        getOptions(word).map( opt =>
+                                        <option>
+                                            {opt?.description}
+                                        </option> )              
+                                    }
+                                    </select>
+                                );                                
+                            } else {
+                                return <div className='me-2'>{word}</div>
+                            }
+                        })
+                    }
+                </div>
 
                 <div className='my-4'>
                     {
-                        state?.questions && state.questions.filter(q => q.type ==='question').map((q, i) =>
+                        state?.questions && state.questions.filter(q => q.type === 'question').map((q, i) =>
                             <div className='mb-4' key={i}>
                                 {q.title}
                                 <div className='my-2'>
                                     {
-                                        q?.options && q.options.map((o, j) => 
-                                        <div className='option' key={j}>
-                                            <span className='option-letter'>{o.letter}</span>
-                                            {o.description}
-                                        </div>
+                                        q?.options && q.options.map((o, j) =>
+                                            <div className='option' key={j}>
+                                                <span className='option-letter'>{o.letter}</span>
+                                                {o.description}
+                                            </div>
                                         )
                                     }
                                 </div>
@@ -49,7 +79,7 @@ export default function PreviewSpeaking({ image, question }) {
                     }
                 </div>
                 <div className='d-flex justify-content-end cursor-pointer'>
-                    <NextIcon/>
+                    <NextIcon />
                 </div>
             </div>
         </div>
