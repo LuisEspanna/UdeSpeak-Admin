@@ -41,20 +41,20 @@ export default function PreviewSpeaking({ image, question }) {
                 }
                 <div className='phone-description'>
                     {
-                        state?.description && state?.description?.split(' ').map((word) => {
+                        state?.description && state?.description?.split(' ').map((word, i) => {
                             if (word.includes('@')) {
                                 return (
-                                    <select className="form-select me-2" aria-label="Default select example">
+                                    <select key={i} className="form-select me-2" aria-label="Default select example">
                                     {   
-                                        getOptions(word).map( opt =>
-                                        <option>
+                                        getOptions(word).map( (opt, j) =>
+                                        <option key={j}>
                                             {opt?.description}
                                         </option> )              
                                     }
                                     </select>
                                 );                                
                             } else {
-                                return <div className='me-2'>{word}</div>
+                                return <div key={i} className='me-2'>{word}</div>
                             }
                         })
                     }
