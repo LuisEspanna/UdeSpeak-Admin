@@ -10,8 +10,8 @@ import Avatar from '../avatar/Avatar';
 
 
 function UserDropDown({ className, xWPos, yWpos, user }) {
-    const ref = useRef()
-    const {show, displayName, setShow, handleShow, handleLogout} = useUserDropdown(user);
+    const ref = useRef();
+    const {show, displayName, setShow, handleShow, handleLogout, handleNavigate} = useUserDropdown(user);
     useOnClickOutside(ref, () => setShow(false));
 
     return (
@@ -34,6 +34,7 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
                 </Button>
                 <Button
                    type={'primary'}
+                   onClick={()=>handleNavigate('/dashboard/profile')}
                 >
                     <UserIcon/>
                     Perfil social

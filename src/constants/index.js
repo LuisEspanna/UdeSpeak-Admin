@@ -31,7 +31,8 @@ const ROUTES = {
     GROUPS : 'groups',
     QUESTIONNARIES: 'questionnaries',
     QUESTIONS: 'questions',
-    QUESTION: 'question'
+    QUESTION: 'question',
+    PROFILE: 'profile'
 }
 
 
