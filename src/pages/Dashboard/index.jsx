@@ -16,8 +16,7 @@ import QuestionsView from '../../views/questions/QuestionsView';
 import QuestionView from '../../views/question/QuestionView';
 import { ROUTES } from '../../constants';
 import ProfileView from '../../views/profile/ProfileView';
-
-
+import BugsView from '../../views/bugs/BugsView';
 
 
 function Dashboard() {
@@ -39,6 +38,7 @@ function Dashboard() {
                 { view === ROUTES.QUESTIONS && <QuestionsView/> }
                 { view === ROUTES.QUESTION && <QuestionView/> }
                 { view === ROUTES.PROFILE && <ProfileView/> }
+                { view === ROUTES.BUGS && <BugsView/> }
             </div>
         </div>
     )

@@ -32,7 +32,8 @@ const ROUTES = {
     QUESTIONNARIES: 'questionnaries',
     QUESTIONS: 'questions',
     QUESTION: 'question',
-    PROFILE: 'profile'
+    PROFILE: 'profile',
+    BUGS: 'bugs'
 }
 
 

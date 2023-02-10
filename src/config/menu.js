@@ -48,6 +48,11 @@ const menu = () => {
                     "title": "Usuarios",
                     "permission": "admin",                
                     "url": "/dashboard/users"
+                },
+                {
+                    "title": "Bugs",
+                    "permission": "admin",                
+                    "url": "/dashboard/bugs"
                 }
             ]
         }
