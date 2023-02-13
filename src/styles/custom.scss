@@ -1,3 +1,5 @@
+@import '../components//button/button.scss';
+
 .rotate-left{
     transform: rotate(90deg);
 }
@@ -31,4 +33,12 @@
 
 .fbold{
     font-weight: bold;
+}
+
+
+input::file-selector-button {
+    @extend .button-primary;
+    font-size: 0.9em;
+    padding: 0.5em;
+    display: inline-block;
 }

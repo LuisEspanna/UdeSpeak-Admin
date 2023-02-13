@@ -1,6 +1,7 @@
 @import '../../styles/colors.scss';
+@import '../../components/button/button.scss';
 
-.profile-view{
+.bugs-view{
     .view-title{
         font-size: x-large;
         color: $color-primary-dark;
@@ -8,20 +9,13 @@
         margin-bottom: 1.5em;
     }
 
-    .user-card{
-        border-radius: 1em;
-        min-height: 6em;
-        min-width: 10em;
-        -webkit-box-shadow: -2px 2px 15px -7px rgba(0,0,0,0.75);
-        -moz-box-shadow: -2px 2px 15px -7px rgba(0,0,0,0.75);
-        box-shadow: -2px 2px 15px -7px rgba(0,0,0,0.75);
+    .text-area{
+        background-color: #EFF7FD;
+        width: 100%;
+        padding: 1em;
+        border-radius: 10px;
+        border: 1px solid #fff;
     }
 
-    .cform{
-        background-color: rgb(255, 255, 255);
-
-        .form__field{
-            border: none;
-        }
-    }
+    
 }
