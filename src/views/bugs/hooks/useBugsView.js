@@ -13,7 +13,7 @@ import { STORAGE } from '../../../constants';
 import { idGenerator } from '../../../functions';
 
 export default function useBugsView() {
-    const [state, setState] = useState();
+    const [state, setState] = useState({description: '', date: new Date()});
     const [image, setImage] = useState(undefined);
     const {
         getAll,
@@ -23,7 +23,6 @@ export default function useBugsView() {
     } = useBugs();
     
     const [isLoading, setIsLoading] = useState(false);
-    const [isEdited, setIsEdited] = useState(false);
     const [bugs, setBugs] = useState(false);
 
     useEffect(() => {        
@@ -37,9 +36,36 @@ export default function useBugsView() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleChange = (e) => {
+        setState({...state, [e.target.name]: e.target.value});
+    }
 
     const handleCreateBug = () => {
-        createBug();
+        /*
+        TODO: subir cambios a firebase 
+
+        const imageName = idGenerator(20);
+        saveFileOnFirebase(STORAGE.BUGS, imageName, image).then((downloadURL) => {
+            if (downloadURL !== null) {
+                const newBug = { ...state, image: downloadURL };
+                setIsLoading(true);
+                editBug(newBug).then(() => {
+                    setState(newBug);
+                    setImage(downloadURL);
+                    setIsLoading(false);
+                });
+            };
+        });
+
+
+        createBug({...state, date: new Date()}).finally(
+            Swal.fire(
+                'OK',
+                'Cambios guardados',
+                'success'
+            )
+        );
+        */
     }
 
     const handleImage = (e) => {
@@ -57,48 +83,26 @@ export default function useBugsView() {
             });
         }
 
-        if (e.target?.files) {
+        if (e?.target?.files) {
             setImage(e.target?.files[0]);
         } else {
             setImage(undefined);
         }
-        setIsEdited(true);
     }
 
-
-    const saveImage = () => {
-        const imageName = idGenerator(20);
-        saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
-            if (downloadURL !== null) {
-                const newBug = { ...state, image: downloadURL };
-                setIsLoading(true);
-                editBug(newBug).then(() => {
-                    setState(newBug);
-                    setImage(downloadURL);
-                    setIsLoading(false);
-                    setIsEdited(false);
-
-                    if (!typeof (audio) === 'object') {
-                        Swal.fire(
-                            'OK',
-                            'Cambios aguardados',
-                            'success'
-                        )
-                    }
-                });
-            };
-        });
+    const handleDeleteBug = (item) => {
+        deleteBug(item);
+        setIsLoading(true);
     }
 
     return {
         state,
         image,
         isLoading,
-        isEdited,
         bugs,
-        deleteBug,
+        handleDeleteBug,
         handleImage,
         handleCreateBug,
-        saveImage
+        handleChange
     }
 }

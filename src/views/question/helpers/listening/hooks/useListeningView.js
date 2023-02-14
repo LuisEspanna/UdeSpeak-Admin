@@ -77,7 +77,7 @@ export default function useSpeakingView(question) {
                     if (!typeof (audio) === 'object') {
                         Swal.fire(
                             'OK',
-                            'Cambios aguardados',
+                            'Cambios guardados',
                             'success'
                         )
                     } else saveAudio(newQuestion);
@@ -165,7 +165,7 @@ export default function useSpeakingView(question) {
             });
         }
 
-        if (e.target?.files) {
+        if (e?.target?.files) {
             setImage(e.target?.files[0]);
         } else {
             setImage(undefined);

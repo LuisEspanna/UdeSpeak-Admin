@@ -21,7 +21,8 @@ const STORAGE = {
     LANGUAGES: 'languages',
     QUESTION: 'question',
     AUDIOS: 'audios',
-    IMAGES: 'images'
+    IMAGES: 'images',
+    BUGS: 'bugs'
 }
 
 const ROUTES = {
