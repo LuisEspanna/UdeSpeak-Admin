@@ -72,3 +72,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## FIREBASE: 
 `firebase deploy`
+
+## URL
+https://udespeak-b580c.firebaseapp.com
