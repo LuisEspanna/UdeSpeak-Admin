@@ -30,8 +30,6 @@ export default function PreviewSpeaking({ image, question }) {
                 <HeaderIcons />
             </div>
             <div className='phone-container'>
-                <div className='phone-question-index'>Question 1</div>
-
 
                 <div className='phone-title'>{state?.title}</div>
                 {
@@ -78,9 +76,9 @@ export default function PreviewSpeaking({ image, question }) {
                             </div>)
                     }
                 </div>
-                <div className='d-flex justify-content-end cursor-pointer'>
-                    <NextIcon />
-                </div>
+            </div>
+            <div className='d-flex justify-content-end cursor-pointer me-4'>
+                <NextIcon />
             </div>
         </div>
     )

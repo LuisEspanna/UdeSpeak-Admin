@@ -65,7 +65,6 @@ export default function useSpeakingView(question) {
     }
 
     const onSave = () => {
-        console.log(state);
         // TODO: Validar opciones y preguntas
         if (state.questions && state.questions.length > 0) {
             if ((state.description && state.description.length > 0) &&

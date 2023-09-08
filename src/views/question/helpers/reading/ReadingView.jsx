@@ -11,6 +11,7 @@ import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import TextInput from 'react-autocomplete-input';
 import 'react-autocomplete-input/dist/bundle.css';
 import QuestionItem from './helper/QuestionItem';
+import SaveIcon from '../../../../components/icons/SaveIcon';
 
 export default function Reading({ question }) {
   const {
@@ -73,42 +74,37 @@ export default function Reading({ question }) {
             <div className='mb-4'><b>Listas desplegables</b></div>
 
             {
-              state?.questions && state?.questions.filter((q => q.type === 'dropdown')).map((questionItem, i) => 
+              state?.questions && state?.questions.filter((q => q.type === 'dropdown')).map((questionItem, i) =>
                 <QuestionItem
                   key={i}
                   index={i}
                   questionItem={questionItem}
-                  onChange = {handleEditQuestion}
+                  onChange={handleEditQuestion}
                   onDelete={handleDeleteQuestion}
                 />
               )
             }
-            <Button type='primary' title='Agregar lista desplegable' className='px-2 my-4' onClick={()=>handleAddQuestion('dropdown')} />
+            <Button type='primary' title='Agregar lista desplegable' className='px-2 my-4' onClick={() => handleAddQuestion('dropdown')} />
           </div>
 
           {/*-------------------------------------------------------------------------------------------------------------  PREGUNTAS*/}
-          <br className='separator'/>
+          <br className='separator' />
           <div className='mt-4'>
             <div className='my-4'><b>Preguntas</b></div>
             {
-              state?.questions && state?.questions.filter((q => q.type === 'question')).map((questionItem, i) => 
+              state?.questions && state?.questions.filter((q => q.type === 'question')).map((questionItem, i) =>
                 <QuestionItem
                   key={i}
                   index={i}
                   questionItem={questionItem}
-                  onChange = {handleEditQuestion}
+                  onChange={handleEditQuestion}
                   onDelete={handleDeleteQuestion}
                 />
               )
             }
-            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={()=>handleAddQuestion('question')} />
+            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={() => handleAddQuestion('question')} />
           </div>
 
-          <div className='d-flex justify-content-center my-4'>
-            {
-              isEdited && <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />
-            }
-          </div>
         </div>
         <ProgressBar isLoading={isLoading} />
       </Card>
@@ -116,7 +112,13 @@ export default function Reading({ question }) {
         image={image}
         question={state}
       />
-    </>
 
+      {
+        isEdited &&
+        <Button type='primary' active={true} className='floatbtn' onClick={onSave}>
+          <SaveIcon className='icon' />
+        </Button>
+      }
+    </>
   )
 }

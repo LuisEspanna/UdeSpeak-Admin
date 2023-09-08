@@ -1,0 +1,25 @@
+.togleeBtn{
+    
+    user-select: none;
+    .active{
+        color: #FFFFFF;
+        background-color: #1850ec;
+        text-align: center;
+        width: fit-content;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 1em;
+        cursor: pointer;
+    }
+
+    .inactive{
+        color: #FFFFFF;
+        background-color: #d10000;
+        text-align: center;
+        width: fit-content;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 1em;
+        cursor: pointer;
+    }
+}
