@@ -7,7 +7,6 @@ import useSpeakingView from './hooks/useSpeakingView';
 import Chip from '../../../../components/chip/Chip';
 import PreviewSpeaking from './helper/PreviewSpeaking';
 import Card from '../../../../components/card/Card';
-import NavigationButtons from '../../../../components/navigationButtons/NavigationButtons';
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 
 export default function Speaking({ question }) {
@@ -29,7 +28,6 @@ export default function Speaking({ question }) {
       <Card className='w-100'>
         <div className='speaking-view'>    
           <h5><b>Speaking</b></h5>
-          <NavigationButtons/>
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
           

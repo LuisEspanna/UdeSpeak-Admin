@@ -5,7 +5,6 @@ import useQuestionsView from './hooks/useQuestionsView';
 import QuestionInput from './helpers/QuestionInput';
 import QuestionItem from './helpers/QuestionItem';
 import './styles.scss';
-import NavigationButtons from '../../components/navigationButtons/NavigationButtons';
 
 export default function QuestionsView() {
 
@@ -23,7 +22,6 @@ export default function QuestionsView() {
     <div className='questions-view'>
         <Card>
           <h4>Preguntas</h4>
-          <NavigationButtons/>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button

@@ -5,7 +5,6 @@ import useQuestionnariesView from './hooks/useQuestionnariesView';
 import QuestionnarieInput from './helpers/QuestionnarieInput';
 import QuestionnarieItem from './helpers/QuestionnarieItem';
 import './styles.scss';
-import NavigationButtons from '../../components/navigationButtons/NavigationButtons';
 
 export default function QuestionnariesView() {
 
@@ -23,7 +22,6 @@ export default function QuestionnariesView() {
     <div className='questionnaries-view'>
         <Card>
           <h4>Cuestionarios</h4>
-          <NavigationButtons/>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button

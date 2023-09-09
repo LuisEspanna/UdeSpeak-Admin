@@ -6,7 +6,6 @@ import TrashIcon from '../../../../components/icons/TrashIcon';
 import useReadingView from './hooks/useReadingView';
 import PreviewReading from './helper/PreviewReading';
 import Card from '../../../../components/card/Card';
-import NavigationButtons from '../../../../components/navigationButtons/NavigationButtons';
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import TextInput from 'react-autocomplete-input';
 import 'react-autocomplete-input/dist/bundle.css';
@@ -33,7 +32,6 @@ export default function Reading({ question }) {
       <Card className='w-100'>
         <div className='reading-view'>
           <h5><b>Reading</b></h5>
-          <NavigationButtons />
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
           {
