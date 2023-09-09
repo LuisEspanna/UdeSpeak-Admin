@@ -12,7 +12,6 @@ export default function PreviewSpeaking({ image, question }) {
                 <HeaderIcons />
             </div>
             <div className='phone-container'>
-                <div className='phone-question-index'>Question 5</div>
                 <div className='phone-title'>{question?.title}</div>
                 {
                     image && ((typeof (image) === 'object') ?

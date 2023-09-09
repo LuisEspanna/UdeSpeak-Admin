@@ -4,7 +4,7 @@ import './styles.scss';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 export default function Chip({ value, onChange, onDelete }) {
-    const [isEditing, setIsEditing] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
     const ref = useRef();
     useOnClickOutside(ref, () => setIsEditing(false));
 
