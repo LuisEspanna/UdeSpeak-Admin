@@ -40,7 +40,7 @@ export default function useSpeakingView(question) {
         const questions = [
             ...state.questions.slice(0, indexQuestion),
             question,
-            ...state.questions.slice(indexQuestion+1)
+            ...state.questions.slice(indexQuestion + 1)
         ];
 
         setState({ ...state, questions });
@@ -69,19 +69,51 @@ export default function useSpeakingView(question) {
         if (state.questions && state.questions.length > 0) {
             if ((state.description && state.description.length > 0) &&
                 (state.title && state.title.length > 0)) {
-                if (typeof (image) === 'object') {
-                    saveImage();
-                }
-                else {
-                    editQuestion(state).then(() => {
-                        setIsLoading(false);
-                        setIsEdited(false);
-                        Swal.fire(
-                            'OK',
-                            'Cambios aguardados',
-                            'success'
-                        )
+
+                let errors = [];
+
+                state.questions.forEach((q, i) => {
+                    if (q?.title === null || q?.title === undefined) {
+                        errors.push('El texto de la pregunta no debe estar vacio');
+                    }
+
+                    if (q?.options === null || q?.options === undefined) {
+                        errors.push('Debe contener al menos una opción');
+                    } else {
+                        q?.options?.forEach(o => {
+                            if (o.description === null || o.description === undefined)
+                                errors.push('La descripción no debe estar vacía');
+                        });
+                    }
+                });
+
+                if (errors.length > 0) {
+                    let err = '';
+
+                    errors.forEach(e => {
+                        err = err + '<p>' + e + '</p>';
                     });
+
+                    Swal.fire(
+                        'Error!',
+                        err,
+                        'error'
+                    )
+                } else {
+                    if (typeof (image) === 'object') {
+                        saveImage();
+                    }
+                    else {
+                        editQuestion(state).then(() => {
+                            setIsLoading(false);
+                            setIsEdited(false);
+                            Swal.fire(
+                                'OK',
+                                'Cambios aguardados',
+                                'success'
+                            )
+                        });
+                    }
                 }
             } else {
                 Swal.fire(
@@ -124,14 +156,24 @@ export default function useSpeakingView(question) {
     }
 
     const handleDeleteQuestion = (question) => {
-        let questions = state?.questions || [];
-        questions = questions.filter(q => q.id !== question.id);
-        setState({...state, questions})
+        Swal.fire({
+            title: 'Esta seguro de eliminar esto?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let questions = state?.questions || [];
+                questions = questions.filter(q => q.id !== question.id);
+                setState({ ...state, questions });
+                Swal.fire('Eliminado!', '', 'success');
+            }
+        });
     }
 
     const getWords = () => {
         let resp = [];
-        if(state?.questions){
+        if (state?.questions) {
             resp = state?.questions?.filter(q => q.type === 'dropdown').map(q => q.title || '');
         }
         return resp;
@@ -145,7 +187,7 @@ export default function useSpeakingView(question) {
         handleChange,
         onSave,
         handleImage,
-        handleAddQuestion,        
+        handleAddQuestion,
         handleEditQuestion,
         getWords,
         handleDeleteQuestion

@@ -3,7 +3,6 @@ import React
     from 'react';
 import Button from '../../../../../components/button/Button';
 import TextField from '../../../../../components/form/textField/TextField';
-import SaveIcon from '../../../../../components/icons/SaveIcon';
 import TrashIcon from '../../../../../components/icons/TrashIcon';
 import { idGenerator } from '../../../../../functions';
 import RowQuestionOption from './RowQuestionOption';
@@ -92,7 +91,6 @@ export default function QuestionItem({ questionItem, onChange, index, onDelete }
 
         setState(newState);
         onChange(newState);
-        //setisEditing(true);
     }
 
     return (
