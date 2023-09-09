@@ -15,14 +15,14 @@ export default function useLevelsView() {
 
     const { id } = useParams();
 
-    const { 
+    const {
         getAll,
-        createLevel, 
-        editLevel, 
+        createLevel,
+        editLevel,
         deleteLevel
     } = uselevels(id);
 
-    useEffect(() => {        
+    useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localLevels = await getAll();
@@ -39,54 +39,63 @@ export default function useLevelsView() {
 
     const handleSave = (item) => {
         setIsLoading(true);
-        if(item?.id) {
+        if (item?.id) {
             editLevel(item)
-            .then(()=>{
-                const index = levels.findIndex((level) => level.id === item.id);
-                setLevels( 
-                    [...levels.slice(0, index), 
-                    {...item, language_id: id},
-                    ...levels.slice(index + 1)]
-                );
-            })
-            .finally(()=>{
-                setIsLoading(false);
-                setIsCreating(false);
-            });
-        } else{
+                .then(() => {
+                    const index = levels.findIndex((level) => level.id === item.id);
+                    setLevels(
+                        [...levels.slice(0, index),
+                        { ...item, language_id: id },
+                        ...levels.slice(index + 1)]
+                    );
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
+        } else {
             createLevel(item)
-            .then((res)=>{
-                const newLevel = {...item, id: res.id};
-                setLevels([...levels, newLevel]);
-            })
-            .finally(()=> {
-                setIsLoading(false);
-                setIsCreating(false);
-            });
+                .then((res) => {
+                    const newLevel = { ...item, id: res.id };
+                    setLevels([...levels, newLevel]);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
         }
     }
 
-    const handleDelete = async(item) => {   
-        const res = await deleteLevel(item);
-        if(res){
-            Swal.fire(
-                'Eliminado!',
-                'El proceso finalizó correctamente.',
-                'success'
-            );
-            
-            setLevels(levels.filter((level) => level.id !== item.id));
-        } else {
-            Swal.fire(
-                'Error!',
-                'El nivel está siendo usado actualmente',
-                'error'
-            )
-        }
+    const handleDelete = (item) => {
+        Swal.fire({
+            title: 'Estás segur@ de eliminar esto?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                const res = await deleteLevel(item);
+                if (res) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'El proceso finalizó correctamente.',
+                        'success'
+                    );
+
+                    setLevels(levels.filter((level) => level.id !== item.id));
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'Error al eliminar',
+                        'error'
+                    )
+                }
+            }
+        });
     }
 
     const handleClick = (level) => {
-        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${level.id}`, {replace: true});
+        navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.GROUPS}/${level.id}`, { replace: true });
     }
 
     return {

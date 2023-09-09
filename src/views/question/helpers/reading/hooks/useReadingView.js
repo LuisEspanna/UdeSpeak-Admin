@@ -157,7 +157,7 @@ export default function useSpeakingView(question) {
 
     const handleDeleteQuestion = (question) => {
         Swal.fire({
-            title: 'Esta seguro de eliminar esto?',
+            title: 'Estás segur@ de eliminar esto?',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',
             cancelButtonText: 'Cancelar'
