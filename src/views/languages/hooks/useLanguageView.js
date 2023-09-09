@@ -81,7 +81,7 @@ export default function useLanguageView() {
 
         if(item?.id === null || item?.id === undefined){
             if(typeof(item.image) === 'object'){
-                //TODO Validate if not exist                
+                //TODO Validate if not exist    
                 saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
                     if(downloadURL !== null){
                         const newLanguage = {...item, image: downloadURL};
@@ -95,6 +95,7 @@ export default function useLanguageView() {
         //Editing language
         else {
             if(item.prevImage && typeof(item.prevImage)==='string') {
+                // If image edited       
                 deleteFileFromFirebase(item.prevImage);
                 saveFileOnFirebase(STORAGE.LANGUAGES, imageName, item.image).then((downloadURL)=> {
                     if(downloadURL !== null){
@@ -110,7 +111,7 @@ export default function useLanguageView() {
                             );
                         });
                     };
-                })
+                });
             } else {
                 const newItem = {...item};
                 delete newItem['id'];

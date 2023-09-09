@@ -27,6 +27,11 @@ export default function LanguageItem({language, onSave, onDelete, className, onC
             ...editedLanguage ,
             id: language.id, 
             prevImage: typeof(language.image) === 'string' ? language.image : null};
+        
+        if(newLanguage.image === language?.image){
+            delete newLanguage['prevImage'];
+        }
+            
         setState(newLanguage);
         if(onSave)onSave(newLanguage);
     }
