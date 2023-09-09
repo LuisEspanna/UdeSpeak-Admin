@@ -21,10 +21,6 @@ export default function useDialog() {
         setContentDialog(null);
     }
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     /*
     const swap = async() => {
         await sleep(1500).finally(()=>{
@@ -77,7 +73,6 @@ export default function useDialog() {
         handleCancelDialog,
         isVisibleDialog,
         contentDialog,
-        //forceClose,
         setChanges
     }
 }
