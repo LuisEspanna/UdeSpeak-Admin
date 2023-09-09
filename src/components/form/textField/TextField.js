@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './styles.scss';
 
-export default function TextField({placeholder, onChange, name, id, required, value, className}) {
+export default function TextField({placeholder, onChange, name, id, required, value, className, maxLength}) {
     const [state, setState] = useState(value || '');
 
     useEffect(() => {
@@ -22,6 +22,8 @@ export default function TextField({placeholder, onChange, name, id, required, va
                 required={required}
                 onChange={handleChange}
                 value={state}
+                maxLength={maxLength}
+                autoComplete='off'
             />
             <label htmlFor="name" className="form__label">{placeholder}</label>
         </div>

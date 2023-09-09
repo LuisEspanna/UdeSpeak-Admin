@@ -1,0 +1,49 @@
+.dialog_overlay{
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    border-radius: 1em;
+    //backdrop-filter: blur(10px);
+    z-index: 1101;
+    background-color: #2525259a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: auto;
+
+    .dialog_container{
+        width: 30em;
+        height: fit-content;
+        background-color: #FFFFFF;
+        border-radius: 1em;
+        padding: 2em;
+        position: relative;
+
+        .dialog_content{
+            position: relative;
+            min-height: 5em;
+            margin-bottom: 3em;
+            background-color: inherit;
+        }
+
+        .dialog_action_buttons{
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            bottom: 1.3em;
+            right: 2em;
+            font-size: 1.1em;
+            background-color: inherit;
+            
+            .button-primary, .button-danger {
+                display: inline-block;
+                padding-left: 1em;
+                padding-right: 1em;
+                margin-left: 1em;
+            }
+        }
+    }
+}

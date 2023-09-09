@@ -17,9 +17,6 @@ import QuestionView from '../../views/question/QuestionView';
 import { ROUTES } from '../../constants';
 import ProfileView from '../../views/profile/ProfileView';
 
-
-
-
 function Dashboard() {
 
     const sidebarState = useSelector((state) => state.sidebar.isOpen);
@@ -27,7 +24,7 @@ function Dashboard() {
     usePermissions();
 
     return (
-        <div className='dashboard'>
+        <div className='dashboard' id='dashboard'>
             <Header/>
             <Sidebar isOpen={sidebarState} />
             <div className='view-container'>
