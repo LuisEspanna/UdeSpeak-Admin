@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../../../../../components/button/Button';
 import TrashIcon from '../../../../../components/icons/TrashIcon';
 import PencilIcon from '../../../../../components/icons/PencilIcon';
