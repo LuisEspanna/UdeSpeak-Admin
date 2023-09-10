@@ -11,15 +11,26 @@ import { saveFileOnFirebase,
 } from '../../../services/firebase';
 import Swal from 'sweetalert2';
 import useMyNavigation from '../../../hooks/useMyNavigation';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import { useDashboard } from '../../../context/dashboard-context';
+import useGenericSearch from '../../../hooks/useGenericSearch';
 
 
-export default function useLanguageView() {
+export default function useLanguageView(ref) {
     const [languages, setLanguages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
     const { getAll } = useLanguages();
     const { navigateTo } = useMyNavigation();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
+
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
 
     useEffect(() => {        
         async function fetchLanguages() {
@@ -27,6 +38,7 @@ export default function useLanguageView() {
             const localLanguages = await getAll();
             setLanguages(localLanguages);
             setIsLoading(false);
+            setItems(localLanguages);
         }
         fetchLanguages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,6 +61,7 @@ export default function useLanguageView() {
                     if(snapshot.docs.length === 0){
                         deleteFromFirestore(COLLECTIONS.LANGUAGES, item.id).then(()=>{
                             setLanguages(languages.filter((language)=>language.id !== item.id));
+                            setItems(languages.filter((language)=>language.id !== item.id));
                             if(item.image && typeof(item.image) === 'string' && item.image.length)
                                 deleteFileFromFirebase(item.image);
                         }).then(()=>{
@@ -87,6 +100,7 @@ export default function useLanguageView() {
                         const newLanguage = {...item, image: downloadURL};
                         saveOnFirestore(COLLECTIONS.LANGUAGES, null, newLanguage).then((res)=>{
                             setLanguages([...languages, {...newLanguage, id: res.id}]);
+                            setItems([...languages, {...newLanguage, id: res.id}]);
                         });
                     };     
                 })
@@ -104,11 +118,11 @@ export default function useLanguageView() {
                         delete newItem['prevImage'];
                         updateFirestoreDoc(STORAGE.LANGUAGES, item.id, newItem).then(()=>{
                             const index = languages.findIndex((language) => language.id === item.id);
-                            setLanguages(
-                                [...languages.slice(0, index), 
-                                {...newItem, id: item.id},
-                                ...languages.slice(index + 1)]
-                            );
+                            let newLanguages = [...languages.slice(0, index), 
+                                                {...newItem, id: item.id},
+                                                ...languages.slice(index + 1)];
+                            setLanguages(newLanguages);
+                            setItems(newLanguages);
                         });
                     };
                 });
@@ -117,11 +131,11 @@ export default function useLanguageView() {
                 delete newItem['id'];
                 updateFirestoreDoc(STORAGE.LANGUAGES, item.id, newItem).then(()=>{
                     const index = languages.findIndex((language) => language.id === item.id);
-                    setLanguages(
-                        [...languages.slice(0, index),
-                        {...newItem, id: item.id},
-                        ...languages.slice(index + 1)
-                    ]);
+                    let newLanguages = [...languages.slice(0, index),
+                                        {...newItem, id: item.id},
+                                        ...languages.slice(index + 1)];
+                    setLanguages(newLanguages);
+                    setItems(newLanguages);
                 });
             }
         }
@@ -140,6 +154,7 @@ export default function useLanguageView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }

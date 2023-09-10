@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Card from '../../components/card/Card';
 import Button from '../../components/button/Button';
 import useLevelsView from './hooks/useLevelsView';
@@ -7,19 +7,19 @@ import LevelItem from './helpers/LevelItem';
 import './styles.scss';
 
 export default function LevelsAndGroups() {
-
+  const ref = useRef();
   const {
-    levels,
+    results,
     isCreating,
     isLoading,
     handleCreate,
     handleSave,
     handleDelete,
     handleClick
-} = useLevelsView();
+} = useLevelsView(ref);
 
   return (
-    <div className='levels-view'>
+    <div className='levels-view' ref={ref}>
         <Card>
           <h4>Niveles</h4>
           {!isCreating ? 
@@ -38,7 +38,7 @@ export default function LevelsAndGroups() {
             />}
           {
             isLoading ? <div>Cargando...</div> : 
-            levels.map((level, index) => 
+            results.map((level, index) => 
               <LevelItem
                 key={index}
                 level={level}

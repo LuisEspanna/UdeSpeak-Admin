@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Card from '../../components/card/Card';
 import Button from '../../components/button/Button';
 import useQuestionsView from './hooks/useQuestionsView';
@@ -7,19 +7,19 @@ import QuestionItem from './helpers/QuestionItem';
 import './styles.scss';
 
 export default function QuestionsView() {
-
+  const ref = useRef();
   const {
-    questions,
+    results,
     isCreating,
     isLoading,
     handleCreate,
     handleSave,
     handleDelete,
     handleClick
-} = useQuestionsView();
+} = useQuestionsView(ref);
 
   return (
-    <div className='questions-view'>
+    <div className='questions-view' ref={ref}>
         <Card>
           <h4>Preguntas</h4>
           {!isCreating ? 
@@ -38,7 +38,7 @@ export default function QuestionsView() {
             />}
           {
             isLoading ? <div>Cargando...</div> : 
-            questions.map((question, index) => 
+            results.map((question, index) => 
               <QuestionItem
                 key={index}
                 question={question}

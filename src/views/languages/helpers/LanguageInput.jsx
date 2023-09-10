@@ -4,6 +4,7 @@ import Button from '../../../components/button/Button';
 import TextField from '../../../components/form/textField/TextField';
 import CloseIcon from '../../../components/icons/CloseIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
+import Swal from 'sweetalert2';
 
 export default function LanguageInput({onSave, language, onCancel, className}) {
     const [state, setState] = useState({
@@ -24,7 +25,11 @@ export default function LanguageInput({onSave, language, onCancel, className}) {
             if(onSave)onSave(state);
             if(language?.id === null || language?.id === undefined) setState({name: '', image: ''});
         }else{
-            console.log('Error');
+            Swal.fire(
+                'Error!',
+                'La imagen es obligatoria',
+                'error'
+            )
         }
     }
 

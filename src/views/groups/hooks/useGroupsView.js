@@ -5,8 +5,11 @@ import Swal from 'sweetalert2';
 import usePermissions from '../../../hooks/usePermissions';
 import useMyNavigation from '../../../hooks/useMyNavigation';
 import { ROUTES } from '../../../constants'
+import { useDashboard } from '../../../context/dashboard-context';
+import useGenericSearch from '../../../hooks/useGenericSearch';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
-export default function useGroupsView() {
+export default function useGroupsView(ref) {
     const [groups, setGroups] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -15,6 +18,8 @@ export default function useGroupsView() {
 
     const { id } = useParams();
     const { user } = usePermissions();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
 
     const {
         getAll,
@@ -23,11 +28,18 @@ export default function useGroupsView() {
         deleteGroup
     } = useGroups(id);
 
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
+
     useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localGroups = await getAll();
             setGroups(localGroups);
+            setItems(localGroups);
             setIsLoading(false);
         }
         fetchLavels();
@@ -52,11 +64,11 @@ export default function useGroupsView() {
             editGroup(newGroup)
                 .then(() => {
                     const index = groups.findIndex((group) => group.id === item.id);
-                    setGroups(
-                        [...groups.slice(0, index),
-                        { ...newGroup },
-                        ...groups.slice(index + 1)]
-                    );
+                    let newGroups = [...groups.slice(0, index),
+                                    { ...newGroup },
+                                    ...groups.slice(index + 1)];
+                    setGroups(newGroups);
+                    setItems(newGroups);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -68,6 +80,7 @@ export default function useGroupsView() {
             createGroup(newGroup)
                 .then((res) => {
                     setGroups([...groups, { ...newGroup, id: res.id }]);
+                    setItems([...groups, { ...newGroup, id: res.id }]);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -93,6 +106,7 @@ export default function useGroupsView() {
                     );
 
                     setGroups(groups.filter((group) => group.id !== item.id));
+                    setItems(groups.filter((group) => group.id !== item.id));
                 } else {
                     Swal.fire(
                         'Error!',
@@ -115,6 +129,7 @@ export default function useGroupsView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }

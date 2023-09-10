@@ -4,14 +4,19 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { ROUTES } from '../../../constants';
 import useMyNavigation from '../../../hooks/useMyNavigation';
+import { useDashboard } from '../../../context/dashboard-context';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import useGenericSearch from '../../../hooks/useGenericSearch';
 
 
-export default function useLevelsView() {
+export default function useLevelsView(ref) {
     const [levels, setLevels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
     const { navigateTo } = useMyNavigation();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
 
     const { id } = useParams();
 
@@ -22,11 +27,18 @@ export default function useLevelsView() {
         deleteLevel
     } = uselevels(id);
 
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
+
     useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localLevels = await getAll();
             setLevels(localLevels);
+            setItems(localLevels);
             setIsLoading(false);
         }
         fetchLavels();
@@ -43,11 +55,11 @@ export default function useLevelsView() {
             editLevel(item)
                 .then(() => {
                     const index = levels.findIndex((level) => level.id === item.id);
-                    setLevels(
-                        [...levels.slice(0, index),
+                    let newLevels = [...levels.slice(0, index),
                         { ...item, language_id: id },
-                        ...levels.slice(index + 1)]
-                    );
+                        ...levels.slice(index + 1)];
+                    setLevels(newLevels);
+                    setItems(newLevels);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -58,6 +70,7 @@ export default function useLevelsView() {
                 .then((res) => {
                     const newLevel = { ...item, id: res.id };
                     setLevels([...levels, newLevel]);
+                    setItems([...levels, newLevel]);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -83,6 +96,7 @@ export default function useLevelsView() {
                     );
 
                     setLevels(levels.filter((level) => level.id !== item.id));
+                    setItems(levels.filter((level) => level.id !== item.id));
                 } else {
                     Swal.fire(
                         'Error!',
@@ -105,6 +119,7 @@ export default function useLevelsView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }

@@ -5,21 +5,22 @@ import useGroupsView from './hooks/useGroupsView';
 import GroupInput from './helpers/GroupInput';
 import GroupItem from './helpers/GroupItem';
 import './styles.scss';
+import { useRef } from 'react';
 
 export default function GroupsView() {
-
+  const ref = useRef();
   const {
-    groups,
+    results,
     isCreating,
     isLoading,
     handleCreate,
     handleSave,
     handleDelete,
     handleClick
-} = useGroupsView();
+} = useGroupsView(ref);
 
   return (
-    <div className='groups-view'>
+    <div className='groups-view' ref={ref}>
         <Card>
           <h4>Grupos</h4>
           {!isCreating ? 
@@ -38,7 +39,7 @@ export default function GroupsView() {
             />}
           {
             isLoading ? <div>Cargando...</div> : 
-            groups.map((group, index) => 
+            results.map((group, index) => 
               <GroupItem
                 key={index}
                 group={group}

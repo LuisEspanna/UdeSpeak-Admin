@@ -5,21 +5,22 @@ import useQuestionnariesView from './hooks/useQuestionnariesView';
 import QuestionnarieInput from './helpers/QuestionnarieInput';
 import QuestionnarieItem from './helpers/QuestionnarieItem';
 import './styles.scss';
+import { useRef } from 'react';
 
 export default function QuestionnariesView() {
-
+  const ref = useRef();
   const {
-    questionnaries,
+    results,
     isCreating,
     isLoading,
     handleCreate,
     handleSave,
     handleDelete,
     handleClick
-} = useQuestionnariesView();
+} = useQuestionnariesView(ref);
 
   return (
-    <div className='questionnaries-view'>
+    <div className='questionnaries-view' ref={ref}>
         <Card>
           <h4>Cuestionarios</h4>
           {!isCreating ? 
@@ -38,7 +39,7 @@ export default function QuestionnariesView() {
             />}
           {
             isLoading ? <div>Cargando...</div> : 
-            questionnaries.map((questionnarie, index) => 
+            results.map((questionnarie, index) => 
               <QuestionnarieItem
                 key={index}
                 questionnarie={questionnarie}

@@ -4,8 +4,11 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { ROUTES } from '../../../constants';
 import useMyNavigation from '../../../hooks/useMyNavigation';
+import { useDashboard } from '../../../context/dashboard-context';
+import useGenericSearch from '../../../hooks/useGenericSearch';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
-export default function useQuestionsView() {
+export default function useQuestionsView(ref) {
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -13,6 +16,8 @@ export default function useQuestionsView() {
     const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
 
     const {
         getAll,
@@ -21,11 +26,18 @@ export default function useQuestionsView() {
         deleteQuestion
     } = useQuestions(id);
 
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
+
     useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localquestions = await getAll();
             setQuestions(localquestions);
+            setItems(localquestions);
             setIsLoading(false);
         }
         fetchLavels();
@@ -46,11 +58,11 @@ export default function useQuestionsView() {
             editQuestion(newQuestion)
                 .then(() => {
                     const index = questions.findIndex((question) => question.id === item.id);
-                    setQuestions(
-                        [...questions.slice(0, index),
-                        { ...newQuestion },
-                        ...questions.slice(index + 1)]
-                    );
+                    let newData = [...questions.slice(0, index),
+                                    { ...newQuestion },
+                                    ...questions.slice(index + 1)];
+                    setQuestions(newData);
+                    setItems(newData);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -60,6 +72,7 @@ export default function useQuestionsView() {
             createQuestion(newQuestion)
                 .then((res) => {
                     setQuestions([...questions, { ...newQuestion, id: res.id }]);
+                    setItems([...questions, { ...newQuestion, id: res.id }]);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -86,6 +99,7 @@ export default function useQuestionsView() {
                     );
 
                     setQuestions(questions.filter((question) => question.id !== item.id));
+                    setItems(questions.filter((question) => question.id !== item.id));
                 } else {
                     Swal.fire(
                         'Error!',
@@ -108,6 +122,7 @@ export default function useQuestionsView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }
