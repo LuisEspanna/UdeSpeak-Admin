@@ -5,29 +5,41 @@ import Swal from 'sweetalert2';
 import usePermissions from '../../../hooks/usePermissions';
 import useMyNavigation from '../../../hooks/useMyNavigation';
 import { ROUTES } from '../../../constants'
+import { useDashboard } from '../../../context/dashboard-context';
+import useGenericSearch from '../../../hooks/useGenericSearch';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
-export default function useGroupsView() {
+export default function useGroupsView(ref) {
     const [groups, setGroups] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
-    const {navigateTo} = useMyNavigation();
+    const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
     const { user } = usePermissions();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
 
-    const { 
+    const {
         getAll,
-        createGroup, 
-        editGroup, 
+        createGroup,
+        editGroup,
         deleteGroup
     } = useGroups(id);
 
-    useEffect(() => {        
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
+
+    useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localGroups = await getAll();
             setGroups(localGroups);
+            setItems(localGroups);
             setIsLoading(false);
         }
         fetchLavels();
@@ -41,58 +53,69 @@ export default function useGroupsView() {
     const handleSave = (item) => {
         const date = new Date().getTime();
         let newGroup = {
-            ...item, 
+            ...item,
             user_id: user.uid,
-            displayName: user.displayName,            
+            displayName: user.displayName,
             edited_at: date
         };
 
         setIsLoading(true);
-        if(item?.id) {
+        if (item?.id) {
             editGroup(newGroup)
-            .then(()=>{
-                const index = groups.findIndex((group) => group.id === item.id);
-                setGroups( 
-                    [...groups.slice(0, index), 
-                    {...newGroup},
-                    ...groups.slice(index + 1)]
-                );
-            })
-            .finally(()=>{
-                setIsLoading(false);
-                setIsCreating(false);
-            });
-        } else{            
+                .then(() => {
+                    const index = groups.findIndex((group) => group.id === item.id);
+                    let newGroups = [...groups.slice(0, index),
+                                    { ...newGroup },
+                                    ...groups.slice(index + 1)];
+                    setGroups(newGroups);
+                    setItems(newGroups);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
+        } else {
             newGroup.created_at = date;
 
             createGroup(newGroup)
-            .then((res)=>{
-                setGroups([...groups, {...newGroup, id: res.id}]);
-            })
-            .finally(()=> {
-                setIsLoading(false);
-                setIsCreating(false);
-            });
+                .then((res) => {
+                    setGroups([...groups, { ...newGroup, id: res.id }]);
+                    setItems([...groups, { ...newGroup, id: res.id }]);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
         }
     }
 
-    const handleDelete = async(item) => {   
-        const res = await deleteGroup(item);
-        if(res){
-            Swal.fire(
-                'Eliminado!',
-                'El proceso finalizó correctamente.',
-                'success'
-            );
-            
-            setGroups(groups.filter((group) => group.id !== item.id));
-        } else {
-            Swal.fire(
-                'Error!',
-                'El nivel está siendo usado actualmente',
-                'error'
-            )
-        }
+    const handleDelete = (item) => {
+        Swal.fire({
+            title: 'Estás segur@ de eliminar esto?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                const res = await deleteGroup(item);
+                if (res) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'El proceso finalizó correctamente.',
+                        'success'
+                    );
+
+                    setGroups(groups.filter((group) => group.id !== item.id));
+                    setItems(groups.filter((group) => group.id !== item.id));
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'El nivel está siendo usado actualmente',
+                        'error'
+                    )
+                }
+            }
+        });
     }
 
     const handleClick = (group) => {
@@ -106,6 +129,7 @@ export default function useGroupsView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }

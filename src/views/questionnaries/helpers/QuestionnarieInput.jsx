@@ -30,7 +30,7 @@ export default function QuestionnarieInput({onSave, questionnarie, onCancel, cla
 
   return (
     <div className={`questionnarie-item ${className ? className : ''}`}>
-        <TextField placeholder='Nombre del grupo' onChange={handleChange} name='name' value={state.name}/>
+        <TextField placeholder='Nombre del cuestionario' onChange={handleChange} name='name' value={state.name}/>
         <TextField className='mt-3' placeholder='Descripción' onChange={handleChange} name='description' value={state.description} />
         <div className='d-flex justify-content-end mt-4'>
           <Button type='primary' className='p-1 me-2' onClick={handleSave}>

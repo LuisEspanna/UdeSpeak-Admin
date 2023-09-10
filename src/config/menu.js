@@ -1,5 +1,8 @@
 import DashboardIcon from "../components/icons/DashboardIcon";
-import KeyIcon from "../components/icons/KeyIcon";
+import UsersIcon from "../components/icons/UsersIcon";
+import BugIcon from "../components/icons/BugIcon";
+import LanguageIcon from "../components/icons/LanguageIcon";
+import { PERMISSIONS } from "../constants";
 
 const menu = () => {
     return [
@@ -8,20 +11,9 @@ const menu = () => {
             "children": [
                 {
                     "title": "Dashboard",
-                    "icon": <DashboardIcon/>,
-                    "permission": "all",                
+                    "icon": <DashboardIcon />,
+                    "permission": "all",
                     "url": "/dashboard"
-                }
-            ]
-        },
-        {
-            "title": "Páginas",
-            "children": [
-                {
-                    "title": "Autenticación",
-                    "icon": <KeyIcon/>,
-                    "permission": "all",                
-                    "url": "/dashboard/auth"                   
                 }
             ]
         },
@@ -30,24 +22,27 @@ const menu = () => {
             "permission": "all",
             "children": [
                 {
-                    "title": "Languages",
-                    "permission": "all",                
-                    "url": "/dashboard/languages"
-                },
-                {
-                    "title": "Funciones y grupos",
-                    "permission": "all",                
-                    "url": "/dashboard/levelsandgroups"
-                },
-                {
-                    "title": "Cuestionarios",
-                    "permission": "all",      
-                    "url": "/dashboard/questionnaires"
+                    "title": "Idiomas",
+                    "permission": PERMISSIONS.ALL,
+                    "url": "/dashboard/languages",
+                    "icon": <LanguageIcon />,
                 },
                 {
                     "title": "Usuarios",
-                    "permission": "admin",                
+                    "icon": <UsersIcon />,
+                    "permission": PERMISSIONS.ALL,
                     "url": "/dashboard/users"
+                }
+            ]
+        },
+        {
+            "title": "Reportes",
+            "children": [
+                {
+                    "title": "Bugs",
+                    "icon": <BugIcon />,
+                    "permission": "all",
+                    "url": "/dashboard/bugs"
                 }
             ]
         }

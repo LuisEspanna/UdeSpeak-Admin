@@ -13,7 +13,8 @@ const COLLECTIONS = {
 const PERMISSIONS = {
     ADMIN: 'Administrador',
     TEACHER: 'Docente',
-    STUDENT: 'Estudiante'
+    STUDENT: 'Estudiante',
+    ALL: 'All'
 }
 
 const STORAGE = {

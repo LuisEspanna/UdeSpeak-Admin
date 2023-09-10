@@ -4,8 +4,11 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { ROUTES } from '../../../constants';
 import useMyNavigation from '../../../hooks/useMyNavigation';
+import { useDashboard } from '../../../context/dashboard-context';
+import useGenericSearch from '../../../hooks/useGenericSearch';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
-export default function useQuestionsView() {
+export default function useQuestionsView(ref) {
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
@@ -13,19 +16,28 @@ export default function useQuestionsView() {
     const { navigateTo } = useMyNavigation();
 
     const { id } = useParams();
+    const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
 
-    const { 
+    const {
         getAll,
-        createQuestion, 
-        editQuestion, 
+        createQuestion,
+        editQuestion,
         deleteQuestion
     } = useQuestions(id);
 
-    useEffect(() => {        
+    useOnClickOutside(ref, (event)=>{
+        if(event.target.placeholder === 'Search'){
+            setSearchAction({function : (e) => search(e)});
+        }
+    });
+
+    useEffect(() => {
         async function fetchLavels() {
             setIsLoading(true);
             const localquestions = await getAll();
             setQuestions(localquestions);
+            setItems(localquestions);
             setIsLoading(false);
         }
         fetchLavels();
@@ -42,49 +54,61 @@ export default function useQuestionsView() {
         };
 
         setIsLoading(true);
-        if(item?.id) {
+        if (item?.id) {
             editQuestion(newQuestion)
-            .then(()=>{
-                const index = questions.findIndex((question) => question.id === item.id);
-                setQuestions( 
-                    [...questions.slice(0, index),
-                    {...newQuestion},
-                    ...questions.slice(index + 1)]
-                );
-            })
-            .finally(()=>{
-                setIsLoading(false);
-                setIsCreating(false);
-            });
-        } else{
+                .then(() => {
+                    const index = questions.findIndex((question) => question.id === item.id);
+                    let newData = [...questions.slice(0, index),
+                                    { ...newQuestion },
+                                    ...questions.slice(index + 1)];
+                    setQuestions(newData);
+                    setItems(newData);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
+        } else {
             createQuestion(newQuestion)
-            .then((res)=>{
-                setQuestions([...questions, {...newQuestion, id: res.id}]);
-            })
-            .finally(()=> {
-                setIsLoading(false);
-                setIsCreating(false);
-            });
+                .then((res) => {
+                    setQuestions([...questions, { ...newQuestion, id: res.id }]);
+                    setItems([...questions, { ...newQuestion, id: res.id }]);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setIsCreating(false);
+                });
         }
     }
 
-    const handleDelete = async(item) => {   
-        const res = await deleteQuestion(item);
-        if(res){
-            Swal.fire(
-                'Eliminado!',
-                'El proceso finalizó correctamente.',
-                'success'
-            );
-            
-            setQuestions(questions.filter((question) => question.id !== item.id));
-        } else {
-            Swal.fire(
-                'Error!',
-                'El nivel está siendo usado actualmente',
-                'error'
-            )
-        }
+    const handleDelete = (item) => {
+
+        Swal.fire({
+            title: '¿Estás segur@ de eliminar esto?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                const res = await deleteQuestion(item);
+                if (res) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'El proceso finalizó correctamente.',
+                        'success'
+                    );
+
+                    setQuestions(questions.filter((question) => question.id !== item.id));
+                    setItems(questions.filter((question) => question.id !== item.id));
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'No se pudo eliminar',
+                        'error'
+                    )
+                }
+            }
+        });
     }
 
     const handleClick = (question) => {
@@ -98,6 +122,7 @@ export default function useQuestionsView() {
         handleCreate,
         handleSave,
         handleDelete,
-        handleClick
+        handleClick,
+        results
     }
 }

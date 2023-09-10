@@ -6,7 +6,6 @@ import TrashIcon from '../../../../components/icons/TrashIcon';
 import useListeningView from './hooks/useListeningView';
 import PreviewListening from './helper/PreviewListening';
 import Card from '../../../../components/card/Card';
-import NavigationButtons from '../../../../components/navigationButtons/NavigationButtons';
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import RowOption from './helper/RowOption';
 
@@ -33,7 +32,6 @@ export default function Listening({ question }) {
       <Card className='w-100'>
         <div className='listening-view'>
           <h5><b>Listening</b></h5>
-          <NavigationButtons />
           <div className='mt-4' />
           <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
           {
