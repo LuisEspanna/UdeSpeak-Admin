@@ -1,0 +1,25 @@
+.progress-graph-container{
+
+    font-size: small;
+
+    .labels-area{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .graph-bg{
+        background-color: #EDEDED;
+        border-radius: 1em;
+        height: 1em;
+        width: 100%;
+
+        .indicator{
+            background-color: #20AFB5;
+            border-radius: 1em;
+            height: 100%;
+        }
+    }
+
+    margin-bottom: 1.2em;
+}
