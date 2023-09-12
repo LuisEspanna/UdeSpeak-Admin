@@ -8,13 +8,27 @@ import {
 import {  } from '../functions';
 
 
-export default function useGroups(group_id) {
+export default function useQuestionnaires(group_id) {
 
     const getAll = async() => {
         const items = [];
         let snapshot;
 
         snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', group_id);
+        snapshot?.forEach(doc => {
+            const item = {...doc.data()};
+            item.id = doc.id;
+            items.push(item);
+        });
+
+        return(items);
+    }
+
+    const getById = async(id) => {
+        const items = [];
+        let snapshot;
+
+        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', id);
         snapshot?.forEach(doc => {
             const item = {...doc.data()};
             item.id = doc.id;
@@ -55,5 +69,6 @@ export default function useGroups(group_id) {
         createQuestionnary,
         editQuestionnary,
         deleteQuestionnary,
+        getById
     };
 }
