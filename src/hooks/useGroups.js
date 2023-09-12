@@ -41,6 +41,20 @@ export default function useGroups(level_id) {
         return(items);
     }
 
+    const getMyGroups = async() => {
+        const items = [];
+        let snapshot = await firestore().collection(COLLECTIONS.GROUPS)
+        .where('user_id', '==', user.uid).get();
+
+        snapshot?.forEach(doc => {
+            const item = {...doc.data()};
+            item.id = doc.id;
+            items.push(item);
+        });
+
+        return(items);
+    }
+
     const createGroup = (group) => {
         return saveOnFirestore(COLLECTIONS.GROUPS, null,
         {
@@ -72,5 +86,6 @@ export default function useGroups(level_id) {
         createGroup,
         editGroup,
         deleteGroup,
+        getMyGroups
     };
 }
