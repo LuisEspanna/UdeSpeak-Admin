@@ -47,16 +47,20 @@ export default function useQuestions(questionnary_id) {
         return(question);
     }
 
-    const createQuestion = (group) => {
+    const createQuestion = (data) => {
         return saveOnFirestore(COLLECTIONS.QUESTIONS, null,
         {
-            ...group,
-            questionnary_id
+            ...data,
+            questionnary_id,
+            created_at: new Date().getTime()
         });
     }
 
     const editQuestion = (item) => {
-        const newQuestion = {...item};
+        const newQuestion = {
+            ...item,
+            edited_at: new Date().getTime()
+        };
         delete newQuestion['id'];
         return updateFirestoreDoc(COLLECTIONS.QUESTIONS, item.id, newQuestion);
     }

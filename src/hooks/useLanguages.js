@@ -21,11 +21,19 @@ export default function useLanguages() {
     }
 
     const createLanguage = async(language) => {
-        return await saveOnFirestore(COLLECTIONS.LANGUAGES, language);
+        const newData = {
+            ...language,
+            created_at: new Date().getTime()
+        }
+        return await saveOnFirestore(COLLECTIONS.LANGUAGES, newData);
     }
 
     const editLanguage = async(language) => {
-        return updateFirestoreDoc(COLLECTIONS.LANGUAGES, language.id, language);
+        const newData = {
+            ...language,
+            edited_at: new Date().getTime()
+        }
+        return updateFirestoreDoc(COLLECTIONS.LANGUAGES, newData.id, newData);
     }
 
     const deleteLanguage = (id) => {

@@ -53,13 +53,11 @@ export default function useQuestionsView(ref) {
 
     const handleSave = (item) => {
         let newQuestion = {
-            ...item,
-            user_id: user.uid
+            ...item
         };
 
         setIsLoading(true);
         if (item?.id) {
-            newQuestion.edited_at = new Date().getTime();
             editQuestion(newQuestion)
                 .then(() => {
                     const index = questions.findIndex((question) => question.id === item.id);
@@ -74,7 +72,7 @@ export default function useQuestionsView(ref) {
                     setIsCreating(false);
                 });
         } else {
-            newQuestion.created_at = new Date().getTime();
+            newQuestion.user_id = user.uid;
             createQuestion(newQuestion)
                 .then((res) => {
                     setQuestions([...questions, { ...newQuestion, id: res.id }]);
