@@ -1,0 +1,19 @@
+.dashboard-view{
+    .info-card{
+        margin-bottom: 1.5em;
+    }
+
+    .ccard{
+        min-width: 2em;
+    }
+
+    .my-chart{
+        display: flex;
+        justify-content: center;
+        min-height: 16em;        
+    }
+
+    .progress-graph-container{
+        margin-bottom: 2em;
+    }
+}

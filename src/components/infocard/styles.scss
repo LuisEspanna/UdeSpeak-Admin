@@ -1,7 +1,15 @@
 @import '../../styles/colors.scss';
 
+/*
+@media only screen and (max-width: 600px) {
+    .info-card{
+        margin-bottom: 1.5em;
+    }
+}
+*/
+
 .info-card{
-    border-radius: 1.5em;
+    border-radius: 1em;
     overflow: hidden;
     background-color: rgb(110, 110, 110);
     align-items: center;
@@ -18,12 +26,25 @@
 
     .text-container{
         text-align: start;
+        z-index: 20;
+    }
+
+    .dot1{
+        right: -5em;
+        top: -75%;
+        z-index: 1;
+    }
+
+    .dot2{
+        top:-100%;
+        right: 5%;
+        z-index: 0;
     }
 }
 
 .dot{
-    height: 12.5em;
-    width: 12.5em;
+    height: 13em;
+    width: 13em;
     display: inline-block;
     position: absolute;
     border-radius: 50%;
@@ -35,16 +56,12 @@
 
     .dot1{        
         @extend .dot;    
-        background-color: rgba($color: #159397, $alpha: 0.5);           
-        left:11.5em;
-        top: -6.8125em;
+        background-color: rgba($color: #159397, $alpha: 0.5);
     }
     
     .dot2{        
         @extend .dot;    
-        background-color: rgba($color:  #41c6ca, $alpha: 0.9);           
-        top:-8.9em;
-        left: 6em;
+        background-color: rgba($color:  #41c6ca, $alpha: 0.9);
     }
 }
 
@@ -55,15 +72,11 @@
     .dot1{        
         @extend .dot;    
         background-color: rgba($color: #08677C, $alpha: 0.7);           
-        left:11.5em;
-        top: -6.8125em;
     }
     
     .dot2{        
         @extend .dot;    
-        background-color: rgba($color: #1588A1, $alpha: 0.7);           
-        top: -8.9em;
-        left: 6em;
+        background-color: rgba($color: #1588A1, $alpha: 0.7);
     }
 }
 

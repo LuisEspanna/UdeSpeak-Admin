@@ -36,12 +36,20 @@ const ROUTES = {
     PROFILE: 'profile'
 }
 
+const TYPES = {
+    SPEAKING: 'speaking',
+    LISTENING: 'listening',
+    READING: 'reading',
+    WRITING: 'writing'
+}
+
 
 module.exports = {
     COLLECTIONS,
     PERMISSIONS,
     STORAGE,
-    ROUTES
+    ROUTES,
+    TYPES
 }
 
 

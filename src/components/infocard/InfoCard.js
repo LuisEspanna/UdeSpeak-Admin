@@ -1,10 +1,23 @@
 import React from 'react';
 import './styles.scss';
 
-const InfoCard = ({title, description, type, onClick}) => {
+/**
+ * @typedef {"dark" | "primary"} MetricFormat
+ */
+
+/**
+ * @param {object} param0
+ * @param {MetricFormat} param0.type
+ * @param {string} param0.className
+ * @param {string} param0.title
+ * @param {string} param0.description
+ * @param {function} param0.onClick
+ * @returns 
+ */
+const InfoCard = ({title, description, type, onClick, className}) => {
   return (
     <div
-        className={`info-card-${type}`}
+        className={`info-card-${type} ${className ? className : ''}`}
         onClick={onClick}
     >
         <div>

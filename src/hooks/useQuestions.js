@@ -25,6 +25,20 @@ export default function useQuestions(questionnary_id) {
         return(items);
     }
 
+    const getQuestionsById = async(id) => {
+        const items = [];
+        let snapshot;
+
+        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONS, null, 'questionnary_id', '==', id);
+        snapshot?.forEach(doc => {
+            const item = {...doc.data()};
+            item.id = doc.id;
+            items.push(item);
+        });
+
+        return(items);
+    }
+
     const getQuestion = async(id) => {
         let snapshot;
         snapshot = await readFromFirestore(COLLECTIONS.QUESTIONS, id);
@@ -58,6 +72,7 @@ export default function useQuestions(questionnary_id) {
         createQuestion,
         editQuestion,
         deleteQuestion,
-        getQuestion
+        getQuestion,
+        getQuestionsById
     };
 }
