@@ -49,11 +49,11 @@ export default function useSpeakingView(question) {
 
 
     const saveImage = () => {
+        setIsLoading(true);
         const imageName = idGenerator(20);
         saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
             if (downloadURL !== null) {
                 const newQuestion = { ...state, image: downloadURL };
-                setIsLoading(true);
                 editQuestion(newQuestion).then(() => {
                     setState(newQuestion);
                     setImage(downloadURL);
@@ -71,6 +71,7 @@ export default function useSpeakingView(question) {
     }
 
     const onSave = () => {
+        setIsLoading(true);
         // TODO: Validar opciones y preguntas
         if (state.questions && state.questions.length > 0) {
             if ((state.description && state.description.length > 0) &&
@@ -104,7 +105,8 @@ export default function useSpeakingView(question) {
                         'Error!',
                         err,
                         'error'
-                    )
+                    );
+                    setIsLoading(false);
                 } else {
                     if (typeof (image) === 'object') {
                         saveImage();
@@ -127,6 +129,7 @@ export default function useSpeakingView(question) {
                     'La descripción es obligatoria',
                     'error'
                 )
+                setIsLoading(false);
             }
         }
         else {
@@ -135,6 +138,7 @@ export default function useSpeakingView(question) {
                 'No se puede guardar, debe tener al menos una pregunta',
                 'error'
             )
+            setIsLoading(false);
         }
     }
 

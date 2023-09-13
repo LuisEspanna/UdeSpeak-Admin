@@ -68,7 +68,7 @@ export default function Reading({ question }) {
             <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una lista desplegable</p>
           </div>
           {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className='mt-4'>
+          <div className='mt-4 '>
             <div className='mb-4'><b>Listas desplegables</b></div>
 
             {
@@ -112,7 +112,7 @@ export default function Reading({ question }) {
       />
 
       {
-        isEdited &&
+        (isEdited && !isLoading) &&
         <Button type='primary' active={true} className='floatbtn' onClick={onSave}>
           <SaveIcon className='icon' />
         </Button>

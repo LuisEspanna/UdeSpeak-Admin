@@ -14,7 +14,6 @@ import Dialog from '../../../../../components/Dialog/Dialog';
 export default function QuestionItem({ questionItem, onChange, index, onDelete }) {
 
     const [state, setState] = useState(questionItem);
-    const [isEditing, setisEditing] = useState(false);
     const dialogProps = useDialog();
 
     useEffect(() => {
@@ -28,8 +27,6 @@ export default function QuestionItem({ questionItem, onChange, index, onDelete }
         } else {
             setState({ ...state, [e.target.name]: e.target.value.replaceAll(' ', '') });
         }
-
-        setisEditing(true);
     }
 
     const handleAddOption = () => {
@@ -94,7 +91,7 @@ export default function QuestionItem({ questionItem, onChange, index, onDelete }
     }
 
     return (
-        <div className={`my-2 r-container ${isEditing ? 'r-container-is-editing' : ''}`}>
+        <div className={`my-2 r-container`}>
             <div className='row my-2'>
                 <div className='col-8'>
                     {questionItem.type === 'question' ? 'Pregunta ' : 'Lista '} {index + 1}
