@@ -59,6 +59,12 @@ export default function useSpeakingView(question) {
                     setImage(downloadURL);
                     setIsLoading(false);
                     setIsEdited(false);
+
+                    Swal.fire(
+                        'OK',
+                        'Cambios aguardados',
+                        'success'
+                    );
                 });
             };
         });
