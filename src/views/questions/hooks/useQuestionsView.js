@@ -7,6 +7,7 @@ import useMyNavigation from '../../../hooks/useMyNavigation';
 import { useDashboard } from '../../../context/dashboard-context';
 import useGenericSearch from '../../../hooks/useGenericSearch';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import usePermissions from '../../../hooks/usePermissions';
 
 export default function useQuestionsView(ref) {
     const [questions, setQuestions] = useState([]);
@@ -25,6 +26,8 @@ export default function useQuestionsView(ref) {
         editQuestion,
         deleteQuestion
     } = useQuestions(id);
+
+    const { user } = usePermissions();
 
     useOnClickOutside(ref, (event)=>{
         if(event.target.placeholder === 'Search'){
@@ -50,7 +53,7 @@ export default function useQuestionsView(ref) {
 
     const handleSave = (item) => {
         let newQuestion = {
-            ...item,
+            ...item
         };
 
         setIsLoading(true);
@@ -69,6 +72,7 @@ export default function useQuestionsView(ref) {
                     setIsCreating(false);
                 });
         } else {
+            newQuestion.user_id = user.uid;
             createQuestion(newQuestion)
                 .then((res) => {
                     setQuestions([...questions, { ...newQuestion, id: res.id }]);

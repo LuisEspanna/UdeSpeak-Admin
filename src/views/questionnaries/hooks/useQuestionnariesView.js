@@ -7,6 +7,7 @@ import useMyNavigation from '../../../hooks/useMyNavigation';
 import { useDashboard } from '../../../context/dashboard-context';
 import useGenericSearch from '../../../hooks/useGenericSearch';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import usePermissions from '../../../hooks/usePermissions';
 
 export default function useQuestionnariesView(ref) {
     const [questionnaries, setQuestionnaries] = useState([]);
@@ -15,7 +16,7 @@ export default function useQuestionnariesView(ref) {
     const { setSearchAction } = useDashboard();
     const { results, search, setItems } = useGenericSearch();
     const { navigateTo } = useMyNavigation();
-
+    const { user } = usePermissions();
     const { id } = useParams();
 
     const {
@@ -50,6 +51,7 @@ export default function useQuestionnariesView(ref) {
     const handleSave = (item) => {
         let newGroup = {
             ...item,
+            user_id: user.uid
         };
 
         setIsLoading(true);

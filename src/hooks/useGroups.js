@@ -59,12 +59,16 @@ export default function useGroups(level_id) {
         return saveOnFirestore(COLLECTIONS.GROUPS, null,
         {
             ...group,
-            level_id
+            level_id,
+            created_at: new Date().getTime()
         });
     }
 
     const editGroup = (group) => {
-        const newGroup = {...group};
+        const newGroup = {
+            ...group,
+            edited_at: new Date().getTime()
+        };
         delete newGroup['id'];
         return updateFirestoreDoc(COLLECTIONS.GROUPS, group.id, newGroup);
     }

@@ -4,7 +4,6 @@
     margin-top: 2em;
     background-color: #fff;
     position: relative;
-    
 
     input::file-selector-button {
         @extend .button-primary;
@@ -24,7 +23,7 @@
         background: #F6FBFF;
         border-radius: 0.4em;
         padding: 1em;
-        min-height: 3em;
+        min-height: 23em;
         width: 100%;
         margin-top: 1em;
         position: relative;
@@ -111,6 +110,7 @@
         padding: 1em;
         overflow: auto;
         max-height: 37.5em;
+        height: 35.5em;
         padding-bottom: 5em;
         border-radius: 0.8em;
         border: 1px solid #969696;

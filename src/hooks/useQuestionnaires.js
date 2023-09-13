@@ -42,14 +42,18 @@ export default function useQuestionnaires(group_id) {
         return saveOnFirestore(COLLECTIONS.QUESTIONNARIES, null,
         {
             ...group,
-            group_id
+            group_id,
+            created_at: new Date().getTime()
         });
     }
 
-    const editQuestionnary = (group) => {
-        const newGroup = {...group};
-        delete newGroup['id'];
-        return updateFirestoreDoc(COLLECTIONS.QUESTIONNARIES, group.id, newGroup);
+    const editQuestionnary = (data) => {
+        const newData = {
+            ...data,
+            edited_at: new Date().getTime()
+        };
+        delete newData['id'];
+        return updateFirestoreDoc(COLLECTIONS.QUESTIONNARIES, data.id, newData);
     }
 
     const deleteQuestionnary = async(item) => {
