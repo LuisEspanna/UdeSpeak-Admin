@@ -27,8 +27,7 @@ export default function DialogListElement({option, setChanges}) {
                 placeholder='Descripción' 
                 value={state.description} 
                 name='description' 
-                onChange={handleChange} 
-                maxLength = {20}
+                onChange={handleChange}
                 className='mt-3'
             />
             <div className='toglee-area'>
