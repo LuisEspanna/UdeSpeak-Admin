@@ -24,14 +24,14 @@ export default function Dashboard() {
               <InfoCard
                 type='dark'
                 title={questionnaries.length}
-                description={`Cuestionario${questionnaries.length > 1?'s': ''}`}
+                description={`Cuestionario${questionnaries.length === 1?'': 's'}`}
               />
             </div>
             <div className='col mb-4'>
               <InfoCard
                 type='primary'
                 title={groups.length + ''}
-                description={`Grupo${groups.length > 1?'s': ''}`}
+                description={`Grupo${groups.length === 1?'': 's'}`}
               />
             </div>
           </div>
@@ -53,7 +53,7 @@ export default function Dashboard() {
           <InfoCard
             type='dark'
             title={questions.length + ''}
-            description={`Pregunta${questions.length > 1?'s': ''}`}
+            description={`Pregunta${questions.length === 1?'': 's'}`}
             className='mb-4'
           />
           <Card className='p-4 mb-4'>
@@ -81,15 +81,14 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          {
-            // TODO:
-            /*
-            <Card>
+          <Card>
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">Grupo</th>
-                  <th scope="col">Estudiantes</th>
+                  <th scope="col">Nombre del grupo</th>
+                  {
+                    //<th scope="col">Estudiantes</th>
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -97,15 +96,16 @@ export default function Dashboard() {
                   groups.map((g, i) => 
                     <tr key={i}>
                       <td>{g.name}</td>
-                      <td>{g.counter}</td>
+                      {
+                        //<td>{g.counter}</td>
+                      }
                     </tr>
                   )
                 }
               </tbody>
             </table>
           </Card>
-            */
-          }
+
         </div>
       </div>
     </div>
