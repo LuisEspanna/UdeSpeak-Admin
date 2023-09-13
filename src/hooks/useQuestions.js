@@ -4,7 +4,8 @@ import {
     updateFirestoreDoc,
     readFromFirestoreWhere,
     readFromFirestore,
-    deleteFromFirestore
+    deleteFromFirestore,
+    deleteFileFromFirebase
 } from '../services/firebase';
 import {  } from '../functions';
 
@@ -66,7 +67,14 @@ export default function useQuestions(questionnary_id) {
     }
 
     const deleteQuestion = async(item) => {
-        //TODO: Validar si hay archivos guardados
+        if (item?.audio && typeof (item?.audio) === 'string') {
+            deleteFileFromFirebase(item?.audio);
+        }
+
+        if (item?.image && typeof (item?.image) === 'string') {
+            deleteFileFromFirebase(item?.image);
+        }
+
         await deleteFromFirestore(COLLECTIONS.QUESTIONS, item.id);
         return true;
     }
