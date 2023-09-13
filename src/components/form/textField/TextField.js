@@ -10,6 +10,7 @@ export default function TextField({placeholder, onChange, name, id, required, va
     
 
     const handleChange = (e) => {
+        setState(e.target.value);
         if(onChange) onChange(e);
     }
 

@@ -22,11 +22,14 @@ export default function QuestionItem({ questionItem, onChange, index, onDelete }
 
 
     const handleChange = (e) => {
+        let newState = {};
         if (questionItem.type === 'question') {
-            setState({ ...state, [e.target.name]: e.target.value });
+            newState = { ...state, [e.target.name]: e.target.value };
         } else {
-            setState({ ...state, [e.target.name]: e.target.value.replaceAll(' ', '') });
+            newState = { ...state, [e.target.name]: e.target.value.replaceAll(' ', '') };
         }
+        setState(newState);
+        onChange(newState);
     }
 
     const handleAddOption = () => {

@@ -74,14 +74,15 @@ export default function useSpeakingView(question) {
         setIsLoading(true);
         // TODO: Validar opciones y preguntas
         if (state.questions && state.questions.length > 0) {
-            if ((state.description && state.description.length > 0) &&
+            if (
+                //(state.description && state.description.length > 0) &&
                 (state.title && state.title.length > 0)) {
 
                 let errors = [];
 
                 state.questions.forEach((q, i) => {
                     if (q?.title === null || q?.title === undefined) {
-                        errors.push('El texto de la pregunta no debe estar vacio');
+                        //errors.push('El texto de la pregunta no debe estar vacio');
                     }
 
                     if (q?.options === null || q?.options === undefined) {
@@ -126,7 +127,7 @@ export default function useSpeakingView(question) {
             } else {
                 Swal.fire(
                     'Error!',
-                    'La descripción es obligatoria',
+                    'El título es obligatorio',
                     'error'
                 )
                 setIsLoading(false);
