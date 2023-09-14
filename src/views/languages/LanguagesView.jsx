@@ -6,9 +6,11 @@ import LanguageItem from './helpers/LanguageItem';
 import useLanguageView from './hooks/useLanguageView';
 import './styles.scss';
 import { useRef } from 'react';
+import usePermissions from '../../hooks/usePermissions';
 
 export default function LanguagesView() {
   const ref = useRef();
+  const { isAdmin } = usePermissions();
 
   const {
     isLoading,
@@ -22,25 +24,28 @@ export default function LanguagesView() {
 
   return (
     <div className='language-view' ref={ref}>
-        <Card>
-          <h4>Idiomas</h4>
-          {!isCreating ? 
-            <div className='d-flex justify-content-center my-3'>
+      <Card>
+        <h4>Idiomas</h4>
+        {!isCreating ?
+          <div className='d-flex justify-content-center my-3'>
+            {
+              isAdmin &&
               <Button
                 type='primary'
                 title={'Crear idioma'}
                 className='px-2'
                 onClick={handleCreate}
               />
-            </div> :
-            <LanguageInput
-              onSave={handleSave}
-              className='mb-3'
-              onCancel={handleCreate}
-            />}
-          {
-            isLoading ? <div>Cargando...</div> : 
-            results.map((language, index) => 
+            }
+          </div> :
+          <LanguageInput
+            onSave={handleSave}
+            className='mb-3'
+            onCancel={handleCreate}
+          />}
+        {
+          isLoading ? <div>Cargando...</div> :
+            results.map((language, index) =>
               <LanguageItem
                 key={index}
                 language={language}
@@ -48,9 +53,9 @@ export default function LanguagesView() {
                 onDelete={handleDelete}
                 className='mb-3'
                 onClick={handleClick}
-            />)
-          }          
-        </Card>
+              />)
+        }
+      </Card>
     </div>
   )
 }

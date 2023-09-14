@@ -6,6 +6,7 @@ import QuestionnarieInput from './helpers/QuestionnarieInput';
 import QuestionnarieItem from './helpers/QuestionnarieItem';
 import './styles.scss';
 import { useRef } from 'react';
+import usePermissions from '../../hooks/usePermissions';
 
 export default function QuestionnariesView() {
   const ref = useRef();
@@ -17,29 +18,37 @@ export default function QuestionnariesView() {
     handleSave,
     handleDelete,
     handleClick
-} = useQuestionnariesView(ref);
+  } = useQuestionnariesView(ref);
+
+  const { isAdmin, isTeacher } = usePermissions();
 
   return (
     <div className='questionnaries-view' ref={ref}>
-        <Card>
-          <h4>Cuestionarios</h4>
-          {!isCreating ? 
-            <div className='d-flex justify-content-center my-3'>
-              <Button
-                type='primary'
-                title={'Crear cuestionario'}
-                className='px-2'
-                onClick={handleCreate}
-              />
-            </div> :
-            <QuestionnarieInput
-              onSave={handleSave}
-              className='mb-3'
-              onCancel={handleCreate}
-            />}
-          {
-            isLoading ? <div>Cargando...</div> : 
-            results.map((questionnarie, index) => 
+      <Card>
+        <h4>Cuestionarios</h4>
+        {
+          (isAdmin || isTeacher) &&
+          <>
+            {!isCreating ?
+              <div className='d-flex justify-content-center my-3'>
+                <Button
+                  type='primary'
+                  title={'Crear cuestionario'}
+                  className='px-2'
+                  onClick={handleCreate}
+                />
+              </div> :
+              <QuestionnarieInput
+                onSave={handleSave}
+                className='mb-3'
+                onCancel={handleCreate}
+              />}
+          </>
+        }
+
+        {
+          isLoading ? <div>Cargando...</div> :
+            results.map((questionnarie, index) =>
               <QuestionnarieItem
                 key={index}
                 questionnarie={questionnarie}
@@ -47,9 +56,9 @@ export default function QuestionnariesView() {
                 onDelete={handleDelete}
                 className='mb-3'
                 onClick={handleClick}
-            />)
-          }          
-        </Card>
+              />)
+        }
+      </Card>
     </div>
   )
 }
