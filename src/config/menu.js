@@ -7,41 +7,43 @@ import { PERMISSIONS } from "../constants";
 const menu = () => {
     return [
         {
-            "title": "Dashboard",
+            "title": "Inicio",
+            "permissions": [PERMISSIONS.ADMIN, PERMISSIONS.TEACHER],
             "children": [
                 {
                     "title": "Dashboard",
                     "icon": <DashboardIcon />,
-                    "permission": "all",
+                    "permissions": [PERMISSIONS.ADMIN, PERMISSIONS.TEACHER],
                     "url": "/dashboard"
                 }
             ]
         },
         {
             "title": "Funciones",
-            "permission": "all",
+            "permissions": PERMISSIONS.ALL,
             "children": [
                 {
                     "title": "Idiomas",
-                    "permission": PERMISSIONS.ALL,
+                    "permissions": PERMISSIONS.ALL,
                     "url": "/dashboard/languages",
                     "icon": <LanguageIcon />,
                 },
                 {
                     "title": "Usuarios",
                     "icon": <UsersIcon />,
-                    "permission": PERMISSIONS.ALL,
+                    "permissions": [PERMISSIONS.ADMIN, PERMISSIONS.TEACHER],
                     "url": "/dashboard/users"
                 }
             ]
         },
         {
             "title": "Reportes",
+            "permissions": PERMISSIONS.ALL,
             "children": [
                 {
                     "title": "Bugs",
                     "icon": <BugIcon />,
-                    "permission": "all",
+                    "permissions": PERMISSIONS.ALL,
                     "url": "/dashboard/bugs"
                 }
             ]

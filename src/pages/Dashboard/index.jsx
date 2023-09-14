@@ -17,12 +17,13 @@ import QuestionView from '../../views/question/QuestionView';
 import { ROUTES } from '../../constants';
 import ProfileView from '../../views/profile/ProfileView';
 import DashboardView from '../../views/dashboard/DashboardView';
+import NotFound404 from '../NotFound404/NotFound404';
 
 function Dashboard() {
 
     const sidebarState = useSelector((state) => state.sidebar.isOpen);
     const { view } = useParams();
-    usePermissions();
+    const { isAdmin, isTeacher, isStudent} = usePermissions();
 
     return (
         <div className='dashboard' id='dashboard'>
@@ -32,12 +33,13 @@ function Dashboard() {
                 { view === ROUTES.USERS && <UsersView/> }
                 { view === ROUTES.LANGUAGES && <LanguagesView/> }
                 { view === ROUTES.LEVELS && <LevelsView/> }
-                { view === ROUTES.GROUPS && <GroupsView/> }
+                { view === ROUTES.GROUPS && (isAdmin || isTeacher) && <GroupsView/> }
                 { view === ROUTES.QUESTIONNARIES && <QuestionnariesView/> }
-                { view === ROUTES.QUESTIONS && <QuestionsView/> }
-                { view === ROUTES.QUESTION && <QuestionView/> }
+                { view === ROUTES.QUESTIONS && (isAdmin || isTeacher) && <QuestionsView/> }
+                { view === ROUTES.QUESTION && (isAdmin || isTeacher) && <QuestionView/> }
                 { view === ROUTES.PROFILE && <ProfileView/> }
-                { view === undefined && <DashboardView/> }
+                { (view === undefined && !isStudent) && <DashboardView/> }
+                { (view === ROUTES.GROUPS || view === ROUTES.QUESTIONNARIES || view === ROUTES.QUESTIONS || view === ROUTES.QUESTION || view === ROUTES.DASHBOARD || view === undefined) && isStudent && <NotFound404/> }
             </div>
         </div>
     )

@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import QuestionnarieInput from './QuestionnarieInput';
+import usePermissions from '../../../hooks/usePermissions';
 
 
 export default function QuestionnarieItem({ questionnarie, onSave, onDelete, className, onClick }) {
   const [state, setState] = useState({ ...questionnarie });
   const [isEditing, setIsEditing] = useState(false);
+  const { isAdmin, isTeacher } = usePermissions();
 
   useEffect(() => {
-    setState({...questionnarie});
+    setState({ ...questionnarie });
   }, [questionnarie]);
 
 
@@ -62,10 +64,13 @@ export default function QuestionnarieItem({ questionnarie, onSave, onDelete, cla
               </div>
             </div>
           </div>
-          <div className='col-2 d-flex'>
-            <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-            <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
-          </div>
+          {
+            (isAdmin || isTeacher) &&
+            <div className='col-2 d-flex'>
+              <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
+              <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
+            </div>
+          }
         </div>
       </div>
     )

@@ -6,6 +6,7 @@ import GroupInput from './helpers/GroupInput';
 import GroupItem from './helpers/GroupItem';
 import './styles.scss';
 import { useRef } from 'react';
+import usePermissions from '../../hooks/usePermissions';
 
 export default function GroupsView() {
   const ref = useRef();
@@ -17,29 +18,37 @@ export default function GroupsView() {
     handleSave,
     handleDelete,
     handleClick
-} = useGroupsView(ref);
+  } = useGroupsView(ref);
+
+  const { isAdmin, isTeacher } = usePermissions();
 
   return (
     <div className='groups-view' ref={ref}>
-        <Card>
-          <h4>Grupos</h4>
-          {!isCreating ? 
-            <div className='d-flex justify-content-center my-3'>
-              <Button
-                type='primary'
-                title={'Crear grupo'}
-                className='px-2'
-                onClick={handleCreate}
-              />
-            </div> :
-            <GroupInput
-              onSave={handleSave}
-              className='mb-3'
-              onCancel={handleCreate}
-            />}
-          {
-            isLoading ? <div>Cargando...</div> : 
-            results.map((group, index) => 
+      <Card>
+        <h4>Grupos</h4>
+        {
+          (isAdmin || isTeacher) &&
+          <>
+            {!isCreating ?
+              <div className='d-flex justify-content-center my-3'>
+                <Button
+                  type='primary'
+                  title={'Crear grupo'}
+                  className='px-2'
+                  onClick={handleCreate}
+                />
+              </div> :
+              <GroupInput
+                onSave={handleSave}
+                className='mb-3'
+                onCancel={handleCreate}
+              />}
+          </>
+        }
+
+        {
+          isLoading ? <div>Cargando...</div> :
+            results.map((group, index) =>
               <GroupItem
                 key={index}
                 group={group}
@@ -47,9 +56,9 @@ export default function GroupsView() {
                 onDelete={handleDelete}
                 className='mb-3'
                 onClick={handleClick}
-            />)
-          }          
-        </Card>
+              />)
+        }
+      </Card>
     </div>
   )
 }
