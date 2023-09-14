@@ -5,6 +5,7 @@ import useLevelsView from './hooks/useLevelsView';
 import LevelInput from './helpers/LevelInput';
 import LevelItem from './helpers/LevelItem';
 import './styles.scss';
+import usePermissions from "../../hooks/usePermissions";
 
 export default function LevelsAndGroups() {
   const ref = useRef();
@@ -16,29 +17,39 @@ export default function LevelsAndGroups() {
     handleSave,
     handleDelete,
     handleClick
-} = useLevelsView(ref);
+  } = useLevelsView(ref);
+
+  const { isAdmin } = usePermissions();
 
   return (
     <div className='levels-view' ref={ref}>
-        <Card>
-          <h4>Niveles</h4>
-          {!isCreating ? 
-            <div className='d-flex justify-content-center my-3'>
-              <Button
-                type='primary'
-                title={'Crear nivel'}
-                className='px-2'
-                onClick={handleCreate}
-              />
-            </div> :
-            <LevelInput
-              onSave={handleSave}
-              className='mb-3'
-              onCancel={handleCreate}
-            />}
-          {
-            isLoading ? <div>Cargando...</div> : 
-            results.map((level, index) => 
+      <Card>
+        <h4>Niveles</h4>
+        {
+          isAdmin &&
+          <>
+            {
+              (!isCreating) ?
+                <div className='d-flex justify-content-center my-3'>
+                  <Button
+                    type='primary'
+                    title={'Crear nivel'}
+                    className='px-2'
+                    onClick={handleCreate}
+                  />
+                </div> :
+                <LevelInput
+                  onSave={handleSave}
+                  className='mb-3'
+                  onCancel={handleCreate}
+                />
+            }
+          </>
+        }
+
+        {
+          isLoading ? <div>Cargando...</div> :
+            results.map((level, index) =>
               <LevelItem
                 key={index}
                 level={level}
@@ -46,9 +57,9 @@ export default function LevelsAndGroups() {
                 onDelete={handleDelete}
                 className='mb-3'
                 onClick={handleClick}
-            />)
-          }          
-        </Card>
+              />)
+        }
+      </Card>
     </div>
   )
 }

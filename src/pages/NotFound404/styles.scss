@@ -24,10 +24,18 @@
         color: $color-primary-dark;
     }
 
-    .button-primary{
+    .nf-card-container{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .nf-action-btn{
         margin-top: 1.3em;
         max-width: 10em;
         min-width: 10em;
         align-self: center;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 }

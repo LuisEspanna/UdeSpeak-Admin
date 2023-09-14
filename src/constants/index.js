@@ -14,7 +14,7 @@ const PERMISSIONS = {
     ADMIN: 'Administrador',
     TEACHER: 'Docente',
     STUDENT: 'Estudiante',
-    ALL: 'All'
+    ALL: ['Administrador', 'Docente', 'Estudiante']
 }
 
 const STORAGE = {

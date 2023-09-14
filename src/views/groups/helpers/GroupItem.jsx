@@ -3,14 +3,16 @@ import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import { getDisplayName } from '../../../functions';
 import GroupInput from './GroupInput';
+import usePermissions from '../../../hooks/usePermissions';
 
 
 export default function GroupItem({ group, onSave, onDelete, className, onClick }) {
   const [state, setState] = useState({ ...group });
   const [isEditing, setIsEditing] = useState(false);
+  const { isAdmin, isTeacher } = usePermissions();
 
   useEffect(() => {
-    setState({...group});
+    setState({ ...group });
   }, [group]);
 
 
@@ -65,10 +67,13 @@ export default function GroupItem({ group, onSave, onDelete, className, onClick 
               </div>
             </div>
           </div>
-          <div className='col-2 d-flex'>
-            <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-            <TrashIcon className={'icon auto-hide-icon '} onClick={handleDelete} />
-          </div>
+          {
+            (isAdmin || isTeacher) &&
+            <div className='col-2 d-flex'>
+              <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
+              <TrashIcon className={'icon auto-hide-icon '} onClick={handleDelete} />
+            </div>
+          }
         </div>
       </div>
     )

@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LevelInput from './LevelInput';
+import usePermissions from '../../../hooks/usePermissions';
 
 
 export default function LevelItem({ level, onSave, onDelete, className, onClick }) {
   const [state, setState] = useState({ ...level });
   const [isEditing, setIsEditing] = useState(false);
+  const { isAdmin } = usePermissions();
 
   useEffect(() => {
     setState({...level});
@@ -64,8 +66,13 @@ export default function LevelItem({ level, onSave, onDelete, className, onClick 
             </div>
           </div>
           <div className='col-2 d-flex'>
-            <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-            <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
+            {
+              isAdmin &&
+              <>
+                <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
+                <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
+              </>
+            }
           </div>
         </div>
       </div>

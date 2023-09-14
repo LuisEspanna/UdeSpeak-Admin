@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LanguageInput from './LanguageInput';
+import usePermissions from '../../../hooks/usePermissions';
 
-export default function LanguageItem({language, onSave, onDelete, className, onClick}) {
-    const [state, setState] = useState({...language});
+export default function LanguageItem({ language, onSave, onDelete, className, onClick }) {
+    const [state, setState] = useState({ ...language });
     const [isEditing, setIsEditing] = useState(false);
+    const { isAdmin } = usePermissions();
 
     useEffect(() => {
-        setState({...language});
+        setState({ ...language });
     }, [language]);
 
 
@@ -18,37 +20,38 @@ export default function LanguageItem({language, onSave, onDelete, className, onC
 
     const handleCancel = () => {
         setIsEditing(false);
-        setState({...language});
+        setState({ ...language });
     }
 
     const handleSave = (editedLanguage) => {
         setIsEditing(false);
         const newLanguage = {
-            ...editedLanguage ,
-            id: language.id, 
-            prevImage: typeof(language.image) === 'string' ? language.image : null};
-        
-        if(newLanguage.image === language?.image){
+            ...editedLanguage,
+            id: language.id,
+            prevImage: typeof (language.image) === 'string' ? language.image : null
+        };
+
+        if (newLanguage.image === language?.image) {
             delete newLanguage['prevImage'];
         }
-            
+
         setState(newLanguage);
-        if(onSave)onSave(newLanguage);
+        if (onSave) onSave(newLanguage);
     }
 
     const handleDelete = () => {
-        if(onDelete)onDelete(state);
+        if (onDelete) onDelete(state);
     }
 
     const handleClick = () => {
-        if(onClick)onClick(state);
+        if (onClick) onClick(state);
     }
 
-    if(isEditing) {
+    if (isEditing) {
         return (
-            <LanguageInput 
-                onSave={handleSave} 
-                language={state} 
+            <LanguageInput
+                onSave={handleSave}
+                language={state}
                 onCancel={handleCancel}
                 className='mb-3'
             />)
@@ -60,17 +63,20 @@ export default function LanguageItem({language, onSave, onDelete, className, onC
                         <div className='row align-items-center'>
                             <div className='image-container'>
                                 <img src={typeof (state.image) === 'string' ? state.image :
-                                    URL.createObjectURL(state.image)} alt=''/>
+                                    URL.createObjectURL(state.image)} alt='' />
                             </div>
                             <div className='col align-items-center'>
                                 <div>{state.name}</div>
                             </div>
                         </div>
                     </div>
-                    <div className='col-2 d-flex'>
-                        <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-                        <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
-                    </div>
+                    {
+                        isAdmin &&
+                        <div className='col-2 d-flex'>
+                            <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
+                            <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
+                        </div>
+                    }
                 </div>
             </div>
         )
