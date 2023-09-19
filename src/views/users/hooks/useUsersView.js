@@ -10,17 +10,19 @@ import {
 import Swal from 'sweetalert2';
 import { useDashboard } from '../../../context/dashboard-context';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import useGenericSearch from '../../../hooks/useGenericSearch';
 
 
 export default function useUsersView(ref) {
-    const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [filteredUsers, setFilteredUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(undefined);
-    const [filterApplied, setFilterApplied] = useState('Administrador');
     const [currentPermission, setCurrentPermission] = useState(undefined);
     const { setSearchAction } = useDashboard();
+    const { results, search, setItems } = useGenericSearch();
+    const [filterApplied, setFilterApplied] = useState('Administrador');
+    const [allUsers, setAllUsers] = useState([]);
+
     const [counters, setCounters] = useState({
         Administrador: 0,
         Docente: 0,
@@ -30,37 +32,27 @@ export default function useUsersView(ref) {
 
     useOnClickOutside(ref, (event)=>{
         if(event.target.placeholder === 'Search'){
-            setSearchAction({function : handleFilterText});
+            setSearchAction({function : (e) => {
+                search(e);
+                setFilterApplied(e);
+            }});
         }
     });
 
-    const handleFilterText = (newText) => {
-        let localFilteredUsers = [];
-        if(newText.length > 0){
-            localFilteredUsers = users.filter((user)=>user.permission === filterApplied);
-            localFilteredUsers = localFilteredUsers.filter((user)=>(
-                user.email.toLowerCase().includes(newText.toLowerCase()) ||
-                user.displayName.toLowerCase().includes(newText.toLowerCase())
-            ));
-        } else {
-            localFilteredUsers = users.filter(user => filterApplied === user.permission);
-        }
-        setFilteredUsers(localFilteredUsers);
-    }
-
     useEffect(() => {        
         async function fetchUsers() {
+            setIsLoading(true);
             const localUsers = await getAll();
-            setUsers(localUsers);
+            setItems(localUsers);
+            setAllUsers(localUsers);
+            setFilterApplied('Todos');
             const newCounters = {};
-            const localFilteredUsers = [];
 
             localUsers.forEach((user)=>{
                 newCounters[user.permission] = (newCounters[user.permission] ? newCounters[user.permission] : 0) + 1;
-                if(filterApplied === user.permission) localFilteredUsers.push(user);
             });
             setCounters(newCounters);
-            setFilteredUsers(localFilteredUsers);
+            setIsLoading(false);
         }
         fetchUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -181,36 +173,38 @@ export default function useUsersView(ref) {
             name: 'Estudiante',
             uid: currentUser.uid
         }
-        saveOnFirestore(COLLECTIONS.ACCESS_KEYS, null, data).then((res) => {
-            const localPermissions = currentUser.permissions;
-            const newPermission = { ...data, key: res.id, expires: date };
-            const newPermissions = [...localPermissions, newPermission];
 
-            setCurrentUser({ ...currentUser, permissions: newPermissions });
-        });
+        if(currentUser.permissions.length > 0){
+            Swal.fire(
+                'Eliminado!',
+                'El usuario solo puede tener un tipo de permisos.',
+                'warning'
+            )
+        } else {
+            saveOnFirestore(COLLECTIONS.ACCESS_KEYS, null, data).then((res) => {
+                const localPermissions = currentUser.permissions;
+                const newPermission = { ...data, key: res.id, expires: date };
+                const newPermissions = [...localPermissions, newPermission];
+    
+                setCurrentUser({ ...currentUser, permissions: newPermissions });
+            });
+        }
     }
 
-    const handleFilter = (filterText) => {
-        setFilterApplied(filterText);
-
-        const localUsers = [...users];
-        const localFilteredUsers = [];
-
-        localUsers.forEach((user)=>{
-            if(filterText === user.permission) localFilteredUsers.push(user);
-        });
-        setFilteredUsers(localFilteredUsers);
+    const handleSearch = (text) => {
+        search(text);
+        setFilterApplied(text);
     }
 
     return {
-        users,
         currentUser,
         isLoading,
         isEditing,
         currentPermission,
         counters,
-        filteredUsers,
+        results,
         filterApplied,
+        allUsers,
         handleUser,
         handleDelete,
         handleDate,
@@ -218,6 +212,6 @@ export default function useUsersView(ref) {
         handleEdit,
         handleType,
         handleCreate,
-        handleFilter
+        handleSearch
     }
 }
