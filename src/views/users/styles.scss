@@ -1,8 +1,20 @@
 @import '../../styles/colors.scss';
 
-.view-title{
-    font-size: x-large;
-    color: $color-primary-dark;
-    font-weight: 600;
-    margin-bottom: 1.5em;
-}
+.users-view{
+    .view-title{
+        color: #4d4d4d;
+        margin-bottom: 1.5em;
+        margin-bottom: 2em;
+        font-style: italic;
+    }
+
+    .arrow-btn{
+        max-width: 3em;
+        margin-left: 2em;
+        margin-right: 3em;
+
+        svg{
+            stroke: #9c9c9c;
+        }
+    }
+}   
