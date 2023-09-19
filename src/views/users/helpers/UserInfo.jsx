@@ -7,6 +7,7 @@ import TrashIcon from '../../../components/icons/TrashIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import ArrowIcon from '../../../components/icons/ArrowIcon';
+import ReloadIcon from '../../../components/icons/ReloadIcon';
 
 export default function UserInfo({
     user,
@@ -19,7 +20,8 @@ export default function UserInfo({
     handleType,
     currentUser,
     handleCreate,
-    currentPermission
+    currentPermission,
+    isLoading
 }) {
 
     const [open, setOpen] = useState(false);
@@ -27,6 +29,10 @@ export default function UserInfo({
     const handleOpen = () => {
         setOpen(!open);
         if (!open && handleUser) handleUser(user);
+    }
+
+    const handleReload = () => {
+        if (handleUser) handleUser(user);
     }
 
     return (
@@ -38,9 +44,15 @@ export default function UserInfo({
                 <div className='col'>
                     {!open && <p className='email'>{user?.email}</p>}
                 </div>
-                <div className='col-1 arrow-btn' onClick={handleOpen}>
-                    <ArrowIcon className={`${open?'open':'closed'}`}/>
-                </div>
+                {
+                    (user?.uid !== currentUser?.uid && open && !isLoading) ?
+                        <div className='col-1 arrow-btn' onClick={handleReload}>
+                            <ReloadIcon className='icon'/>
+                        </div>:
+                        <div className='col-1 arrow-btn' onClick={handleOpen}>
+                            <ArrowIcon className={`${open ? 'open' : 'closed'}`} />
+                        </div>
+                }
             </div>
             <hr className='hr' />
             {
@@ -51,16 +63,22 @@ export default function UserInfo({
                             <Avatar photoURL={user?.photoURL} />
                             <span className='email'>{user?.email}</span>
                         </div>
-                        <div className='col-3'>
+                        {
+                            /*
+                            TODO: Report user
+
+                            <div className='col-3'>
                             <Button
                                 type='danger'
                                 className={'w-100'}
                                 title={'Reportar'} />
-                        </div>
+                            </div>
+                            */
+                        }
                     </div>
                     <p className='my-4'>Permisos</p>
                     {
-                        currentUser?.permissions &&
+                        (currentUser?.permissions && user?.uid === currentUser?.uid) &&
                         <div className='table-container'>
                             <table className="table">
                                 <thead>
@@ -80,21 +98,21 @@ export default function UserInfo({
                                                         <select onChange={(e) => handleType(e, p, i)} className="form-select" defaultValue={p.name}>
                                                             <option value={'Administrador'}>Administrador</option>
                                                             <option value={'Docente'}>Docente</option>
-                                                            <option value={'Estudiante'}>Estudiante</option>                                                            
+                                                            <option value={'Estudiante'}>Estudiante</option>
                                                         </select>
                                                     </td>
                                                     <td>{p.key}</td>
                                                     <td>
                                                         <p style={{ fontSize: '0.67em', marginBottom: 0 }}>{toDateFormat(p.expires)}</p>
-                                                            <input
-                                                                type="datetime-local"
-                                                                onChange={(e) => handleDate(e, p, i)}
-                                                                min={toISOFormat(new Date())} 
+                                                        <input
+                                                            type="datetime-local"
+                                                            onChange={(e) => handleDate(e, p, i)}
+                                                            min={toISOFormat(new Date())}
                                                         />
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <SaveIcon  onClick={() => handleSave(i)} className='icon mx-2' />
+                                                            <SaveIcon onClick={() => handleSave(i)} className='icon mx-2' />
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -104,7 +122,7 @@ export default function UserInfo({
                                                     <td>{toDateFormat(p.expires)}</td>
                                                     <td>
                                                         <PencilIcon onClick={() => handleEdit(i)} />
-                                                        <TrashIcon onClick={() => handleDelete(i)} className='mx-2' />
+                                                        <TrashIcon onClick={() => handleDelete(i)} className='icon mx-2 ' />
                                                     </td>
                                                 </tr>
                                         )
@@ -113,8 +131,12 @@ export default function UserInfo({
                                 </tbody>
                             </table>
                             <div className='d-flex justify-content-end'>
-                                <Button title='Agregar permisos' onClick={handleCreate} type='primary' style={{width: '10em'}}/>
+                                {
+                                    currentUser?.permissions?.length === 0 &&
+                                    <Button title='Agregar permiso' onClick={handleCreate} type='primary' style={{ width: '10em' }} />
+                                }
                             </div>
+                            <hr className='hr mb-4' />
                         </div>
                     }
                 </div>
