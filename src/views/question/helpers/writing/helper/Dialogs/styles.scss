@@ -1,0 +1,42 @@
+.dialog-list-element{
+    background-color: inherit;
+    .dialog-title{
+        font-size: 1.4em;
+        color: #08677C;
+        font-weight: bold;
+    }
+
+    .toglee-area{
+        display: flex;
+        align-content: flex-start;
+
+        .togleeBtn{
+            margin-top: 1.5em;
+            margin-left: 1em;
+        }
+    }
+}
+
+
+.dialog-option-element{
+    background-color: inherit;
+    .dialog-title{
+        font-size: 1.4em;
+        color: #08677C;
+        font-weight: bold;
+    }
+
+    .txt-letter{
+        max-width: 5em;
+    }
+
+    .toglee-area{
+        display: flex;
+        align-content: flex-start;
+
+        .togleeBtn{
+            margin-top: 1.5em;
+            margin-left: 1em;
+        }
+    }
+}
