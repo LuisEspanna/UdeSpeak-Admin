@@ -6,7 +6,6 @@ import 'firebase/compat/storage';
 import 'firebase/compat/messaging';
 import { getAuth } from 'firebase/auth';
 
-
 let firebaseConfig = {
   apiKey: `${process.env.REACT_APP_API_KEY}`,
   authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
@@ -22,8 +21,8 @@ const firestore = firebase.firestore;
 const storage = firebase.storage();
 
 /**
- * @param {String} collection 
- * @param {String} document 
+ * @param {string} collection 
+ * @param {string} document 
  * @param {Object} data 
  * @returns 
  */
@@ -33,8 +32,8 @@ const storage = firebase.storage();
 }
 
 /**
-* @param {String} collection 
-* @param {String} document 
+* @param {string} collection 
+* @param {string} document 
 * @returns 
 */
 const readFromFirestore = async(collection, document) => {
@@ -44,8 +43,8 @@ const readFromFirestore = async(collection, document) => {
 
 /**
 * 
-* @param {String} collection
-* @param {String} document
+* @param {string} collection
+* @param {string} document
 * @param {*} data 
 */
 const updateFirestoreDoc = async(collection, document, data) => {
@@ -54,8 +53,8 @@ const updateFirestoreDoc = async(collection, document, data) => {
 
 /**
 * 
-* @param {String} collection
-* @param {String} document
+* @param {string} collection
+* @param {string} document
 * @param {*} data 
 */
 const incrementFieldValue = async(collection, document, value) => {
@@ -65,11 +64,13 @@ const incrementFieldValue = async(collection, document, value) => {
   });
 }
 
+
 /**
- * @param {String} collection
- * @param {String} document
- * @param {String} field 
- * @param {String} comparator
+ * @typedef { "==" | "!=" | "<" | "<=" | ">" | ">=" | "array-contains" | "in" | "not-in" | "array-contains-any"} Comparators
+ * @param {string} collection
+ * @param {string} document
+ * @param {string} field 
+ * @param {Comparators} comparator
  * @param {any} value 
  * @returns 
  */
@@ -79,8 +80,8 @@ const readFromFirestoreWhere = async(collection, document, field, comparator, va
 }
 
 /**
-* @param {String} collection 
-* @param {String} document 
+* @param {string} collection 
+* @param {string} document 
 * @returns 
 */
 const deleteFromFirestore = async(collection, document) => {
@@ -89,8 +90,8 @@ const deleteFromFirestore = async(collection, document) => {
 }
 
 /**
-* @param {String} route 
-* @param {String} fileName 
+* @param {string} route 
+* @param {string} fileName 
 * @param {File} file
 * @returns 
 */
@@ -106,7 +107,7 @@ const saveFileOnFirebase = async(route, fileName, file) => {
 }
 
 /**
-* @param {String} fileURL
+* @param {string} fileURL
 * @returns 
 */
 const deleteFileFromFirebase = async(fileURL) => {

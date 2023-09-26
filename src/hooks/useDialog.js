@@ -3,6 +3,8 @@
 import { useState } from 'react';
 
 export default function useDialog() {
+    const [showCancelBtn, setShowCancelBtn] = useState(true);
+    const [showAcceptBtn, setShowAcceptBtn] = useState(true);
     const [isVisibleDialog, setIsVisibleDialog] = useState(false);
     const [contentDialog, setContentDialog] = useState();
     const [onAcceptDialog, setOnAcceptDialog] = useState();
@@ -21,58 +23,23 @@ export default function useDialog() {
         setContentDialog(null);
     }
 
-    /*
-    const swap = async() => {
-        await sleep(1500).finally(()=>{
-            let dashboard = document.getElementById('dashboard');
-            let node = document.getElementById('dialog_overlay');
-            let parent = node?.parentNode;
-            let found = false;
-
-            parent?.childNodes?.forEach(n => {
-                if( n === node)
-                found = true;
-            })
-            
-            if(found){
-                parent.removeChild(node);
-                dashboard.appendChild(node);
-            }
-            console.log('swap', found)
-        });
-    }
-
-
-    const forceClose = () => {
-        let dashboard = document.getElementById('dashboard');
-        let node = document.getElementById('dialog_overlay');
-        let found = false;
-        
-        dashboard?.childNodes?.forEach(n => {
-            if( n === node)
-            found = true;
-        })
-        
-        if(found){
-            dashboard.removeChild(node);
-        }
-    }
-    */
-
     const setVisibleDialog = (visible) => {
-        //if(visible) swap();
         setIsVisibleDialog(visible);
     }
 
     return {
+        showCancelBtn,
+        showAcceptBtn,
+        isVisibleDialog,
+        contentDialog,
         setVisibleDialog,
         setContentDialog,
         setOnAcceptDialog,
         setOnCancelDialog,
         handleAcceptDialog,
         handleCancelDialog,
-        isVisibleDialog,
-        contentDialog,
-        setChanges
+        setChanges,
+        setShowCancelBtn,
+        setShowAcceptBtn
     }
 }

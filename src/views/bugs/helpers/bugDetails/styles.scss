@@ -1,0 +1,27 @@
+.bug-details{
+    .row{
+        margin-bottom: 0.7em;
+    }
+
+    .image{
+        width: 100% !important;
+        max-width: 100% !important;
+    }  
+    
+    .image-container{
+        max-height: 25em;
+        overflow-y: auto;
+        overflow-x: auto;
+        margin-bottom: 0.8em;
+        border-radius: 0.8em;
+        -webkit-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+        -moz-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+        box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+        margin-top: 2em;
+    }
+
+    .description-container{
+        max-height: 6em;
+        overflow-y: auto;
+    }
+}

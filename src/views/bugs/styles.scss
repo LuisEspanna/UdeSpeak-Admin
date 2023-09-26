@@ -1,0 +1,41 @@
+@import '../../components/button/button.scss';
+
+.bugs-view{
+    .view-title{
+        color: #08677C;
+        font-weight: bold;
+        font-size: large;
+        margin-bottom: 2em;
+    }
+
+    input::file-selector-button {
+        @extend .button-primary;
+        font-size: 0.8em;
+        padding: 0.5em;
+        display: inline-block;
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+
+    .text-area{
+        width: 100%;
+        margin-bottom: 2em;
+        padding: 0.5em;
+    }
+
+    .img-preview{
+        width: 50%;
+        max-width: 50%;
+        margin-bottom: 1em;
+        border-radius: 1em;
+        -webkit-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+        -moz-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+        box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+    }
+
+    .custom-tr{
+        &:hover{
+            background-color: #E3F2FD;
+        }
+    }
+}
