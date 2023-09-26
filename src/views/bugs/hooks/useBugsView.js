@@ -3,8 +3,9 @@ import Swal from "sweetalert2";
 import useBugs from '../../../hooks/useBugs';
 import usePermissions from "../../../hooks/usePermissions";
 import { PERMISSIONS } from "../../../constants";
+import BugDetails from "../helpers/bugDetails/BugDetails";
 
-export default function useBugsView() {
+export default function useBugsView(dialogProps) {
     const [state, setState] = useState({description: ''});
     const [image, setImage] = useState(undefined);
     const [isLoading, setIsLoading] = useState(false);
@@ -114,6 +115,15 @@ export default function useBugsView() {
         });
     }
 
+
+    const handleBugDetails = (bug) => {
+        dialogProps.setShowCancelBtn(false);
+        dialogProps.setContentDialog(
+            <BugDetails bug={bug} />
+        );
+        dialogProps.setVisibleDialog(true);
+    }
+
     return {
         state,
         image,
@@ -122,6 +132,7 @@ export default function useBugsView() {
         handleDeleteBug,
         handleImage,
         handleCreateBug,
-        handleChange
+        handleChange,
+        handleBugDetails
     }
 }

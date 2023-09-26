@@ -5,8 +5,13 @@ import TrashIcon from '../../components/icons/TrashIcon';
 import './styles.scss';
 import { toDateFormat } from '../../functions';
 import useBugsView from "./hooks/useBugsView";
+import Dialog from '../../components/Dialog/Dialog';
+import useDialog from '../../hooks/useDialog';
+import EyeIcon from '../../components/icons/EyeIcon';
 
 export default function BugsView() {
+  const dialogProps = useDialog();
+
   const {
     state,
     image,
@@ -14,8 +19,9 @@ export default function BugsView() {
     handleImage,
     handleDeleteBug,
     handleCreateBug,
-    handleChange
-  } = useBugsView();
+    handleChange,
+    handleBugDetails
+  } = useBugsView(dialogProps);
 
   return (
     <div className='bugs-view'>
@@ -32,7 +38,7 @@ export default function BugsView() {
               <div className='col-12'>
                 {
                   ((typeof (image) === 'object') ?
-                    <img src={URL.createObjectURL(image)} id="output" alt='' width={'50%'}/> :
+                    <img src={URL.createObjectURL(image)} id="output" alt='' className='img-preview' /> :
                     <img src={image || ''} alt='' />)
                 }
               </div>
@@ -63,13 +69,18 @@ export default function BugsView() {
                 <tbody>
                   {
                     bugs?.map((b, i) =>
-                      <tr key={i}>
-                        <td>{b.description}</td>
+                      <tr key={i} className='custom-tr'>
+                        <td>{(b.description ? b.description : 'No tiene descripción')}</td>
                         <td>{toDateFormat(b.created_at)}</td>
                         <td>
-                          <Button type='danger' onClick={() => handleDeleteBug(b)}>
-                            <TrashIcon className='icon mx-2' />
-                          </Button>
+                          <div className='d-flex'>
+                            <Button type='primary' className='me-2' onClick={() => handleBugDetails(b)}>
+                              <EyeIcon className='icon mx-2' />
+                            </Button>
+                            <Button type='danger' onClick={() => handleDeleteBug(b)}>
+                              <TrashIcon className='icon mx-2' />
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     )
@@ -80,6 +91,7 @@ export default function BugsView() {
           }
         </div>
       </Card>
+      <Dialog {...dialogProps} className='w-75' />
     </div>
   )
 }

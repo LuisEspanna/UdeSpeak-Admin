@@ -23,12 +23,19 @@
         padding: 0.5em;
     }
 
-    img{
+    .img-preview{
+        width: 50%;
         max-width: 50%;
         margin-bottom: 1em;
         border-radius: 1em;
         -webkit-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
         -moz-box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
         box-shadow: 5px 2px 36px -18px rgba(0,0,0,0.75);
+    }
+
+    .custom-tr{
+        &:hover{
+            background-color: #E3F2FD;
+        }
     }
 }
