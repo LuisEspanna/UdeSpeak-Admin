@@ -32,7 +32,6 @@ export default function RowQuestionOption({option, onDelete, onSave, type, onEdi
                     <Button type='primary' onClick={onEdit}>
                         <PencilIcon className='icon'/>
                     </Button>
-
                     <Button type='danger' className='mx-2' onClick={onDelete}>
                         <TrashIcon className='icon'/>
                     </Button>

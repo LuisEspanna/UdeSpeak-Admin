@@ -7,7 +7,8 @@ const COLLECTIONS = {
     GROUPS: 'groups',
     LANGUAGES: 'languages',
     QUESTIONNARIES: 'questionnaries',
-    QUESTIONS: 'questions'
+    QUESTIONS: 'questions',
+    BUGS: 'bugs'
 }
 
 const PERMISSIONS = {
@@ -21,7 +22,8 @@ const STORAGE = {
     LANGUAGES: 'languages',
     QUESTION: 'question',
     AUDIOS: 'audios',
-    IMAGES: 'images'
+    IMAGES: 'images',
+    BUGS: 'bugs'
 }
 
 const ROUTES = {
@@ -33,7 +35,8 @@ const ROUTES = {
     QUESTIONNARIES: 'questionnaries',
     QUESTIONS: 'questions',
     QUESTION: 'question',
-    PROFILE: 'profile'
+    PROFILE: 'profile',
+    BUGS: 'bugs'
 }
 
 const TYPES = {
