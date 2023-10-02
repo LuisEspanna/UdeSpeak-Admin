@@ -1,0 +1,51 @@
+.phone-container{
+    background-color: #FFFFFF;
+    height: 43.5em;
+    width: 23em;
+    max-width: 23em;
+    min-width: 23em;
+    border-radius: 1em;
+    position: relative;
+    
+
+    .phone-header{
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5em;
+        padding-left: 1.2em;
+        padding-right: 1.2em;
+        font-weight: bold;
+        width: 100%;
+        position: absolute;
+
+        svg{
+            width: 4.1em;
+            height: auto;
+        }
+    }
+
+    .phone-content{
+        padding: 1em;
+        overflow: auto;
+        max-height: 37.5em;
+        height: 36em;
+        padding-bottom: 5em;
+        border-radius: 0.8em;
+        margin: 1.2em;
+        padding: 1.2em;
+        margin-top: 2.5em;
+        transition: all;
+        transition-duration: 500ms;
+        border: 2px solid #96969604;
+
+        &:hover{
+            border: 2px solid #96969625;            
+        }
+    }
+
+    .round-btn{
+        border-radius: 50% !important;
+        height: 2.5em;
+        width: 2.5em;
+    }
+}
