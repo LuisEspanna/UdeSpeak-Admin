@@ -3,6 +3,7 @@ import useReadingView from './hooks/useReadingView';
 import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer';
 import './styles.scss';
 import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
+import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
 /*
 import Button from '../../../../components/button/Button';
 import TextField from '../../../../components/form/textField/TextField';
@@ -39,6 +40,7 @@ export default function Reading({ question }) {
     <>
       <PhoneContainer>
           <TitleEditor className='my-1'/>
+          <ImageField className='my-3'/>
       </PhoneContainer>
     </>
   )
