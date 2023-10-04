@@ -1,0 +1,46 @@
+.draggable-list-container {
+    display: inline-block;
+    margin-right: 5px;
+    width: fit-content;
+    cursor: grab;
+    padding: 0.2em;
+
+    .draggable-content{
+        display: flex;
+        height: 1.7em;
+        
+        .form-select{
+            width: auto;
+            padding: 0;
+            padding-left: 0.5em;
+            padding-right: 2.5em;
+        }
+
+        .c-btn{
+            height: 1.7em !important;
+            width: 1.7em !important;
+            min-height: 1.5em !important;
+            min-width: 1.5em !important;
+
+            .icon{
+                height: 1.2em;
+                width: 1.2em;
+            }
+        }
+    }
+
+    &:hover{
+        cursor: grab;
+        background-color: aquamarine;
+        border-radius: 0.5em;
+        padding: 0.2em;
+
+        .form-select{
+            margin-right: 2em;
+        }
+    }
+
+    &:active{
+        cursor: grabbing;
+    }
+}

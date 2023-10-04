@@ -4,6 +4,7 @@ import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer
 import './styles.scss';
 import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
 import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
+import DescriptionField from '../../../../components/phoneContainer/descriptionField/DescriptionField';
 /*
 import Button from '../../../../components/button/Button';
 import TextField from '../../../../components/form/textField/TextField';
@@ -41,6 +42,7 @@ export default function Reading({ question }) {
       <PhoneContainer>
           <TitleEditor className='my-1'/>
           <ImageField className='my-3'/>
+          <DescriptionField/>
       </PhoneContainer>
     </>
   )
