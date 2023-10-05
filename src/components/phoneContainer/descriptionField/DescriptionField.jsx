@@ -2,24 +2,30 @@ import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import Button from '../../button/Button';
 import PencilIcon from '../../icons/PencilIcon';
+import SaveIcon from '../../icons/SaveIcon';
 import DraggableList from '../../draggableList/DraggableList';
 
-export default function DescriptionField({className}) {
-
+/**
+ * @param {object} param0
+ * @param {string} param0.className
+ * @param {string} param0.value
+ * @param {string} param0.name
+ * @param {[]} param0.dropdowns
+ * @param {function} param0.onChange
+ * @returns 
+ */
+export default function DescriptionField({ className, value, onChange, name, dropdowns }) {
     const [isEditing, setIsEditing] = useState(false);
-
-    const data =
-        'Este es un texto de @btn1 prueba el cual será usado para este ejemplo';
-    const [state, setState] = useState([]);
+    const [arrayText, setArrayText] = useState([]);
     const [dnd, setDnd] = useState({ id: '', index: 0 });
 
     useEffect(() => {
-        setState(
-            data.split(' ').map((text, i) => {
+        setArrayText(
+            value.split(' ').map((text, i) => {
                 return { text, index: i };
             })
         );
-    }, []);
+    }, [value]);
 
     const onDragginOver = (e) => {
         e.target.classList.add('word-drag-over');
@@ -37,7 +43,7 @@ export default function DescriptionField({className}) {
 
     const onDrop = (e, item) => {
         // Si ya se encuentra dnd lo quito
-        let newState = state.filter((w) => w.text !== dnd.id);
+        let newState = arrayText.filter((w) => w.text !== dnd.id);
 
         //Ponerlo en la posición del item actual del vector de state
         newState = [
@@ -50,43 +56,122 @@ export default function DescriptionField({className}) {
 
         newState.forEach((item, i) => (item.index = i));
 
-        setState(newState);
+        setArrayText(newState);
         setDnd({ ...dnd, index: item.index });
-        //console.log(newState);
+        handleEdit(newState);
     };
 
-    const handleEdit = () => {
-        setIsEditing(!isEditing);
+    const handleEdit = (localArrayText) => {
+        let localText = '';
+
+        localArrayText.forEach((item) => {
+            localText = localText + item.text + ' ';
+        });
+        onChange({ target: { name: 'description', value: localText } });
+    }
+
+    const getOptions = (word) => {
+        let options = [];
+
+        dropdowns?.forEach((q) => {
+            if (`@${q.id}` === word) {
+                options = q.options;
+            }
+        });
+
+        return options;
+    }
+
+    const getNotUsedDropdowns = () => {
+        let localDropdowns = [];
+        if (dropdowns) {
+            let found = false;
+
+            dropdowns?.forEach((d) => {
+
+                arrayText?.forEach((item) => {
+                    if (item.text.includes('@') && item.text === `@${d.id}`) {
+                        found = true;
+                    }
+                });
+
+                if (!found) {
+                    localDropdowns.push(d);
+                }
+            });
+
+        }
+        return localDropdowns;
     }
 
     return (
         <div className={`description-field ${className ? className : ''}`}>
             <p className='label'>Descripción</p>
             <div className='dd-content'>
-                <div className="drag-area">
-                    {state.map((item) =>
-                        !item.text.includes('@') ? (
-                            <div
-                                className="word"
-                                key={item.index}
-                                onDrop={(e) => onDrop(e, item)}
-                                onDragOver={onDragginOver}
-                                onDragLeave={onDragLeave}
-                            //droppable="true"
-                            >
-                                {item.text}
-                            </div>
-                        ) : (
-                            <DraggableList
-                                draggable
-                                onDragStart={(e) => onDragStart(e, { id: item.text })}
-                            />
-                        )
-                    )}
-                </div>
+                {
+                    !isEditing ?
+                        <div className="drag-area">
+                            {arrayText.map((item, i) =>
+                                !item.text.includes('@') ? (
+                                    <div
+                                        className="word"
+                                        key={i + item.text}
+                                        onDrop={(e) => onDrop(e, item)}
+                                        onDragOver={onDragginOver}
+                                        onDragLeave={onDragLeave}
+                                    >
+                                        {item.text}
+                                    </div>
+                                ) : (
+                                    (dropdowns.find((d) => d.id === item.text.replace('@', ''))) ?
+                                        <DraggableList
+                                            key={item.index + item.text}
+                                            draggable
+                                            onDragStart={(e) => onDragStart(e, { id: item.text })}
+                                            options={getOptions(item.text)}
+                                        /> :
+                                        <div
+                                            className="word"
+                                            key={item.index + item.text}
+                                            onDrop={(e) => onDrop(e, item)}
+                                            onDragOver={onDragginOver}
+                                            onDragLeave={onDragLeave}
+                                        >
+                                            {item.text}
+                                        </div>
+                                )
+                            )}
+                        </div> :
+                        <textarea value={value} className='w-100' rows={5} name={name} onChange={onChange} />
+                }
 
-                <Button className='action-btn' type='primary' onClick={handleEdit}>
-                    <PencilIcon className='icon' />
+
+                {
+                    getNotUsedDropdowns().length>0 &&
+                    <div className='my-4'>
+                        <p className='label mb-2'>
+                            Puede arrastrar las siguientes listas en cualquier parte de la descripción
+                        </p>
+                        {
+                            //Not used dropdowns
+                            getNotUsedDropdowns().map((item, i) =>
+                                <DraggableList
+                                    key={i}
+                                    draggable
+                                    onDragStart={(e) => onDragStart(e, { id: `@${item.id}` })}
+                                    options={getOptions(`@${item.id}`)}
+                                />
+                            )
+                        }
+                    </div>
+                }
+
+                <Button className='action-btn' type='primary' onClick={() => setIsEditing(!isEditing)}>
+                    {
+                        isEditing ?
+                            <SaveIcon className='icon' /> :
+                            <PencilIcon className='icon' />
+                    }
                 </Button>
             </div>
         </div>

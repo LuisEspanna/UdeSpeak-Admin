@@ -21,28 +21,40 @@ import 'react-autocomplete-input/dist/bundle.css';
 export default function Reading({ question }) {
   const {
     state,
-    /*
     image,
-    isLoading,
+    //isLoading,
     isEdited,
     handleChange,
-    onSave,
+    //onSave,
     handleImage,
-    handleAddQuestion,
-    handleEditQuestion,
-    getWords,
-    handleDeleteQuestion
-    */
+    //handleAddQuestion,
+    //handleEditQuestion,
+    //getWords,
+    //handleDeleteQuestion
   } = useReadingView(question);
 
-  console.log(state);
+  //console.log(state);
 
   return (
     <>
-      <PhoneContainer>
-          <TitleEditor className='my-1'/>
-          <ImageField className='my-3'/>
-          <DescriptionField/>
+      <PhoneContainer showSaveBtn={isEdited}>
+        <TitleEditor
+          className='my-1'
+          value={state?.title}
+          onChange={handleChange}
+          name='title'
+        />
+        <ImageField
+          className='my-3'
+          image={image}
+          onChange={handleImage}
+        />
+        <DescriptionField
+          value={state?.description || ''}
+          onChange={handleChange}
+          name='description'
+          dropdowns={state?.questions?.filter(q => q.type === 'dropdown') || []}
+        />
       </PhoneContainer>
     </>
   )

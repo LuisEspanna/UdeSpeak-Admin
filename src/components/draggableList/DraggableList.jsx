@@ -5,14 +5,7 @@ import PencilIcon from '../icons/PencilIcon';
 import TrashIcon from '../icons/TrashIcon';
 
 
-export default function DraggableList({ onDragStart, o2ptions, handleEdit, handleDelete }) {
-
-    const options = [
-        { description: 'option1', isValid: false },
-        { description: 'option2', isValid: false },
-        { description: 'option3', isValid: true },
-        { description: 'option4', isValid: false }
-    ];
+export default function DraggableList({ onDragStart, options, handleEdit, handleDelete }) {
 
     return (
         <div className='draggable-list-container' draggable onDragStart={onDragStart}>
@@ -25,14 +18,15 @@ export default function DraggableList({ onDragStart, o2ptions, handleEdit, handl
                         options.map((opt, j) =>
                             <option key={j}>
                                 {opt?.description}
-                            </option>)
+                            </option>
+                        )
                     }
                 </select>
                 <Button type='primary' className='c-btn'>
-                    <PencilIcon className='icon'/>
+                    <PencilIcon className='icon' />
                 </Button>
                 <Button type='danger' className='c-btn'>
-                    <TrashIcon className='icon'/>
+                    <TrashIcon className='icon' />
                 </Button>
             </div>
         </div>
