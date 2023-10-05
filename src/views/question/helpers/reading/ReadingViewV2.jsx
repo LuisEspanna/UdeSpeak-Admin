@@ -30,7 +30,7 @@ export default function Reading({ question }) {
     //handleAddQuestion,
     //handleEditQuestion,
     //getWords,
-    //handleDeleteQuestion
+    handleDeleteQuestion
   } = useReadingView(question);
 
   //console.log(state);
@@ -54,6 +54,7 @@ export default function Reading({ question }) {
           onChange={handleChange}
           name='description'
           dropdowns={state?.questions?.filter(q => q.type === 'dropdown') || []}
+          onDeleteDropdown={handleDeleteQuestion}
         />
       </PhoneContainer>
     </>

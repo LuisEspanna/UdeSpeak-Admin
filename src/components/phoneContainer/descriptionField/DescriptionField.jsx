@@ -12,9 +12,10 @@ import DraggableList from '../../draggableList/DraggableList';
  * @param {string} param0.name
  * @param {[]} param0.dropdowns
  * @param {function} param0.onChange
+ * @param {function} param0.onDeleteDropdown
  * @returns 
  */
-export default function DescriptionField({ className, value, onChange, name, dropdowns }) {
+export default function DescriptionField({ className, value, onChange, name, dropdowns, onDeleteDropdown }) {
     const [isEditing, setIsEditing] = useState(false);
     const [arrayText, setArrayText] = useState([]);
     const [dnd, setDnd] = useState({ id: '', index: 0 });
@@ -37,7 +38,7 @@ export default function DescriptionField({ className, value, onChange, name, dro
         e.preventDefault();
     };
 
-    const onDragStart = (e, item) => {
+    const onDragStart = (item) => {
         setDnd(item);
     };
 
@@ -64,9 +65,11 @@ export default function DescriptionField({ className, value, onChange, name, dro
     const handleEdit = (localArrayText) => {
         let localText = '';
 
-        localArrayText.forEach((item) => {
+        localArrayText.forEach((item, i) => {
             localText = localText + item.text + ' ';
         });
+
+        localText = localText.slice(0, localText.length-1);
         onChange({ target: { name: 'description', value: localText } });
     }
 
@@ -88,7 +91,6 @@ export default function DescriptionField({ className, value, onChange, name, dro
             let found = false;
 
             dropdowns?.forEach((d) => {
-
                 arrayText?.forEach((item) => {
                     if (item.text.includes('@') && item.text === `@${d.id}`) {
                         found = true;
@@ -99,9 +101,14 @@ export default function DescriptionField({ className, value, onChange, name, dro
                     localDropdowns.push(d);
                 }
             });
-
         }
         return localDropdowns;
+    }
+
+    const deleteFromDescription = (item) => {
+        const newState = arrayText.filter(w => w.text !== item);
+        newState.forEach((item, i) => (item.index = i));
+        handleEdit(newState);
     }
 
     return (
@@ -127,8 +134,9 @@ export default function DescriptionField({ className, value, onChange, name, dro
                                         <DraggableList
                                             key={item.index + item.text}
                                             draggable
-                                            onDragStart={(e) => onDragStart(e, { id: item.text })}
+                                            onDragStart={() => onDragStart({ id: item.text })}
                                             options={getOptions(item.text)}
+                                            onDelete={() => deleteFromDescription(item.text)}
                                         /> :
                                         <div
                                             className="word"
@@ -149,17 +157,20 @@ export default function DescriptionField({ className, value, onChange, name, dro
                 {
                     getNotUsedDropdowns().length>0 &&
                     <div className='my-4'>
+                        <hr/>
                         <p className='label mb-2'>
-                            Puede arrastrar las siguientes listas en cualquier parte de la descripción
+                            Las siguientes listas no están siendo usadas, puede arrastrarlas en cualquier parte de la descripción.
                         </p>
+                        <p className='label mb-2'>Las listas de la parte inferior se pueden eliminar definitivamente</p>
                         {
                             //Not used dropdowns
                             getNotUsedDropdowns().map((item, i) =>
                                 <DraggableList
                                     key={i}
                                     draggable
-                                    onDragStart={(e) => onDragStart(e, { id: `@${item.id}` })}
+                                    onDragStart={() => onDragStart({ id: `@${item.id}` })}
                                     options={getOptions(`@${item.id}`)}
+                                    onDelete={() => onDeleteDropdown(item)}
                                 />
                             )
                         }

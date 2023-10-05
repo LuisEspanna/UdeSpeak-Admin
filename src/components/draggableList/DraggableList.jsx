@@ -4,9 +4,15 @@ import Button from '../button/Button';
 import PencilIcon from '../icons/PencilIcon';
 import TrashIcon from '../icons/TrashIcon';
 
-
-export default function DraggableList({ onDragStart, options, handleEdit, handleDelete }) {
-
+/**
+ * @param {object} param0
+ * @param {function} param0.onDragStart
+ * @param {[]} param0.options
+ * @param {function} param0.onEdit
+ * @param {function} param0.onDelete
+ * @returns 
+ */
+export default function DraggableList({ onDragStart, options, onEdit, onDelete }) {
     return (
         <div className='draggable-list-container' draggable onDragStart={onDragStart}>
             <div className='draggable-content'>
@@ -22,10 +28,10 @@ export default function DraggableList({ onDragStart, options, handleEdit, handle
                         )
                     }
                 </select>
-                <Button type='primary' className='c-btn'>
+                <Button type='primary' className='c-btn' onClick={onEdit}>
                     <PencilIcon className='icon' />
                 </Button>
-                <Button type='danger' className='c-btn'>
+                <Button type='danger' className='c-btn' onClick={onDelete}>
                     <TrashIcon className='icon' />
                 </Button>
             </div>
