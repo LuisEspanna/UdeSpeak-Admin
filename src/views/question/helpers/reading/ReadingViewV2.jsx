@@ -5,6 +5,8 @@ import './styles.scss';
 import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
 import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
 import DescriptionField from '../../../../components/phoneContainer/descriptionField/DescriptionField';
+import useDialog from '../../../../hooks/useDialog';
+import Dialog from '../../../../components/Dialog/Dialog';
 /*
 import Button from '../../../../components/button/Button';
 import TextField from '../../../../components/form/textField/TextField';
@@ -19,6 +21,8 @@ import 'react-autocomplete-input/dist/bundle.css';
 */
 
 export default function Reading({ question }) {
+  const dialogProps = useDialog();
+
   const {
     state,
     image,
@@ -30,8 +34,9 @@ export default function Reading({ question }) {
     //handleAddQuestion,
     //handleEditQuestion,
     //getWords,
-    handleDeleteQuestion
-  } = useReadingView(question);
+    handleDeleteQuestion,
+    handleEditDropdown
+  } = useReadingView(question, dialogProps);
 
   //console.log(state);
 
@@ -55,8 +60,10 @@ export default function Reading({ question }) {
           name='description'
           dropdowns={state?.questions?.filter(q => q.type === 'dropdown') || []}
           onDeleteDropdown={handleDeleteQuestion}
+          handleEditDropdown={handleEditDropdown}
         />
       </PhoneContainer>
+      <Dialog {...dialogProps} />
     </>
   )
 }

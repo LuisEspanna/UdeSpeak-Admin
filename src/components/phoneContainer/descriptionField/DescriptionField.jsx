@@ -11,11 +11,11 @@ import DraggableList from '../../draggableList/DraggableList';
  * @param {string} param0.value
  * @param {string} param0.name
  * @param {[]} param0.dropdowns
- * @param {function} param0.onChange
+ * @param {function} param0.handleEditDropdown
  * @param {function} param0.onDeleteDropdown
  * @returns 
  */
-export default function DescriptionField({ className, value, onChange, name, dropdowns, onDeleteDropdown }) {
+export default function DescriptionField({ className, value, handleEditDropdown, onChange, name, dropdowns, onDeleteDropdown }) {
     const [isEditing, setIsEditing] = useState(false);
     const [arrayText, setArrayText] = useState([]);
     const [dnd, setDnd] = useState({ id: '', index: 0 });
@@ -137,6 +137,7 @@ export default function DescriptionField({ className, value, onChange, name, dro
                                             onDragStart={() => onDragStart({ id: item.text })}
                                             options={getOptions(item.text)}
                                             onDelete={() => deleteFromDescription(item.text)}
+                                            onEdit={() => handleEditDropdown(dropdowns.find((d) => d.id === item.text.replace('@', '')))}
                                         /> :
                                         <div
                                             className="word"
@@ -168,6 +169,7 @@ export default function DescriptionField({ className, value, onChange, name, dro
                                 <DraggableList
                                     key={i}
                                     draggable
+                                    onEdit={() => handleEditDropdown(item)}
                                     onDragStart={() => onDragStart({ id: `@${item.id}` })}
                                     options={getOptions(`@${item.id}`)}
                                     onDelete={() => onDeleteDropdown(item)}

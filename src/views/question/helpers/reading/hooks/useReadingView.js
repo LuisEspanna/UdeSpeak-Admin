@@ -7,9 +7,10 @@ import {
 import { STORAGE } from '../../../../../constants';
 import { idGenerator } from '../../../../../functions';
 import useQuestions from '../../../../../hooks/useQuestions';
+import DialogList from '../helper/Dialogs/DialogList';
 
 
-export default function useSpeakingView(question) {
+export default function useSpeakingView(question, dialogProps) {
     const [state, setState] = useState(question);
     const [image, setImage] = useState(question?.image || undefined);
     const { editQuestion } = useQuestions();
@@ -190,6 +191,28 @@ export default function useSpeakingView(question) {
         return resp;
     }
 
+    const handleEditDropdown = (dropdown) => {
+        dialogProps.setOnAcceptDialog({
+            fn: (e) => {
+                const index = state.questions.findIndex(op => op.id === dropdown.id);
+
+                const newQ = [
+                    ...state.questions.slice(0, index),
+                    e,
+                    ...state.questions.slice(index + 1)
+                ];
+
+                let newState = { ...state, questions: newQ };
+                setState(newState);
+            }
+        });
+
+        dialogProps.setContentDialog(
+            <DialogList dropdown={dropdown} setChanges={dialogProps.setChanges} />
+        );
+        dialogProps.setVisibleDialog(true);
+    }
+
     return {
         state,
         image,
@@ -201,6 +224,7 @@ export default function useSpeakingView(question) {
         handleAddQuestion,
         handleEditQuestion,
         getWords,
-        handleDeleteQuestion
+        handleDeleteQuestion,
+        handleEditDropdown
     }
 }
