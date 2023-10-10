@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './styles.scss';
 import { idGenerator } from '../../../../../../functions';
 import DraggableList from '../../../../../../components/draggableList/DraggableList';
-import Button from '../../../../../../components/button/Button';
-import TrashIcon from '../../../../../../components/icons/TrashIcon';
+import OptionField from '../../../../../../components/form/optionField/OptionField';
 
 export default function DialogList({dropdown, setChanges}) {
     const [state, setState] = useState({...dropdown});
@@ -45,14 +44,14 @@ export default function DialogList({dropdown, setChanges}) {
             <DraggableList options={state?.options}/>
             <div className='my-4'>
                 {
-                    state?.options.map((option, i) => 
-                        <div key={i} className='option'>
-                            <input type='text' value={option.description} onChange={(e) => onChangeTextOption(option, i, e.target.value)}/>
-                            <input type='radio' checked={option.isValid} onChange={(e) => onChangeRadio(option, i, e)}/>
-                            <Button type='danger' onClick={() => handleDeleteOption(option)}>
-                                <TrashIcon className='icon'/>
-                            </Button>
-                        </div>
+                    state?.options.map((option, i) =>
+                       <OptionField 
+                            key={i} 
+                            onChangeText={(e) => onChangeTextOption(option, i, e.target.value)}
+                            onChangeRadio={(e) => onChangeRadio(option, i, e)}
+                            onDelete={() => handleDeleteOption(option)}
+                            option={option}
+                       />
                     )
                 }
                 <div className='add-option' onClick={handleAddOption}>

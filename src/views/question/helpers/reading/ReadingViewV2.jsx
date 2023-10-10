@@ -7,6 +7,7 @@ import ImageField from '../../../../components/phoneContainer/imageField/ImageFi
 import DescriptionField from '../../../../components/phoneContainer/descriptionField/DescriptionField';
 import useDialog from '../../../../hooks/useDialog';
 import Dialog from '../../../../components/Dialog/Dialog';
+import OptionsArea from '../../../../components/phoneContainer/optionsArea/OptionsArea';
 /*
 import Button from '../../../../components/button/Button';
 import TextField from '../../../../components/form/textField/TextField';
@@ -62,6 +63,8 @@ export default function Reading({ question }) {
           onDeleteDropdown={handleDeleteQuestion}
           handleEditDropdown={handleEditDropdown}
         />
+
+        <OptionsArea questions={state?.questions?.filter(q => q.type === 'question') || []}/>
       </PhoneContainer>
       <Dialog {...dialogProps} />
     </>

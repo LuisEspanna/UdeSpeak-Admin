@@ -1,0 +1,17 @@
+.questions-area{
+    margin-top: 1em;
+
+    .question-container{
+        border: 2px solid #96969634;
+        width: 100%;
+        border-radius: 0.7em;
+        min-height: 5em;
+        padding: 1em;
+       
+
+        .question-title{
+            font-weight: bold;
+        }
+    }
+    
+}
