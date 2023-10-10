@@ -5,6 +5,8 @@
     justify-content: space-between;
     padding: 0.3em;
     margin-bottom: 0.7em;
+    justify-content: center;
+    align-items: center;
 
     &:hover{
         background-color: #D8F3F4;
@@ -14,6 +16,18 @@
         border: none;
         width: 80%;
         margin-left: 0.7em;
+        background-color: inherit;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    textarea{
+        border: none;
+        width: 80%;
+        margin-right: 0.5em;
+        margin-left: 0.5em;
         background-color: inherit;
 
         &:focus{

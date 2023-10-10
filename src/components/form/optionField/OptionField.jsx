@@ -9,7 +9,7 @@ export default function OptionField({onChangeText, onChangeRadio, option, onDele
             {
                 letter && <span className='letter'>{letter}</span>
             }            
-            <input type='text' value={option.description} onChange={onChangeText} />
+            <textarea type='text' value={option.description} onChange={onChangeText}/>
             <input type='radio' checked={option.isValid} onChange={onChangeRadio} />
             <Button type='danger' onClick={onDelete}>
                 <TrashIcon className='icon' />
