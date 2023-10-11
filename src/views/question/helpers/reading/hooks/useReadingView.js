@@ -7,9 +7,10 @@ import {
 import { STORAGE } from '../../../../../constants';
 import { idGenerator } from '../../../../../functions';
 import useQuestions from '../../../../../hooks/useQuestions';
+import DialogList from '../helper/Dialogs/DialogList';
 
 
-export default function useSpeakingView(question) {
+export default function useSpeakingView(question, dialogProps) {
     const [state, setState] = useState(question);
     const [image, setImage] = useState(question?.image || undefined);
     const { editQuestion } = useQuestions();
@@ -30,7 +31,25 @@ export default function useSpeakingView(question) {
     const handleAddQuestion = (type) => {
         setIsEdited(true);
         let questions = state?.questions ? [...state?.questions] : [];
-        questions.push({ id: idGenerator(7), type });
+        const localTitle = (type === 'question' ? '1+1 = ?' : idGenerator(7));
+        let newItem = {
+            "id":  (type !== 'question' ? localTitle : idGenerator(7)),
+            "type":type,
+            "title": localTitle,
+            "options":[
+               {
+                  "id":idGenerator(7),
+                  "isValid":true,
+                  "description": (type === 'question' ? '2' : "Opción 1")
+               },
+               {
+                  "isValid":false,
+                  "id":idGenerator(7),
+                  "description": (type === 'question' ? '3' : "Opción 2")
+               }
+            ]
+        };
+        questions.push(newItem);
         setState({ ...state, questions });
     }
 
@@ -177,6 +196,7 @@ export default function useSpeakingView(question) {
                 let questions = state?.questions || [];
                 questions = questions.filter(q => q.id !== question.id);
                 setState({ ...state, questions });
+                setIsEdited(true);
                 Swal.fire('Eliminado!', '', 'success');
             }
         });
@@ -190,6 +210,29 @@ export default function useSpeakingView(question) {
         return resp;
     }
 
+    const handleEditDropdown = (dropdown) => {
+        dialogProps.setOnAcceptDialog({
+            fn: (e) => {
+                const index = state.questions.findIndex(op => op.id === dropdown.id);
+
+                const newQ = [
+                    ...state.questions.slice(0, index),
+                    e,
+                    ...state.questions.slice(index + 1)
+                ];
+
+                let newState = { ...state, questions: newQ };
+                setState(newState);
+                setIsEdited(true);
+            }
+        });
+
+        dialogProps.setContentDialog(
+            <DialogList dropdown={{...dropdown}} setChanges={dialogProps.setChanges} />
+        );
+        dialogProps.setVisibleDialog(true);
+    }
+
     return {
         state,
         image,
@@ -201,6 +244,7 @@ export default function useSpeakingView(question) {
         handleAddQuestion,
         handleEditQuestion,
         getWords,
-        handleDeleteQuestion
+        handleDeleteQuestion,
+        handleEditDropdown
     }
 }

@@ -49,11 +49,17 @@ const getDisplayName = (userName="") => {
   return displayName;
 }
 
+const getLetter = (index) => {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return letters.charAt(index);
+}
+
 module.exports = {
   getUserDataFromResult,
   toDateFormat,
   toISOFormat,
   idGenerator,
   getDisplayName,
-  getHour
+  getHour,
+  getLetter
 }

@@ -1,18 +1,22 @@
 import React from 'react';
-import Button from '../../../../components/button/Button';
-import TextField from '../../../../components/form/textField/TextField';
-import './styles.scss';
-import TrashIcon from '../../../../components/icons/TrashIcon';
 import useReadingView from './hooks/useReadingView';
-import PreviewReading from './helper/PreviewReading';
+import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer';
+import './styles.scss';
+import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
+import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
+import DescriptionField from '../../../../components/phoneContainer/descriptionField/DescriptionField';
+import useDialog from '../../../../hooks/useDialog';
+import Dialog from '../../../../components/Dialog/Dialog';
+import QuestionsArea from '../../../../components/phoneContainer/questionsArea/QuestionsArea';
 import Card from '../../../../components/card/Card';
-import ProgressBar from '../../../../components/progressbar/ProgressBar';
-import TextInput from 'react-autocomplete-input';
-import 'react-autocomplete-input/dist/bundle.css';
-import QuestionItem from './helper/QuestionItem';
-import SaveIcon from '../../../../components/icons/SaveIcon';
+import imgExampleDD from './assets/example-dropdown.png';
+import imgExampleQ from './assets/example-question.png';
+import Button from '../../../../components/button/Button';
+
 
 export default function Reading({ question }) {
+  const dialogProps = useDialog();
+
   const {
     state,
     image,
@@ -23,100 +27,62 @@ export default function Reading({ question }) {
     handleImage,
     handleAddQuestion,
     handleEditQuestion,
-    getWords,
-    handleDeleteQuestion
-  } = useReadingView(question);
+    handleDeleteQuestion,
+    handleEditDropdown
+  } = useReadingView(question, dialogProps);
 
   return (
     <>
-      <Card className='w-100'>
-        <div className='reading-view'>
-          <h5><b>Reading</b></h5>
-          <div className='mt-4' />
-          <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
-          {
-            !image &&
-            <div>
-              <span className=''>Imagen </span>
-              <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
-            </div>
-          }
-          {
-            image && <div>
-              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Imagen </Button>
-              {
-                typeof (image) === 'string' && <input disabled type='text' value={image} />
-              }
-              <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
-                <TrashIcon className='icon' />
-              </Button>
-            </div>
-          }
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave} isLoading={isLoading}>
+        <TitleEditor
+          className='my-1'
+          value={state?.title}
+          onChange={handleChange}
+          name='title'
+        />
+        <ImageField
+          className='my-3'
+          image={image}
+          onChange={handleImage}
+        />
+        <DescriptionField
+          value={state?.description || ''}
+          onChange={handleChange}
+          name='description'
+          dropdowns={state?.questions?.filter(q => q.type === 'dropdown') || []}
+          onDeleteDropdown={handleDeleteQuestion}
+          handleEditDropdown={handleEditDropdown}
+        />
 
-          <div className='r-container'>
-            <div>
-              <span className='my-4 w-100'>Descripción</span>
-            </div>
-
-            <TextInput
-              className='w-100 '
-              trigger={["@"]}
-              options={{ "@": getWords() }}
-              onChange={text => handleChange({ target: { name: 'description', value: text } })}
-              value={state?.description || ''}
-            />
-            <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar a una lista desplegable</p>
+        <QuestionsArea
+          questions={state?.questions?.filter(q => q.type === 'question') || []}
+          onDeleteQuestion={handleDeleteQuestion}
+          onEditQuestion={handleEditQuestion}
+        />
+      </PhoneContainer>
+      <div className='w-100 ms-4'>
+        <Card className='mb-3'>
+          <p><b>Creación de listas desplegables</b></p>
+          <p>Una lista desplegable permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, puede insertar una lista desplegable, puedes mover la lista desplegable con el mouse.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleDD} alt='' />
           </div>
-          {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className='mt-4 '>
-            <div className='mb-4'><b>Listas desplegables</b></div>
-
-            {
-              state?.questions && state?.questions.filter((q => q.type === 'dropdown')).map((questionItem, i) =>
-                <QuestionItem
-                  key={i}
-                  index={i}
-                  questionItem={questionItem}
-                  onChange={handleEditQuestion}
-                  onDelete={handleDeleteQuestion}
-                />
-              )
-            }
-            <Button type='primary' title='Agregar lista desplegable' className='px-2 my-4' onClick={() => handleAddQuestion('dropdown')} />
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3' title='Nueva lista desplegable' type='primary' onClick={() => handleAddQuestion('dropdown')} />
           </div>
-
-          {/*-------------------------------------------------------------------------------------------------------------  PREGUNTAS*/}
-          <br className='separator' />
-          <div className='mt-4'>
-            <div className='my-4'><b>Preguntas</b></div>
-            {
-              state?.questions && state?.questions.filter((q => q.type === 'question')).map((questionItem, i) =>
-                <QuestionItem
-                  key={i}
-                  index={i}
-                  questionItem={questionItem}
-                  onChange={handleEditQuestion}
-                  onDelete={handleDeleteQuestion}
-                />
-              )
-            }
-            <Button type='primary' title='Agregar pregunta' className='px-2 my-4' onClick={() => handleAddQuestion('question')} />
+        </Card>
+        <Card className='mb-3'>
+          <p><b>Creación de preguntas de selección única</b></p>
+          <p>Permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, las preguntas con sus respectivas opciones aparecerán después de la descripción.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleQ} alt='' />
           </div>
-
-        </div>
-        <ProgressBar isLoading={isLoading} />
-      </Card>
-      <PreviewReading
-        image={image}
-        question={state}
-      />
-
-      {
-        (isEdited && !isLoading) &&
-        <Button type='primary' active={true} className='floatbtn' onClick={onSave}>
-          <SaveIcon className='icon' />
-        </Button>
-      }
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3 ' title='Nueva pregunta de selección única' type='primary' onClick={() => handleAddQuestion('question')} />
+          </div>
+        </Card>
+      </div>
+      <Dialog {...dialogProps} />
     </>
   )
 }
