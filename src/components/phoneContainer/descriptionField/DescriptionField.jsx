@@ -19,14 +19,39 @@ export default function DescriptionField({ className, value, handleEditDropdown,
     const [isEditing, setIsEditing] = useState(false);
     const [arrayText, setArrayText] = useState([]);
     const [dnd, setDnd] = useState({ id: '', index: 0 });
+    const [notUsedDropdowns, setNotUsedDropdowns] = useState([]);
+
+    //console.log(dropdowns)
 
     useEffect(() => {
-        setArrayText(
-            value.split(' ').map((text, i) => {
-                return { text, index: i };
-            })
-        );
-    }, [value]);
+        
+        const newArrayText = value.split(' ').map((text, i) => {
+            return { text, index: i };
+        });
+
+        setArrayText(newArrayText);        
+
+        const getNotUsedDropdowns = (items, localArrayText) => {
+            let localDropdowns = [];
+            let found = false;
+    
+            items?.forEach((d) => {
+                found = false;
+                localArrayText?.forEach((item) => {
+                    if (item.text.includes('@') && item.text === `@${d.id}`) {
+                        found = true;
+                    }
+                });
+    
+                if (!found) {
+                    localDropdowns.push(d);
+                }
+            });
+            return localDropdowns;
+        }
+
+        setNotUsedDropdowns(getNotUsedDropdowns(dropdowns, newArrayText));
+    }, [value, dropdowns]);
 
     const onDragginOver = (e) => {
         e.target.classList.add('word-drag-over');
@@ -69,7 +94,7 @@ export default function DescriptionField({ className, value, handleEditDropdown,
             localText = localText + item.text + ' ';
         });
 
-        localText = localText.slice(0, localText.length-1);
+        localText = localText.slice(0, localText.length - 1);
         onChange({ target: { name: 'description', value: localText } });
     }
 
@@ -85,30 +110,16 @@ export default function DescriptionField({ className, value, handleEditDropdown,
         return options;
     }
 
-    const getNotUsedDropdowns = () => {
-        let localDropdowns = [];
-        if (dropdowns) {
-            let found = false;
-
-            dropdowns?.forEach((d) => {
-                arrayText?.forEach((item) => {
-                    if (item.text.includes('@') && item.text === `@${d.id}`) {
-                        found = true;
-                    }
-                });
-
-                if (!found) {
-                    localDropdowns.push(d);
-                }
-            });
-        }
-        return localDropdowns;
-    }
-
-    const deleteFromDescription = (item) => {
-        const newState = arrayText.filter(w => w.text !== item);
+    /**
+     * 
+     * @param {string} idItem 
+     */
+    const deleteFromDescription = (idItem) => {
+        const newState = arrayText.filter(w => w.text !== idItem);
         newState.forEach((item, i) => (item.index = i));
         handleEdit(newState);
+
+        setNotUsedDropdowns([...notUsedDropdowns, dropdowns.find((d) => d.id === idItem.replace('@', ''))]);
     }
 
     return (
@@ -156,16 +167,17 @@ export default function DescriptionField({ className, value, handleEditDropdown,
 
 
                 {
-                    getNotUsedDropdowns().length>0 &&
+                    
+                    notUsedDropdowns.length > 0 &&
                     <div className='my-4'>
-                        <hr/>
+                        <hr />
                         <p className='label mb-2'>
                             Las siguientes listas no están siendo usadas, puede arrastrarlas en cualquier parte de la descripción.
                         </p>
                         <p className='label mb-2'>Las listas de la parte inferior se pueden eliminar definitivamente</p>
                         {
                             //Not used dropdowns
-                            getNotUsedDropdowns().map((item, i) =>
+                            notUsedDropdowns.map((item, i) =>
                                 <DraggableList
                                     key={i}
                                     draggable
@@ -177,6 +189,7 @@ export default function DescriptionField({ className, value, handleEditDropdown,
                             )
                         }
                     </div>
+                    
                 }
 
                 <Button className='action-btn' type='primary' onClick={() => setIsEditing(!isEditing)}>

@@ -31,7 +31,25 @@ export default function useSpeakingView(question, dialogProps) {
     const handleAddQuestion = (type) => {
         setIsEdited(true);
         let questions = state?.questions ? [...state?.questions] : [];
-        questions.push({ id: idGenerator(7), type });
+        const localTitle = (type === 'question' ? '1+1 = ?' : idGenerator(7));
+        let newItem = {
+            "id":  (type !== 'question' ? localTitle : idGenerator(7)),
+            "type":type,
+            "title": localTitle,
+            "options":[
+               {
+                  "id":idGenerator(7),
+                  "isValid":true,
+                  "description": (type === 'question' ? '2' : "Opción 1")
+               },
+               {
+                  "isValid":false,
+                  "id":idGenerator(7),
+                  "description": (type === 'question' ? '3' : "Opción 2")
+               }
+            ]
+        };
+        questions.push(newItem);
         setState({ ...state, questions });
     }
 
@@ -178,6 +196,7 @@ export default function useSpeakingView(question, dialogProps) {
                 let questions = state?.questions || [];
                 questions = questions.filter(q => q.id !== question.id);
                 setState({ ...state, questions });
+                setIsEdited(true);
                 Swal.fire('Eliminado!', '', 'success');
             }
         });
@@ -204,6 +223,7 @@ export default function useSpeakingView(question, dialogProps) {
 
                 let newState = { ...state, questions: newQ };
                 setState(newState);
+                setIsEdited(true);
             }
         });
 

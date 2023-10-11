@@ -40,11 +40,22 @@ export default function QuestionField({ question, onDelete, onChange }) {
             onChange({ ...state, options: newOptions });
     }
 
+    const onChangeQuestion = (text) => {
+        setState({ ...state, title: text })
+        if (onChange)
+            onChange({ ...state, title: text });
+    }
+
     return (
         <>
-            <p className='label'>Pregunta de selección única</p>
+            <p className='label mt-3'>Pregunta de selección única</p>
             <div className='question-field'>
-                <p className='question-title'>{question.title}</p>
+                <textarea 
+                    placeholder='Escriba una pregunta' 
+                    value={question?.title} className='question-title'
+                    onChange={(e)=>onChangeQuestion(e.target.value)}
+                    rows={question?.title.length< 26? 1 : 2}
+                />
                 {
                     question?.options?.map((option, i) =>
                         <OptionField

@@ -9,6 +9,17 @@
 
     .question-title{
         font-weight: bold;
+        width: 100%;
+        border: none;
+        background-color: inherit;
+        padding: 0.3em;
+        margin-bottom: 0.5em;
+        height: fit-content;
+
+        &:focus{
+            outline: 3px solid #BCD7FF;
+            border-radius: 0.5em;
+        }
     }
     .option{
         .button-danger{

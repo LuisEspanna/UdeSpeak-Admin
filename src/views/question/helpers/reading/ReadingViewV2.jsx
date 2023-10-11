@@ -8,12 +8,16 @@ import DescriptionField from '../../../../components/phoneContainer/descriptionF
 import useDialog from '../../../../hooks/useDialog';
 import Dialog from '../../../../components/Dialog/Dialog';
 import QuestionsArea from '../../../../components/phoneContainer/questionsArea/QuestionsArea';
+import Card from '../../../../components/card/Card';
+import imgExampleDD from './assets/example-dropdown.png';
+import imgExampleQ from './assets/example-question.png';
+import Button from '../../../../components/button/Button';
 /*
 import Button from '../../../../components/button/Button';
 import TextField from '../../../../components/form/textField/TextField';
 import TrashIcon from '../../../../components/icons/TrashIcon';
 import PreviewReading from './helper/PreviewReading';
-import Card from '../../../../components/card/Card';
+
 import ProgressBar from '../../../../components/progressbar/ProgressBar';
 import TextInput from 'react-autocomplete-input';
 import QuestionItem from './helper/QuestionItem';
@@ -30,11 +34,10 @@ export default function Reading({ question }) {
     //isLoading,
     isEdited,
     handleChange,
-    //onSave,
+    onSave,
     handleImage,
-    //handleAddQuestion,
+    handleAddQuestion,
     handleEditQuestion,
-    //getWords,
     handleDeleteQuestion,
     handleEditDropdown
   } = useReadingView(question, dialogProps);
@@ -43,7 +46,7 @@ export default function Reading({ question }) {
 
   return (
     <>
-      <PhoneContainer showSaveBtn={isEdited}>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave}>
         <TitleEditor
           className='my-1'
           value={state?.title}
@@ -64,12 +67,34 @@ export default function Reading({ question }) {
           handleEditDropdown={handleEditDropdown}
         />
 
-        <QuestionsArea 
+        <QuestionsArea
           questions={state?.questions?.filter(q => q.type === 'question') || []}
           onDeleteQuestion={handleDeleteQuestion}
           onEditQuestion={handleEditQuestion}
         />
       </PhoneContainer>
+      <div className='w-100 ms-4'>
+        <Card className='mb-3'>
+          <p><b>Creación de listas desplegables</b></p>
+          <p>Una lista desplegable permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, puede insertar una lista desplegable, puedes mover la lista desplegable con el mouse.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleDD} alt='' />
+          </div>
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3' title='Nueva lista desplegable' type='primary' onClick={() => handleAddQuestion('dropdown')} />
+          </div>
+        </Card>
+        <Card className='mb-3'>
+          <p><b>Creación de preguntas de selección única</b></p>
+          <p>Permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, las preguntas con sus respectivas opciones aparecerán después de la descripción.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleQ} alt='' />
+          </div>
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3 ' title='Nueva pregunta de selección única' type='primary' onClick={() => handleAddQuestion('question')} />
+          </div>
+        </Card>
+      </div>
       <Dialog {...dialogProps} />
     </>
   )
