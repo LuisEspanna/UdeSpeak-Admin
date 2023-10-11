@@ -228,7 +228,7 @@ export default function useSpeakingView(question, dialogProps) {
         });
 
         dialogProps.setContentDialog(
-            <DialogList dropdown={dropdown} setChanges={dialogProps.setChanges} />
+            <DialogList dropdown={{...dropdown}} setChanges={dialogProps.setChanges} />
         );
         dialogProps.setVisibleDialog(true);
     }

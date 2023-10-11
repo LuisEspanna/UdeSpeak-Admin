@@ -30,8 +30,12 @@ export default function DialogList({ dropdown, setChanges }) {
     }
 
     const onChangeRadio = (option, index) => {
-        let newOptions = [...state.options];
-        newOptions.forEach(o => o.isValid = false);
+        let newOptions = [];
+        
+        state.options.forEach(o => {
+            newOptions.push({...o, isValid: false});
+        });
+        
         newOptions = [...newOptions.slice(0, index), { ...option, isValid: true }, ...newOptions.slice(index + 1)];
         setState({ ...state, options: newOptions });
         if (setChanges)
