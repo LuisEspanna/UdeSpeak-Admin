@@ -6,7 +6,7 @@ import NextIcon from '../icons/NextIcon';
 import SaveIcon from '../icons/SaveIcon';
 import Button from '../button/Button';
 
-export default function PhoneContainer({ onSave, showSaveBtn, children }) {
+export default function PhoneContainer({ onSave, showSaveBtn, children, isLoading }) {
     return (
         <div className='phone-container'>
             <div className='phone-header'>
@@ -20,11 +20,11 @@ export default function PhoneContainer({ onSave, showSaveBtn, children }) {
 
             <div className='d-flex justify-content-end cursor-pointer me-4'>
                 {
-                    showSaveBtn ? 
-                    <Button type='primary' active className='round-btn' onClick={onSave}>
+                    (showSaveBtn && !isLoading) ? 
+                    <Button type='primary' active className='round-btn-anim' onClick={onSave}>
                         <SaveIcon className='icon' />
                     </Button> : 
-                    <Button type='primary' active className='round-btn'>
+                    <Button type='primary' className='round-btn'>
                         <NextIcon className='icon' />
                     </Button>
                 }

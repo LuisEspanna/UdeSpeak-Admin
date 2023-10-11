@@ -1,3 +1,5 @@
+@import '../../styles/colors.scss';
+
 .phone-container{
     background-color: #FFFFFF;
     height: 43.5em;
@@ -42,10 +44,26 @@
         }
     }
 
+    @keyframes bgr {
+        from{
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+        }
+        to{
+            box-shadow: 0px 9px 20px #32bec3ad;
+        }
+    }
+
     .round-btn{
         border-radius: 50% !important;
         height: 2.5em;
         width: 2.5em;
+
+        &-anim{
+            height: 2.5em;
+            width: 2.5em;
+            border-radius: 50% !important;
+            animation: bgr 1.5s alternate-reverse infinite;
+        }
     }
 
     .label{
