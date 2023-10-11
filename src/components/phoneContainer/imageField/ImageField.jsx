@@ -7,22 +7,6 @@ import Button from '../../button/Button';
 
 
 export default function ImageField({ className, image, onChange }) {
-    //const [image, setImage] = useState();
-
-    /*
-    const handleImage = (e) => {
-        if (e.target?.files) {
-            setImage(e.target?.files[0]);
-        } else {
-            setImage(undefined);
-        }
-    }
-
-    const handleDelete = () => {
-        setImage(undefined);
-    }
-    */
-
     return (
         <div className={`image-field ${className ? className : ''}`}>
             <div>

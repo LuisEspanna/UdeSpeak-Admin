@@ -21,8 +21,6 @@ export default function DescriptionField({ className, value, handleEditDropdown,
     const [dnd, setDnd] = useState({ id: '', index: 0 });
     const [notUsedDropdowns, setNotUsedDropdowns] = useState([]);
 
-    //console.log(dropdowns)
-
     useEffect(() => {
         
         const newArrayText = value.split(' ').map((text, i) => {
