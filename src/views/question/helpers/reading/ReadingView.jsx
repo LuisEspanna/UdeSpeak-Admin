@@ -19,7 +19,6 @@ export default function Reading({ question }) {
   const {
     state,
     image,
-    isLoading,
     isEdited,
     handleChange,
     onSave,
@@ -32,7 +31,7 @@ export default function Reading({ question }) {
 
   return (
     <>
-      <PhoneContainer showSaveBtn={isEdited} onSave={onSave} isLoading={isLoading}>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave}>
         <TitleEditor
           className='my-1'
           value={state?.title}

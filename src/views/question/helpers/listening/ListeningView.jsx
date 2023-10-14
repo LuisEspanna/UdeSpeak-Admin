@@ -15,7 +15,6 @@ export default function ListeningView({ question }) {
   const {
     state,
     image,
-    isLoading,
     isEdited,
     audio,
     handleChange,
@@ -29,7 +28,7 @@ export default function ListeningView({ question }) {
 
   return (
     <>
-      <PhoneContainer showSaveBtn={isEdited} onSave={onSave} isLoading={isLoading}>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave}>
         <TitleEditor
           className='my-1'
           value={state?.title}

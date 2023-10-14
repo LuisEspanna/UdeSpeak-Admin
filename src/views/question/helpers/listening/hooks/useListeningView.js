@@ -15,7 +15,7 @@ export default function useListeningView(question) {
     const [image, setImage] = useState(question?.image || undefined);
     const [audio, setAudio] = useState(question?.audio || undefined);
     const { editQuestionById, editQuestion } = useQuestions();
-    const { isLoading, setLoading } = useLoading();
+    const { setLoading } = useLoading();
     const [isEdited, setIsEdited] = useState(false);
 
     useEffect(() => {
@@ -145,7 +145,7 @@ export default function useListeningView(question) {
     const onSave = async () => {
         setLoading(true);
 
-        // TODO: Validar opciones y preguntas
+        // TODO: Validar opciones y preguntas AUDIO ES OBLIGATORIO
         if (state.questions && state.questions.length > 0) {
             if (
                 //(state.description && state.description.length > 0) &&
@@ -239,7 +239,6 @@ export default function useListeningView(question) {
     return {
         state,
         image,
-        isLoading,
         isEdited,
         audio,
         handleChange,
