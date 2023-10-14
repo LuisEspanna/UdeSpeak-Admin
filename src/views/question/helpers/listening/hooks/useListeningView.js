@@ -7,6 +7,7 @@ import {
 import { STORAGE } from '../../../../../constants';
 import { idGenerator } from '../../../../../functions';
 import useQuestions from '../../../../../hooks/useQuestions';
+import useLoading from '../../../../../hooks/useLoading';
 
 
 export default function useListeningView(question) {
@@ -14,7 +15,7 @@ export default function useListeningView(question) {
     const [image, setImage] = useState(question?.image || undefined);
     const [audio, setAudio] = useState(question?.audio || undefined);
     const { editQuestionById, editQuestion } = useQuestions();
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, setLoading } = useLoading();
     const [isEdited, setIsEdited] = useState(false);
 
     useEffect(() => {
@@ -99,7 +100,7 @@ export default function useListeningView(question) {
                 await editQuestionById(state?.id, { image: null });
             }
 
-            setIsLoading(true);
+            setLoading(true);
             const imageName = idGenerator(20);
             await saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
                 if (downloadURL !== null) {
@@ -127,7 +128,7 @@ export default function useListeningView(question) {
                 editQuestionById(state?.id, { audio: null });
             }
 
-            setIsLoading(true);
+            setLoading(true);
             const fileName = idGenerator(20);
             await saveFileOnFirebase(STORAGE.AUDIOS, fileName, audio).then((downloadURL) => {
                 if (downloadURL !== null) {
@@ -142,7 +143,7 @@ export default function useListeningView(question) {
     }
 
     const onSave = async () => {
-        setIsLoading(true);
+        setLoading(true);
 
         // TODO: Validar opciones y preguntas
         if (state.questions && state.questions.length > 0) {
@@ -179,7 +180,7 @@ export default function useListeningView(question) {
                         err,
                         'error'
                     );
-                    setIsLoading(false);
+                    setLoading(false);
                 } else {
                     const newState = { ...state };
                     delete newState['image'];
@@ -189,7 +190,7 @@ export default function useListeningView(question) {
                     await saveAudio();
 
                     await editQuestion(newState).then(() => {
-                        setIsLoading(false);
+                        setLoading(false);
                         setIsEdited(false);
 
                         Swal.fire(
@@ -205,7 +206,7 @@ export default function useListeningView(question) {
                     'El título es obligatorio',
                     'error'
                 )
-                setIsLoading(false);
+                setLoading(false);
             }
         }
         else {
@@ -214,7 +215,7 @@ export default function useListeningView(question) {
                 'No se puede guardar, debe tener al menos una pregunta',
                 'error'
             )
-            setIsLoading(false);
+            setLoading(false);
         }
     }
 
