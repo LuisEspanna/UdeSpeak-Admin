@@ -2,169 +2,72 @@ import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import {
     saveFileOnFirebase,
-    //saveOnFirestore,
-    //updateFirestoreDoc,
-    //deleteFromFirestore,
     deleteFileFromFirebase,
-    //readFromFirestoreWhere
 } from '../../../../../services/firebase';
 import { STORAGE } from '../../../../../constants';
 import { idGenerator } from '../../../../../functions';
 import useQuestions from '../../../../../hooks/useQuestions';
 
 
-export default function useSpeakingView(question) {
+export default function useListeningView(question) {
     const [state, setState] = useState(question);
     const [image, setImage] = useState(question?.image || undefined);
     const [audio, setAudio] = useState(question?.audio || undefined);
-    const { editQuestion } = useQuestions();
+    const { editQuestionById, editQuestion } = useQuestions();
     const [isLoading, setIsLoading] = useState(false);
     const [isEdited, setIsEdited] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
         setState(question);
         setImage(question?.image || undefined);
         setAudio(question?.audio || undefined);
-    }, [question])
-
-    const handlePlaying = (e) => {
-        if (audio) setIsPlaying(!isPlaying);
-    }
+    }, [question]);
 
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: (e.target.value) });
         setIsEdited(true);
     }
 
-    const handleAddOption = () => {
+
+    const handleAddQuestion = (type) => {
         setIsEdited(true);
-        let options = state?.options ? [...state?.options] : [];
-        options.push({ letter: '', description: '', isValid: false, id: idGenerator(7) });
-        setState({ ...state, options });
-    }
-
-    const handleEditOption = (id, newValue) => {
-        const options = state.options.map((option) => {
-            if (option.id === id)
-                return { ...option, ...newValue };
-            else
-                return option;
-        });
-
-        setState({ ...state, options });
-        setIsEdited(true);
-    }
-
-    const handleDeleteOption = (id) => {
-        let options = state?.options?.filter((option) => option.id !== id);
-        setState({ ...state, options });
-        setIsEdited(true);
-    }
-
-    const saveImage = () => {
-        const imageName = idGenerator(20);
-        saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
-            if (downloadURL !== null) {
-                const newQuestion = { ...state, image: downloadURL };
-                setIsLoading(true);
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setImage(downloadURL);
-                    setIsLoading(false);
-                    setIsEdited(false);
-
-                    if (!typeof (audio) === 'object') {
-                        Swal.fire(
-                            'OK',
-                            'Cambios aguardados',
-                            'success'
-                        )
-                    } else saveAudio(newQuestion);
-                });
-            };
-        });
-    }
-
-    const saveAudio = (newState) => {
-        const audioName = idGenerator(20);
-        saveFileOnFirebase(STORAGE.AUDIOS, audioName, audio).then((downloadURL) => {
-            if (downloadURL !== null) {
-                const newQuestion = { ...newState, audio: downloadURL };
-                setIsLoading(true);
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setAudio(downloadURL);
-                    setIsLoading(false);
-                    setIsEdited(false);
-
-                    Swal.fire(
-                        'OK',
-                        'Cambios aguardados',
-                        'success'
-                    )
-                });
-            };
-        });
-    }
-
-    const onSave = () => {
-        if (state.options && state.options.length > 0) {
-            const options = state.options.filter((p) => (p.letter.length > 0 && p.description.length > 0));
-            setState({ ...state, options });
-
-            if ((state.description && state.description.length > 0) &&
-                (state.title && state.title.length > 0) &&
-                (audio !== undefined)) {
-                if (typeof (image) === 'object') {
-                    saveImage();
-                } 
-                else if(typeof (audio) === 'object') {
-                    saveAudio({...state});
+        let questions = state?.questions ? [...state?.questions] : [];
+        const localTitle = (type === 'question' ? '1+1 = ?' : idGenerator(7));
+        let newItem = {
+            "id": (type !== 'question' ? localTitle : idGenerator(7)),
+            "type": type,
+            "title": localTitle,
+            "options": [
+                {
+                    "id": idGenerator(7),
+                    "isValid": true,
+                    "description": (type === 'question' ? '2' : "Opción 1")
+                },
+                {
+                    "isValid": false,
+                    "id": idGenerator(7),
+                    "description": (type === 'question' ? '3' : "Opción 2")
                 }
-                else {
-                    editQuestion(state).then(() => {
-                        setIsLoading(false);
-                        setIsEdited(false);
-                        Swal.fire(
-                            'OK',
-                            'Cambios aguardados',
-                            'success'
-                        )
-                    });
-                }
-            } else {
-                Swal.fire(
-                    'Error!',
-                    'Título, descripción y el audio son obligatorios',
-                    'error'
-                )
-            }
-        }
-        else {
-            Swal.fire(
-                'Error!',
-                'No se puede guardar, debe tener al menos 1 posible respuesta',
-                'error'
-            )
-        }
+            ]
+        };
+        questions.push(newItem);
+        setState({ ...state, questions });
+    }
+
+    const handleEditQuestion = (question) => {
+        const indexQuestion = state.questions.findIndex(qe => qe.id === question.id);
+
+        const questions = [
+            ...state.questions.slice(0, indexQuestion),
+            question,
+            ...state.questions.slice(indexQuestion + 1)
+        ];
+
+        setState({ ...state, questions });
+        setIsEdited(true);
     }
 
     const handleImage = (e) => {
-        if (state?.image && typeof (state?.image) === 'string') {
-            //Delete from db
-            setIsLoading(true);
-            deleteFileFromFirebase(state?.image).then(() => {
-                const newQuestion = { ...state, image: null };
-
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setImage(undefined);
-                    setIsLoading(false);
-                });
-            });
-        }
-
         if (e.target?.files) {
             setImage(e.target?.files[0]);
         } else {
@@ -174,20 +77,6 @@ export default function useSpeakingView(question) {
     }
 
     const handleAudio = (e) => {
-        if (state?.audio && typeof (state?.audio) === 'string') {
-            //Delete from db
-            setIsLoading(true);
-            deleteFileFromFirebase(state?.audio).then(() => {
-                const newQuestion = { ...state, audio: null };
-
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setAudio(undefined);
-                    setIsLoading(false);
-                });
-            });
-        }
-
         if (e.target?.files) {
             setAudio(e.target?.files[0]);
         } else {
@@ -196,20 +85,168 @@ export default function useSpeakingView(question) {
         setIsEdited(true);
     }
 
+    const saveImage = async () => {
+        if (typeof (state?.image) === 'string' && image === undefined) {
+            deleteFileFromFirebase(state?.image);
+            await editQuestionById(state?.id, { image: null }).then(() => {
+                setState({ ...state, image: undefined })
+            });
+        }
+
+        if (typeof (image) === 'object') {
+            if (typeof (state?.image) === 'string') {
+                await deleteFileFromFirebase(state?.image);
+                await editQuestionById(state?.id, { image: null });
+            }
+
+            setIsLoading(true);
+            const imageName = idGenerator(20);
+            await saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
+                if (downloadURL !== null) {
+                    const newQuestion = { image: downloadURL };
+                    editQuestionById(state?.id, newQuestion).then(() => {
+                        setState({ ...state, image: downloadURL });
+                        setImage(downloadURL);
+                    });
+                };
+            });
+        }
+    }
+
+    const saveAudio = async () => {
+        if (typeof (state?.audio) === 'string' && audio === undefined) {
+            await deleteFileFromFirebase(state?.audio);
+            await editQuestionById(state?.id, { audio: null }).then(() => {
+                setState({ ...state, audio: undefined })
+            });
+        }
+
+        if (typeof (audio) === 'object') {
+            if (typeof (state?.audio) === 'string') {
+                deleteFileFromFirebase(state?.audio);
+                editQuestionById(state?.id, { audio: null });
+            }
+
+            setIsLoading(true);
+            const fileName = idGenerator(20);
+            await saveFileOnFirebase(STORAGE.AUDIOS, fileName, audio).then((downloadURL) => {
+                if (downloadURL !== null) {
+                    const newQuestion = { audio: downloadURL };
+                    editQuestionById(state?.id, newQuestion).then(() => {
+                        setState({ ...state, audio: downloadURL });
+                        setAudio(downloadURL);
+                    });
+                };
+            });
+        }
+    }
+
+    const onSave = async () => {
+        setIsLoading(true);
+
+        // TODO: Validar opciones y preguntas
+        if (state.questions && state.questions.length > 0) {
+            if (
+                //(state.description && state.description.length > 0) &&
+                (state.title && state.title.length > 0)) {
+
+                let errors = [];
+
+                state.questions.forEach((q, i) => {
+                    if (q?.title === null || q?.title === undefined) {
+                        //errors.push('El texto de la pregunta no debe estar vacio');
+                    }
+
+                    if (q?.options === null || q?.options === undefined) {
+                        errors.push('Debe contener al menos una opción');
+                    } else {
+                        q?.options?.forEach(o => {
+                            if (o.description === null || o.description === undefined)
+                                errors.push('La descripción no debe estar vacía');
+                        });
+                    }
+                });
+
+                if (errors.length > 0) {
+                    let err = '';
+
+                    errors.forEach(e => {
+                        err = err + '<p>' + e + '</p>';
+                    });
+
+                    Swal.fire(
+                        'Error!',
+                        err,
+                        'error'
+                    );
+                    setIsLoading(false);
+                } else {
+                    const newState = { ...state };
+                    delete newState['image'];
+                    delete newState['audio'];
+
+                    await saveImage();
+                    await saveAudio();
+
+                    await editQuestion(newState).then(() => {
+                        setIsLoading(false);
+                        setIsEdited(false);
+
+                        Swal.fire(
+                            'OK',
+                            'Cambios guardados',
+                            'success'
+                        );
+                    });
+                }
+            } else {
+                Swal.fire(
+                    'Error!',
+                    'El título es obligatorio',
+                    'error'
+                )
+                setIsLoading(false);
+            }
+        }
+        else {
+            Swal.fire(
+                'Error!',
+                'No se puede guardar, debe tener al menos una pregunta',
+                'error'
+            )
+            setIsLoading(false);
+        }
+    }
+
+    const handleDeleteQuestion = (question) => {
+        Swal.fire({
+            title: 'Estás segur@ de eliminar esto?',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let questions = state?.questions || [];
+                questions = questions.filter(q => q.id !== question.id);
+                setState({ ...state, questions });
+                setIsEdited(true);
+                Swal.fire('Eliminado!', '', 'success');
+            }
+        });
+    }
+
     return {
         state,
         image,
         isLoading,
         isEdited,
         audio,
-        isPlaying,
         handleChange,
         onSave,
-        handleAddOption,
-        handleEditOption,
-        handleDeleteOption,
         handleImage,
-        handleAudio,
-        handlePlaying
+        handleAddQuestion,
+        handleEditQuestion,
+        handleDeleteQuestion,
+        handleAudio
     }
 }

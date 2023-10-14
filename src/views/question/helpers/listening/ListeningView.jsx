@@ -1,128 +1,76 @@
 import React from 'react';
-import Button from '../../../../components/button/Button';
-import TextField from '../../../../components/form/textField/TextField';
-import './styles.scss';
-import TrashIcon from '../../../../components/icons/TrashIcon';
-import useListeningView from './hooks/useListeningView';
-import PreviewListening from './helper/PreviewListening';
+import useReadingView from './hooks/useListeningView';
+import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer';
+import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
+import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
+import QuestionsArea from '../../../../components/phoneContainer/questionsArea/QuestionsArea';
 import Card from '../../../../components/card/Card';
-import ProgressBar from '../../../../components/progressbar/ProgressBar';
-import RowOption from './helper/RowOption';
+import imgExampleQ from './assets/example-question.png';
+import Button from '../../../../components/button/Button';
+import './styles.scss';
+import AudioField from '../../../../components/phoneContainer/audioField/AudioField';
 
-export default function Listening({ question }) {
+
+export default function ListeningView({ question }) {
   const {
     state,
     image,
-    audio,
-    isEdited,
     isLoading,
-    isPlaying,
+    isEdited,
+    audio,
     handleChange,
-    handleAddOption,
-    handleEditOption,
-    handleDeleteOption,
     onSave,
     handleImage,
     handleAudio,
-    handlePlaying
-  } = useListeningView(question);
+    handleAddQuestion,
+    handleEditQuestion,
+    handleDeleteQuestion,
+  } = useReadingView(question);
 
   return (
     <>
-      <Card className='w-100'>
-        <div className='listening-view'>
-          <h5><b>Listening</b></h5>
-          <div className='mt-4' />
-          <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
-          {
-            !image &&
-            <div>
-              <span className=''>Imagen </span>
-              <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
-            </div>
-          }
-          {
-            image && <div>
-              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Imagen </Button>
-              {
-                typeof (image) === 'string' && <input disabled type='text' value={image} />
-              }
-              <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
-                <TrashIcon className='icon' />
-              </Button>
-            </div>
-          }
-
-          {
-            !audio  &&
-            <div>
-              <span className='my-4'>Audio </span>
-              <input type='file' accept='audio/*' onChange={handleAudio} name='audio' className='mb-4 d-inline-block' />
-            </div>
-          }
-          {
-            audio && <div>
-              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Audio </Button>
-              {
-                typeof (audio) === 'string' && <input disabled type='text' value={audio} />
-              }
-              <Button type='primary' className='mx-4 d-inline-block' onClick={handleAudio}>
-                <TrashIcon className='icon' />
-              </Button>
-            </div>
-          }
-
-          <div>
-            <span className='my-4'>Descripción</span>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave} isLoading={isLoading}>
+        <TitleEditor
+          className='my-1'
+          value={state?.title}
+          onChange={handleChange}
+          name='title'
+        />
+        <AudioField
+          audio={audio}
+          name='audio'
+          onChange={handleAudio}
+        />
+        <ImageField
+          className='my-3'
+          image={image}
+          onChange={handleImage}
+        />
+        <TitleEditor
+          className='my-1 f-size-normal'
+          value={state?.description}
+          onChange={handleChange}
+          name='description'
+          placeholder='Descripción (Opcional)'
+        />
+        <QuestionsArea
+          questions={state?.questions?.filter(q => q.type === 'question') || []}
+          onDeleteQuestion={handleDeleteQuestion}
+          onEditQuestion={handleEditQuestion}
+        />
+      </PhoneContainer>
+      <div className='w-100 ms-4'>
+        <Card className='mb-3'>
+          <p><b>Creación de preguntas de selección única</b></p>
+          <p>Permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, las preguntas con sus respectivas opciones aparecerán después de la descripción.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleQ} alt='' />
           </div>
-          <textarea name="description" rows="4" className='w-100' onChange={handleChange} value={state?.description} />
-          <span className='my-4'>Opciones de respuesta</span>
-          <div className='d-flex'>
-
-            {
-              state?.options &&
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Opción</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Respuesta válida</th>
-                    <th scope="col">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    state.options.map((option, i) =>
-                      <RowOption 
-                        key={i}
-                        option={option} 
-                        onChange={handleEditOption}
-                        onDelete={handleDeleteOption}
-                      />
-                    )
-                  }
-                </tbody>
-              </table>
-            }
-
-
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3 ' title='Nueva pregunta de selección única' type='primary' onClick={() => handleAddQuestion('question')} />
           </div>
-          <Button type='primary' title='Agregar opción' className='px-2' onClick={handleAddOption} />
-          <div className='d-flex justify-content-center mt-4'>
-            {
-              isEdited && <Button type='primary' title='Guardar' className='px-4' onClick={onSave} />
-            }
-          </div>
-        </div>
-        <ProgressBar isLoading={isLoading} />
-      </Card>
-      <PreviewListening 
-        image={image}
-        sound={audio}
-        question={state} 
-        handlePlaying={handlePlaying} 
-        isPlaying={isPlaying}/>
+        </Card>
+      </div>
     </>
-
   )
 }
