@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ListeningTab from '../helpers/listening/ListeningView';
+import ListeningTab from '../helpers/listeningV2/ListeningView';
 import ReadingTab from '../helpers/reading/ReadingView';
 import SpeakingTab from '../helpers/speaking/SpeakingView';
 import WritingTab from '../helpers/writing/WritingView';
