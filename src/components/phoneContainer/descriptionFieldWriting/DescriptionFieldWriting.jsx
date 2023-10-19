@@ -3,7 +3,7 @@ import './styles.scss';
 import Button from '../../button/Button';
 import PencilIcon from '../../icons/PencilIcon';
 import SaveIcon from '../../icons/SaveIcon';
-import DraggableList from '../../draggableList/DraggableList';
+import DraggableSpace from '../../draggableSpace/DraggableSpace';
 
 /**
  * @param {object} param0
@@ -140,7 +140,7 @@ export default function DescriptionField({ className, value, handleEditDropdown,
                                     </div>
                                 ) : (
                                     (dropdowns.find((d) => d.id === item.text.replace('@', ''))) ?
-                                        <DraggableList
+                                        <DraggableSpace
                                             key={item.index + item.text}
                                             draggable
                                             onDragStart={() => onDragStart({ id: item.text })}
@@ -166,7 +166,7 @@ export default function DescriptionField({ className, value, handleEditDropdown,
 
                 {
                     
-                    (notUsedDropdowns.length > 0 && !isEditing) > 0 &&
+                    (notUsedDropdowns.length > 0 && !isEditing) &&
                     <div className='my-4'>
                         <hr />
                         <p className='label mb-2'>
@@ -176,7 +176,7 @@ export default function DescriptionField({ className, value, handleEditDropdown,
                         {
                             //Not used dropdowns
                             notUsedDropdowns.map((item, i) =>
-                                <DraggableList
+                                <DraggableSpace
                                     key={i}
                                     draggable
                                     onEdit={() => handleEditDropdown(item)}
