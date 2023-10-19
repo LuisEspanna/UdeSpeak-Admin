@@ -5,10 +5,10 @@ import AudioImage from '../../icons/AudioImage';
 import Button from '../../button/Button';
 
 
-export default function AudioField({ className, audio, onChange, name }) {
+export default function AudioField({ className, audio, onChange, name, label }) {
     return (
         <div className={`audio-field ${className ? className : ''}`}>
-            <p className='label'>Audio</p>
+            <p className='label'>{label ? label : 'Audio'}</p>
             <div className='d-flex'>
                 {
                     audio && ((typeof (audio) === 'object') ?

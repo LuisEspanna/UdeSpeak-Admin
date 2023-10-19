@@ -1,103 +1,77 @@
 import React from 'react';
-import Button from '../../../../components/button/Button';
-import TextField from '../../../../components/form/textField/TextField';
-import './styles.scss';
-import TrashIcon from '../../../../components/icons/TrashIcon';
 import useWritingView from './hooks/useWritingView';
-import PreviewWriting from './helper/PreviewWriting';
+import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer';
+import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
+import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
+import AudioField from '../../../../components/phoneContainer/audioField/AudioField';
+import DescriptionField from '../../../../components/phoneContainer/descriptionFieldWriting/DescriptionFieldWriting';
+import useDialog from '../../../../hooks/useDialog';
+import Dialog from '../../../../components/Dialog/Dialog';
 import Card from '../../../../components/card/Card';
-import ProgressBar from '../../../../components/progressbar/ProgressBar';
-import TextInput from 'react-autocomplete-input';
-import 'react-autocomplete-input/dist/bundle.css';
-import QuestionItem from './helper/QuestionItem';
-import SaveIcon from '../../../../components/icons/SaveIcon';
+import imgExampleDD from './assets/example-blankspace.png';
+import Button from '../../../../components/button/Button';
 
-export default function WritingView({ question }) {
+
+export default function Reading({ question }) {
+  const dialogProps = useDialog();
+
   const {
     state,
     image,
-    isLoading,
+    audio,
     isEdited,
     handleChange,
     onSave,
     handleImage,
     handleAddQuestion,
-    handleEditQuestion,
-    getWords,
-    handleDeleteQuestion
-  } = useWritingView(question);
+    handleDeleteQuestion,
+    handleEditDropdown,
+    handleAudio
+  } = useWritingView(question, dialogProps);
 
   return (
     <>
-      <Card className='w-100'>
-        <div className='writing-view'>
-          <h5><b>Writing</b></h5>
-          <div className='mt-4' />
-          <TextField placeholder='Título' value={state?.title} name='title' className='mb-4' onChange={handleChange} />
-          {
-            !image &&
-            <div>
-              <span className=''>Imagen </span>
-              <input type='file' accept='image/*' onChange={handleImage} name='image' className='mb-4 d-inline-block' />
-            </div>
-          }
-          {
-            image && <div>
-              <Button type='primary' className='my-4 d-inline-block px-1 me-1'>Imagen </Button>
-              {
-                typeof (image) === 'string' && <input disabled type='text' value={image} />
-              }
-              <Button type='primary' className='mx-4 d-inline-block' onClick={handleImage}>
-                <TrashIcon className='icon' />
-              </Button>
-            </div>
-          }
-
-          <div className='desc-container'>
-            <div>
-              <span className='my-4 w-100'>Descripción</span>
-            </div>
-
-            <TextInput
-              className='w-100 '
-              trigger={["@"]}
-              options={{ "@": getWords() }}
-              onChange={text => handleChange({ target: { name: 'description', value: text } })}
-              value={state?.description || ''}
-            />
-            <p className='my-4 m-0 p-0 w-100'>Con @ puedes insertar un espacio writing</p>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave}>
+        <TitleEditor
+          className='my-1'
+          value={state?.title}
+          onChange={handleChange}
+          name='title'
+        />
+        <ImageField
+          className='my-3'
+          image={image}
+          onChange={handleImage}
+        />
+        <AudioField
+          audio={audio}
+          name='audio'
+          onChange={handleAudio}
+          label='Audio (Opcional)'
+          className='mb-3'
+        />
+        <DescriptionField
+          value={state?.description || ''}
+          onChange={handleChange}
+          name='description'
+          dropdowns={state?.questions?.filter(q => q?.type === 'blankspace') || []}
+          onDeleteDropdown={handleDeleteQuestion}
+          handleEditDropdown={handleEditDropdown}
+        />
+      </PhoneContainer>
+      <div className='w-100 ms-4'>
+        <Card className='mb-3'>
+          <p><b>Creación de áreas de texto</b></p>
+          <p>Las áreas de texto permite al estudiante escribir su respuesta, el área de texto puede tener varias respuestas válidas definidas por el docente o el administrador, es posible mover el área de texto con el mouse en cualquier parte de la descripción.</p>
+          <div className='d-flex justify-content-center my-3'>
+            <img src={imgExampleDD} alt='' style={{width: '16em', margin: '1em'}}/>
           </div>
-          {/*-------------------------------------------------------------------------------------------------------------  OPCIONES DESPLEGABLES*/}
-          <div className='mt-4 '>
-            <div className='mb-4'><b>Espacios writing</b></div>
-
-            {
-              state?.questions && state?.questions.map((questionItem, i) =>
-                <QuestionItem
-                  key={i}
-                  index={i}
-                  questionItem={questionItem}
-                  onChange={handleEditQuestion}
-                  onDelete={handleDeleteQuestion}
-                />
-              )
-            }
-            <Button type='primary' title='Agregar espacio writing' className='px-2 my-4' onClick={() => handleAddQuestion('blank-space')} />
+          <div className='d-flex justify-content-center'>
+            <Button className='px-3' title='Agregar área de texto' type='primary' onClick={() => handleAddQuestion('blankspace')} />
           </div>
-        </div>
-        <ProgressBar isLoading={isLoading} />
-      </Card>
-      <PreviewWriting
-        image={image}
-        question={state}
-      />
-
-      {
-        (isEdited && !isLoading) &&
-        <Button type='primary' active={true} className='floatbtn' onClick={onSave}>
-          <SaveIcon className='icon' />
-        </Button>
-      }
+        </Card>
+      </div>
+      <Dialog {...dialogProps} />
     </>
   )
 }
