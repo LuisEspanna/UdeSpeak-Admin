@@ -8,13 +8,14 @@ import { STORAGE } from '../../../../../constants';
 import { idGenerator } from '../../../../../functions';
 import useQuestions from '../../../../../hooks/useQuestions';
 import DialogList from '../helper/Dialogs/DialogList';
+import useLoading from '../../../../../hooks/useLoading';
 
 
 export default function useSpeakingView(question, dialogProps) {
     const [state, setState] = useState(question);
     const [image, setImage] = useState(question?.image || undefined);
-    const { editQuestion } = useQuestions();
-    const [isLoading, setIsLoading] = useState(false);
+    const { editQuestion, editQuestionById } = useQuestions();
+    const { setLoading } = useLoading();
     const [isEdited, setIsEdited] = useState(false);
 
     useEffect(() => {
@@ -66,31 +67,45 @@ export default function useSpeakingView(question, dialogProps) {
         setIsEdited(true);
     }
 
-
-    const saveImage = () => {
-        setIsLoading(true);
-        const imageName = idGenerator(20);
-        saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
-            if (downloadURL !== null) {
-                const newQuestion = { ...state, image: downloadURL };
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setImage(downloadURL);
-                    setIsLoading(false);
-                    setIsEdited(false);
-
-                    Swal.fire(
-                        'OK',
-                        'Cambios aguardados',
-                        'success'
-                    );
-                });
-            };
-        });
+    const handleImage = (e) => {
+        if (e.target?.files) {
+            setImage(e.target?.files[0]);
+        } else {
+            setImage(undefined);
+        }
+        setIsEdited(true);
     }
 
-    const onSave = () => {
-        setIsLoading(true);
+    const saveImage = async () => {
+        if (typeof (state?.image) === 'string' && image === undefined) {
+            deleteFileFromFirebase(state?.image);
+            await editQuestionById(state?.id, { image: null }).then(() => {
+                setState({ ...state, image: undefined })
+            });
+        }
+
+        if (typeof (image) === 'object') {
+            if (typeof (state?.image) === 'string') {
+                await deleteFileFromFirebase(state?.image);
+                await editQuestionById(state?.id, { image: null });
+            }
+
+            setLoading(true);
+            const imageName = idGenerator(20);
+            await saveFileOnFirebase(STORAGE.QUESTION, imageName, image).then((downloadURL) => {
+                if (downloadURL !== null) {
+                    const newQuestion = { image: downloadURL };
+                    editQuestionById(state?.id, newQuestion).then(() => {
+                        setState({ ...state, image: downloadURL });
+                        setImage(downloadURL);
+                    });
+                };
+            });
+        }
+    }
+
+    const onSave = async() => {
+        setLoading(true);
         // TODO: Validar opciones y preguntas
         if (state.questions && state.questions.length > 0) {
             if (
@@ -126,22 +141,23 @@ export default function useSpeakingView(question, dialogProps) {
                         err,
                         'error'
                     );
-                    setIsLoading(false);
+                    setLoading(false);
                 } else {
-                    if (typeof (image) === 'object') {
-                        saveImage();
-                    }
-                    else {
-                        editQuestion(state).then(() => {
-                            setIsLoading(false);
-                            setIsEdited(false);
-                            Swal.fire(
-                                'OK',
-                                'Cambios aguardados',
-                                'success'
-                            )
-                        });
-                    }
+                    const newState = { ...state };
+                    delete newState['image'];
+
+                    await saveImage();
+
+                    await editQuestion(newState).then(() => {
+                        setLoading(false);
+                        setIsEdited(false);
+
+                        Swal.fire(
+                            'OK',
+                            'Cambios guardados',
+                            'success'
+                        );
+                    });
                 }
             } else {
                 Swal.fire(
@@ -149,7 +165,7 @@ export default function useSpeakingView(question, dialogProps) {
                     'El título es obligatorio',
                     'error'
                 )
-                setIsLoading(false);
+                setLoading(false);
             }
         }
         else {
@@ -158,31 +174,8 @@ export default function useSpeakingView(question, dialogProps) {
                 'No se puede guardar, debe tener al menos una pregunta',
                 'error'
             )
-            setIsLoading(false);
+            setLoading(false);
         }
-    }
-
-    const handleImage = (e) => {
-        if (state?.image && typeof (state?.image) === 'string') {
-            //Delete from db
-            setIsLoading(true);
-            deleteFileFromFirebase(state?.image).then(() => {
-                const newQuestion = { ...state, image: null };
-
-                editQuestion(newQuestion).then(() => {
-                    setState(newQuestion);
-                    setImage(undefined);
-                    setIsLoading(false);
-                });
-            });
-        }
-
-        if (e.target?.files) {
-            setImage(e.target?.files[0]);
-        } else {
-            setImage(undefined);
-        }
-        setIsEdited(true);
     }
 
     const handleDeleteQuestion = (question) => {
@@ -236,7 +229,6 @@ export default function useSpeakingView(question, dialogProps) {
     return {
         state,
         image,
-        isLoading,
         isEdited,
         handleChange,
         onSave,

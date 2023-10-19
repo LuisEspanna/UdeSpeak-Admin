@@ -66,6 +66,14 @@ export default function useQuestions(questionnary_id) {
         return updateFirestoreDoc(COLLECTIONS.QUESTIONS, item.id, newQuestion);
     }
 
+    const editQuestionById = (id, item) => {
+        const newQuestion = {
+            ...item,
+            edited_at: new Date().getTime()
+        };
+        return updateFirestoreDoc(COLLECTIONS.QUESTIONS, id, newQuestion);
+    }
+
     const deleteQuestion = async(item) => {
         if (item?.audio && typeof (item?.audio) === 'string') {
             deleteFileFromFirebase(item?.audio);
@@ -85,6 +93,7 @@ export default function useQuestions(questionnary_id) {
         editQuestion,
         deleteQuestion,
         getQuestion,
-        getQuestionsById
+        getQuestionsById,
+        editQuestionById
     };
 }

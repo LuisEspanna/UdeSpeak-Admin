@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './styles.scss';
 import { idGenerator } from '../../../../../../functions';
-import DraggableList from '../../../../../../components/draggableList/DraggableList';
 import OptionField from '../../../../../../components/form/optionField/OptionField';
 import { useEffect } from 'react';
 
@@ -12,14 +11,15 @@ export default function DialogList({ dropdown, setChanges }) {
         if (setChanges)
             setChanges({ ...dropdown });
     }, [dropdown, setChanges]);
+    
 
     const handleAddOption = () => {
         const options = state?.options || [];
-        const newOption = { description: 'Nueva opción', isValid: false, id: idGenerator(7) };
+        const newOption = { id: idGenerator(7), isValid: true, description: 'Nueva opción' };
         options.push(newOption);
-        setState({ ...state, newOption });
+        setState({ ...state, options });
         if (setChanges)
-            setChanges({ ...state, newOption });
+            setChanges({ ...state, options });
     }
 
     const onChangeTextOption = (option, index, text) => {
@@ -50,8 +50,7 @@ export default function DialogList({ dropdown, setChanges }) {
 
     return (
         <div className='dialog-list-element'>
-            <p className='dialog-title'>Vista previa</p>
-            <DraggableList options={state?.options} />
+            <p className='dialog-title'>Respuestas válidas</p>
             <div className='my-4'>
                 {
                     state?.options.map((option, i) =>
@@ -61,6 +60,7 @@ export default function DialogList({ dropdown, setChanges }) {
                             onChangeRadio={(e) => onChangeRadio(option, i, e)}
                             onDelete={() => handleDeleteOption(option)}
                             option={option}
+                            hiddeRadio = {true}
                         />
                     )
                 }

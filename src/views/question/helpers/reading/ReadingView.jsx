@@ -1,7 +1,6 @@
 import React from 'react';
 import useReadingView from './hooks/useReadingView';
 import PhoneContainer from '../../../../components/phoneContainer/PhoneContainer';
-import './styles.scss';
 import TitleEditor from '../../../../components/phoneContainer/titleField/TitleField';
 import ImageField from '../../../../components/phoneContainer/imageField/ImageField';
 import DescriptionField from '../../../../components/phoneContainer/descriptionField/DescriptionField';
@@ -20,7 +19,6 @@ export default function Reading({ question }) {
   const {
     state,
     image,
-    isLoading,
     isEdited,
     handleChange,
     onSave,
@@ -33,7 +31,7 @@ export default function Reading({ question }) {
 
   return (
     <>
-      <PhoneContainer showSaveBtn={isEdited} onSave={onSave} isLoading={isLoading}>
+      <PhoneContainer showSaveBtn={isEdited} onSave={onSave}>
         <TitleEditor
           className='my-1'
           value={state?.title}
@@ -53,7 +51,6 @@ export default function Reading({ question }) {
           onDeleteDropdown={handleDeleteQuestion}
           handleEditDropdown={handleEditDropdown}
         />
-
         <QuestionsArea
           questions={state?.questions?.filter(q => q.type === 'question') || []}
           onDeleteQuestion={handleDeleteQuestion}
