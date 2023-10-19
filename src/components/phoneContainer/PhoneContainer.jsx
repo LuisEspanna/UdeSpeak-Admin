@@ -5,8 +5,11 @@ import { getHour } from '../../functions'
 import NextIcon from '../icons/NextIcon';
 import SaveIcon from '../icons/SaveIcon';
 import Button from '../button/Button';
+import { useSelector } from 'react-redux';
 
-export default function PhoneContainer({ onSave, showSaveBtn, children, isLoading }) {
+export default function PhoneContainer({ onSave, showSaveBtn, children }) {
+    const isLoading = useSelector((state) => state.loading.isLoading);
+
     return (
         <div className='phone-container'>
             <div className='phone-header'>
