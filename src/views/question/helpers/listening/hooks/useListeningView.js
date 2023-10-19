@@ -153,6 +153,10 @@ export default function useListeningView(question) {
 
                 let errors = [];
 
+                if (audio === undefined) {
+                    errors.push('El audio es obligatorio');
+                }
+
                 state.questions.forEach((q, i) => {
                     if (q?.title === null || q?.title === undefined) {
                         //errors.push('El texto de la pregunta no debe estar vacio');
@@ -163,7 +167,7 @@ export default function useListeningView(question) {
                     } else {
                         q?.options?.forEach(o => {
                             if (o.description === null || o.description === undefined)
-                                errors.push('La descripción no debe estar vacía');
+                                errors.push('La descripción en las opciones no debe estar vacía');
                         });
                     }
                 });

@@ -212,7 +212,7 @@ export default function useSpeakingView(question, dialogProps) {
         else {
             Swal.fire(
                 'Error!',
-                'No se puede guardar, debe tener al menos una pregunta',
+                'No se puede guardar, debe tener al menos un área de texto',
                 'error'
             )
             setLoading(false);
