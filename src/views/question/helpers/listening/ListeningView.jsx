@@ -58,7 +58,7 @@ export default function ListeningView({ question }) {
           onEditQuestion={handleEditQuestion}
         />
       </PhoneContainer>
-      <div className='w-100 ms-4'>
+      <div className='w-100 ms-4' style={{textAlign: 'justify'}}>
         <Card className='mb-3'>
           <p><b>Creación de preguntas de selección única</b></p>
           <p>Permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, las preguntas con sus respectivas opciones aparecerán después de la descripción.</p>
