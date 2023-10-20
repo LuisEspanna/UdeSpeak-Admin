@@ -1,21 +1,13 @@
-@import '../../../../components/button/button.scss';
-
-.speaking-view{
-    margin-top: 2em;
-    background-color: #fff;
-    position: relative;
-    
-
-    input::file-selector-button {
-        @extend .button-primary;
-        font-size: 0.9em;
-        padding: 0.5em;
-        display: inline-block;
+.f-size-normal{
+    textarea{
+        font-size: medium !important;
     }
+}
 
-    .navigation-buttons{
-        position: absolute;
-        top: -2em;
-        right: 0;
+.f-s-description{
+    textarea{
+        font-size: large !important;
+        font-weight: bold !important;
+        text-align: center !important;
     }
 }
