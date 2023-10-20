@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ListeningTab from '../helpers/listening/ListeningView';
 import ReadingTab from '../helpers/reading/ReadingView';
-import SpeakingTab from '../helpers/speaking/SpeakingView';
+import SpeakingTab from '../helpers/speakingV2/SpeakingView';
 import WritingTab from '../helpers/writing/WritingView';
 import { useParams } from 'react-router-dom';
 import useQuestions from '../../../hooks/useQuestions';
