@@ -57,7 +57,7 @@ export default function Reading({ question }) {
           onEditQuestion={handleEditQuestion}
         />
       </PhoneContainer>
-      <div className='w-100 ms-4'>
+      <div className='w-100 ms-4' style={{textAlign: 'justify'}}>
         <Card className='mb-3'>
           <p><b>Creación de listas desplegables</b></p>
           <p>Una lista desplegable permite al estudiante seleccionar una opción, es obligatorio que al menos una de las opciones definidas sea correcta, puede insertar una lista desplegable, puedes mover la lista desplegable con el mouse.</p>
