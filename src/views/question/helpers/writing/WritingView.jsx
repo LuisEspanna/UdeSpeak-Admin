@@ -59,7 +59,7 @@ export default function Reading({ question }) {
           handleEditDropdown={handleEditDropdown}
         />
       </PhoneContainer>
-      <div className='w-100 ms-4'>
+      <div className='w-100 ms-4' style={{textAlign: 'justify'}}>
         <Card className='mb-3'>
           <p><b>Creación de áreas de texto</b></p>
           <p>Las áreas de texto permite al estudiante escribir su respuesta, el área de texto puede tener varias respuestas válidas definidas por el docente o el administrador, es posible mover el área de texto con el mouse en cualquier parte de la descripción.</p>
