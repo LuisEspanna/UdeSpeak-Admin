@@ -11,7 +11,7 @@ const menu = () => {
             "permissions": [PERMISSIONS.ADMIN, PERMISSIONS.TEACHER],
             "children": [
                 {
-                    "title": "Dashboard",
+                    "title": "Estadísticas",
                     "icon": <DashboardIcon />,
                     "permissions": [PERMISSIONS.ADMIN, PERMISSIONS.TEACHER],
                     "url": "/dashboard"

@@ -23,7 +23,7 @@ export default function ProfileView() {
         </span>
 
         <div className='user-card my-4 row p-4'>
-          <div className='col-2'>
+          <div className='col-3'>
             <Avatar photoURL={user.photoURL}/>
           </div>
           <div className='col'>

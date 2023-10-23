@@ -28,16 +28,10 @@ function UserDropDown({ className, xWPos, yWpos, user }) {
                 <p className='title'><b>Buenos días, </b> {displayName} </p>
                 <Button
                    type={'primary'}
-                >
-                    <GearIcon/>
-                    Ajustes de cuenta
-                </Button>
-                <Button
-                   type={'primary'}
                    onClick={()=>handleNavigate('/dashboard/profile')}
                 >
                     <UserIcon/>
-                    Perfil social
+                    Perfil
                 </Button>
                 <Button                    
                     type={'primary'}
