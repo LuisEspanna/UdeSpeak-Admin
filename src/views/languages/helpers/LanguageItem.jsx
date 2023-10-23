@@ -3,6 +3,7 @@ import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LanguageInput from './LanguageInput';
 import usePermissions from '../../../hooks/usePermissions';
+import Button from '../../../components/button/Button';
 
 export default function LanguageItem({ language, onSave, onDelete, className, onClick }) {
     const [state, setState] = useState({ ...language });
@@ -72,9 +73,13 @@ export default function LanguageItem({ language, onSave, onDelete, className, on
                     </div>
                     {
                         isAdmin &&
-                        <div className='col-2 d-flex'>
-                            <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-                            <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
+                        <div className='col-sm-2 d-flex justify-content-end'>
+                            <Button type='primary'>
+                                <PencilIcon className={'icon'} onClick={handleEdit} />
+                            </Button>
+                            <Button type='danger' className='ms-2'>
+                                <TrashIcon className={'icon'} onClick={handleDelete} />
+                            </Button>
                         </div>
                     }
                 </div>

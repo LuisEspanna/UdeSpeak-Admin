@@ -10,7 +10,6 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import usePermissions from '../../../hooks/usePermissions';
 
 export default function useQuestionsView(ref) {
-    const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
 
@@ -39,7 +38,6 @@ export default function useQuestionsView(ref) {
         async function fetchLavels() {
             setIsLoading(true);
             const localquestions = await getAll();
-            setQuestions(localquestions);
             setItems(localquestions);
             setIsLoading(false);
         }
@@ -60,11 +58,10 @@ export default function useQuestionsView(ref) {
         if (item?.id) {
             editQuestion(newQuestion)
                 .then(() => {
-                    const index = questions.findIndex((question) => question.id === item.id);
-                    let newData = [...questions.slice(0, index),
+                    const index = results.findIndex((question) => question.id === item.id);
+                    let newData = [...results.slice(0, index),
                                     { ...newQuestion },
-                                    ...questions.slice(index + 1)];
-                    setQuestions(newData);
+                                    ...results.slice(index + 1)];
                     setItems(newData);
                 })
                 .finally(() => {
@@ -75,8 +72,7 @@ export default function useQuestionsView(ref) {
             newQuestion.user_id = user.uid;
             createQuestion(newQuestion)
                 .then((res) => {
-                    setQuestions([...questions, { ...newQuestion, id: res.id }]);
-                    setItems([...questions, { ...newQuestion, id: res.id }]);
+                    setItems([{ ...newQuestion, id: res.id }, ...results]);
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -101,9 +97,7 @@ export default function useQuestionsView(ref) {
                         'El proceso finalizó correctamente.',
                         'success'
                     );
-
-                    setQuestions(questions.filter((question) => question.id !== item.id));
-                    setItems(questions.filter((question) => question.id !== item.id));
+                    setItems(results.filter((question) => question.id !== item.id));
                 } else {
                     Swal.fire(
                         'Error!',
@@ -120,13 +114,12 @@ export default function useQuestionsView(ref) {
     }
 
     return {
-        questions,
+        results,
         isCreating,
         isLoading,
         handleCreate,
         handleSave,
         handleDelete,
         handleClick,
-        results
     }
 }

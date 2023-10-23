@@ -3,6 +3,7 @@ import PencilIcon from '../../../components/icons/PencilIcon';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import LevelInput from './LevelInput';
 import usePermissions from '../../../hooks/usePermissions';
+import Button from '../../../components/button/Button';
 
 
 export default function LevelItem({ level, onSave, onDelete, className, onClick }) {
@@ -11,7 +12,7 @@ export default function LevelItem({ level, onSave, onDelete, className, onClick 
   const { isAdmin } = usePermissions();
 
   useEffect(() => {
-    setState({...level});
+    setState({ ...level });
   }, [level]);
 
 
@@ -57,7 +58,7 @@ export default function LevelItem({ level, onSave, onDelete, className, onClick 
         <div className='row align-items-center'>
           <div className='col' onClick={handleClick}>
             <div className='row align-items-center'>
-              <div className='col-2 title-container'>
+              <div className='col-xl-2 col-4 title-container'>
                 <h5 className='level-title'>{state.title}</h5>
               </div>
               <div className='col align-items-center'>
@@ -65,15 +66,17 @@ export default function LevelItem({ level, onSave, onDelete, className, onClick 
               </div>
             </div>
           </div>
-          <div className='col-2 d-flex'>
-            {
-              isAdmin &&
-              <>
-                <PencilIcon className={'auto-hide-icon mx-1'} onClick={handleEdit} />
-                <TrashIcon className={'icon auto-hide-icon'} onClick={handleDelete} />
-              </>
-            }
-          </div>
+          {
+            isAdmin &&
+            <div className='col-sm-2 d-flex justify-content-end'>
+              <Button type='primary'>
+                <PencilIcon className={'icon'} onClick={handleEdit} />
+              </Button>
+              <Button type='danger' className='ms-2'>
+                <TrashIcon className={'icon'} onClick={handleDelete} />
+              </Button>
+            </div>
+          }
         </div>
       </div>
     )
