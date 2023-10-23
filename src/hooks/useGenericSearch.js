@@ -4,7 +4,16 @@ export default function useGenericSearch() {
     const [results, setResults] = useState([]);
     const [localItems, setLocalItems] = useState([]);
     
+    /**
+     * 
+     * @param {[]} items 
+     */
     const setItems = (items) => {
+        items?.sort((a, b) => {
+            if(a.created_at > b.created_at) return -1;
+            else if(a.created_at < b.created_at) return 1;
+            else return 0;
+        });
         setLocalItems(items);
         setResults(items);
     }

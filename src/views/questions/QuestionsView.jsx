@@ -21,12 +21,12 @@ export default function QuestionsView() {
   return (
     <div className='questions-view' ref={ref}>
         <Card>
-          <h4>Preguntas</h4>
+          <h4>Ejercicios</h4>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button
                 type='primary'
-                title={'Crear pregunta'}
+                title={'Crear ejercicio'}
                 className='px-2'
                 onClick={handleCreate}
               />
