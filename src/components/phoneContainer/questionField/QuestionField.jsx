@@ -13,9 +13,9 @@ export default function QuestionField({ question, onDelete, onChange }) {
         const options = state?.options || [];
         const newOption = { description: 'Nueva opción', isValid: false, id: idGenerator(7) };
         options.push(newOption);
-        setState({ ...state, newOption });
+        setState({ ...state, options });
         if (onChange)
-            onChange({ ...state, newOption });
+            onChange({ ...state, options });
     }
 
     const onChangeTextOption = (option, index, text) => {
