@@ -17,9 +17,9 @@ export default function DialogList({ dropdown, setChanges }) {
         const options = state?.options || [];
         const newOption = { description: 'Nueva opción', isValid: false, id: idGenerator(7) };
         options.push(newOption);
-        setState({ ...state, newOption });
+        setState({ ...state, options });
         if (setChanges)
-            setChanges({ ...state, newOption });
+            setChanges({ ...state, options });
     }
 
     const onChangeTextOption = (option, index, text) => {

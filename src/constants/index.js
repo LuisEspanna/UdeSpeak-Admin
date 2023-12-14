@@ -8,7 +8,8 @@ const COLLECTIONS = {
     LANGUAGES: 'languages',
     QUESTIONNARIES: 'questionnaries',
     QUESTIONS: 'questions',
-    BUGS: 'bugs'
+    BUGS: 'bugs',
+    APK: 'apk'
 }
 
 const PERMISSIONS = {
