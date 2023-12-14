@@ -11,6 +11,7 @@ $duration: 1s;
     align-items: center;
     user-select: none;
     z-index: 2;
+    min-width: 20em;
 
     .float-dot{
         position: absolute;
@@ -25,23 +26,15 @@ $duration: 1s;
         .float-dot{
             transform: scale(1.1);
             transform: translate(15px, -15px);
+
+            &:hover{
+                transform: scale(1.2);
+            }
         }
 
         .dark{
             transform: scale(1.1);
             transform: translate(15px, 15px);
-        }
-    }
-
-    &:active{
-        .float-dot{
-            transform: scale(1.1);
-            transform: translate(10px, 10px);
-        }
-
-        .dark{
-            transform: scale(1.1);
-            transform: translate(10px, 10px);
         }
     }
 
@@ -77,13 +70,13 @@ $duration: 1s;
         bottom: 50%;
         padding: 0.2em;
         background-color: #399cb39c;
-
-        &:hover{
-            background-color: #08677C;
-        }
+        z-index: 20;
 
         &:active{
             background-color: #2298b3;
+            ~.slider-container{
+                opacity: 0.5;
+            }
         }
     }
 
@@ -91,12 +84,24 @@ $duration: 1s;
         @extend .btn;  
         left: 0.7em;      
         transform: rotate(90deg);
+
+        &:active{
+            ~.slider-container{
+                transform: translate(20px);
+            }
+        }
     }
 
     .btn-next{
         @extend .btn;  
         right: 0.7em;
         transform: rotate(-90deg);
+
+        &:active{
+            ~.slider-container{
+                transform: translate(-20px);
+            }
+        }
     }
 
     .download-btn{
@@ -140,6 +145,12 @@ $duration: 1s;
         margin-top: 0;
         position: relative;
         height: 70%;
+        opacity: 1;
+
+        transition-property: transform, opacity;
+        transition-duration: 0.5s;
+
+        
 
         .text{
             color: #FFFFFF;
@@ -151,8 +162,37 @@ $duration: 1s;
 
         .image{
             width: 50%;
-            transition-property: width;
+            transition-property: width, transform;
             transition-duration: $duration;
+            &:hover{
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    .slider-indicator{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        position: relative;
+        margin: 0.2em;
+        opacity: 0.5;
+        
+        .ind{
+            height: 0.5em;
+            width: 0.5em;
+            margin: 0.1em; 
+            border-radius: 50%;
+        }
+
+        .ind-inactive{
+            @extend .ind;
+            background-color: #FFFFFF;
+        }
+
+        .ind-active{
+            @extend .ind;
+            background-color: #2298b3;
         }
     }
 }
@@ -212,4 +252,13 @@ $duration: 1s;
 @media only screen and (min-width: 992px) {}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {}
+@media only screen and (min-width: 1200px) {
+    .my-body{
+        padding: 3em;
+
+        .slider-container{
+            height: 70%;
+            padding: 10%;
+        }
+    }
+}

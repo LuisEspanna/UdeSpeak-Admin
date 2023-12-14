@@ -7,7 +7,7 @@ import DownloadIcon from './icons/DownloadIcon';
 import FLoatDot from './icons/FLoatDot';
 
 export default function AppTesters() {
-  const { item, handlePrev, handleNext } = useAppTesters();
+  const { item, data, apkLink, handlePrev, handleNext } = useAppTesters();
 
   return (
     <div className='my-body'>
@@ -23,20 +23,29 @@ export default function AppTesters() {
       <div className='title'>
         <UdespeakLogo />
       </div>
-      <div className='slider-container'>
-        <div className='text'>
-          {item.text}
-        </div>
-        <img src={item.image} alt='img' className='image'/>
-      </div>
       <div className='btn-prev' onClick={handlePrev}>
         <ArrowIcon/>
       </div>
       <div className='btn-next' onClick={handleNext}>
         <ArrowIcon/>
       </div>
+      <div className='slider-container'>
+        <div className='text'>
+          {item.text}
+        </div>
+        <img src={item.image} alt='img' className='image'/>
+      </div>
       <div className='download-btn'>
-          <DownloadIcon/>
+          <a rel="noreferrer" href={apkLink} target='_blank'>
+            <DownloadIcon/>
+          </a>
+      </div>
+      <div className='slider-indicator'>
+        {
+          data.map((data, i) => 
+            <div key={i} className={data.id === item.id ? 'ind-active' : 'ind-inactive'}/>
+          )
+        }
       </div>
     </div> 
   )
