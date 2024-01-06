@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { COLLECTIONS } from '../../../constants';
+import { COLLECTIONS, PERMISSIONS, TYPES } from '../../../constants';
 import useUsers from '../../../hooks/useUsers';
 import {
     updateFirestoreDoc,
@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { useDashboard } from '../../../context/dashboard-context';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import useGenericSearch from '../../../hooks/useGenericSearch';
+import { useSelector } from 'react-redux';
+import useQuestions from '../../../hooks/useQuestions';
 
 
 export default function useUsersView(ref) {
@@ -22,6 +24,7 @@ export default function useUsersView(ref) {
     const { results, search, setItems } = useGenericSearch();
     const [filterApplied, setFilterApplied] = useState('Administrador');
     const [allUsers, setAllUsers] = useState([]);
+    const user = useSelector(state => state.user);
 
     const [counters, setCounters] = useState({
         Administrador: 0,
@@ -29,6 +32,7 @@ export default function useUsersView(ref) {
         Estudiante: 0
     });
     const { getAll, getUserPermissions } = useUsers();
+    const { getQuestionsByUId } = useQuestions();
 
     useOnClickOutside(ref, (event)=>{
         if(event.target.placeholder === 'Search'){
@@ -42,7 +46,38 @@ export default function useUsersView(ref) {
     useEffect(() => {        
         async function fetchUsers() {
             setIsLoading(true);
-            const localUsers = await getAll();
+            let localUsers =  await getAll();;
+
+            if(user.permission === PERMISSIONS.TEACHER){
+                const questions = await getQuestionsByUId(user.uid);
+                const students = {};
+                localUsers?.forEach((u) => {
+                    u?.coursed?.questions?.forEach((q1) => {
+                        questions.forEach(q2 => {
+                            if(q1 === q2.id)
+                                students[u.uid] = u;
+                        });
+                    });
+                });
+
+                let myStudents = [];
+                for (const key in students) {
+                    if (Object.hasOwnProperty.call(students, key)) {
+                        const student = students[key];
+                        let coursed  = [];
+                        student?.coursed?.questions?.forEach(q1 => {
+                            questions.forEach(q2 => {
+                                if(q1 === q2.id)
+                                    coursed.push(q2);
+                            });
+                        });
+                        student.coursed.questions = coursed;
+                        myStudents.push(student);
+                    }
+                }
+                localUsers = myStudents;
+            }
+
             setItems(localUsers);
             setAllUsers(localUsers);
             setFilterApplied('Todos');
@@ -196,6 +231,33 @@ export default function useUsersView(ref) {
         setFilterApplied(text);
     }
 
+    const getQuestionsValues = (data) => {
+        let values = [0,0,0,0];
+        data.forEach(d => {
+            switch (d.type) {
+                case TYPES.LISTENING:
+                    values[0] = values[0] + 1;
+                break;
+
+                case TYPES.SPEAKING:
+                    values[1] = values[1] + 1;
+                break;
+
+                case TYPES.READING:
+                    values[2] = values[2] + 1;
+                break;
+
+                case TYPES.WRITING:
+                    values[3] = values[3] + 1;
+                break;
+            
+                default:
+                    break;
+            }
+        });
+        return values;
+    }
+
     return {
         currentUser,
         isLoading,
@@ -212,6 +274,7 @@ export default function useUsersView(ref) {
         handleEdit,
         handleType,
         handleCreate,
-        handleSearch
+        handleSearch,
+        getQuestionsValues
     }
 }
