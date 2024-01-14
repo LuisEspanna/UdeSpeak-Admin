@@ -169,7 +169,9 @@ export default function UserInfo({
                                     }
                                 </tbody>
                             </table>
-                            <MyDoughnutChart values={getQuestionsValues(user?.coursed?.questions)}/>
+                            <div className='graph'>
+                                <MyDoughnutChart values={getQuestionsValues(user?.coursed?.questions)}/>
+                            </div>                            
                         </div>                        
                     }
                 </div>
