@@ -10,6 +10,7 @@ import ArrowIcon from '../../../components/icons/ArrowIcon';
 import ReloadIcon from '../../../components/icons/ReloadIcon';
 import { PERMISSIONS } from '../../../constants';
 import MyDoughnutChart from '../../dashboard/helpers/MyDoughnutChart';
+import ProgressGraph from '../../../components/progressGraph/ProgressGraph';
 
 export default function UserInfo({
     user,
@@ -24,7 +25,7 @@ export default function UserInfo({
     handleCreate,
     currentPermission,
     isLoading, 
-    getQuestionsValues
+    getQuestionsValues,
 }) {
 
     const [open, setOpen] = useState(false);
@@ -164,13 +165,27 @@ export default function UserInfo({
                                         <tr key={i}>
                                             <td>{q.title}</td>
                                             <td>{q.type}</td>
-                                            <td>{q?.description?.substring(0, 10) + "..."}</td>
+                                            <td>{(q?.description) && q?.description?.substring(0, 10) + "..."}</td>
                                         </tr>)
                                     }
                                 </tbody>
                             </table>
                             <div className='graph'>
                                 <MyDoughnutChart values={getQuestionsValues(user?.coursed?.questions)}/>
+                            </div>
+                            <div className='pp mt-4'>
+                                Cuestionarios cursados: 
+                                {
+                                    user?.progress?.map((questionnary, i) => 
+                                        <div className='my-4'>
+                                            <ProgressGraph 
+                                                value={( questionnary?.counter/questionnary?.questions?.length)} 
+                                                labelRight={`${questionnary?.counter}/${questionnary?.questions?.length}`}
+                                                labelLeft={`${questionnary?.name}`}
+                                            />
+                                        </div>
+                                    )
+                                }
                             </div>                            
                         </div>                        
                     }

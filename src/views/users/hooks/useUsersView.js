@@ -13,6 +13,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import useGenericSearch from '../../../hooks/useGenericSearch';
 import { useSelector } from 'react-redux';
 import useQuestions from '../../../hooks/useQuestions';
+import useQuestionnaires from '../../../hooks/useQuestionnaires';
 
 
 export default function useUsersView(ref) {
@@ -25,6 +26,9 @@ export default function useUsersView(ref) {
     const [filterApplied, setFilterApplied] = useState('Administrador');
     const [allUsers, setAllUsers] = useState([]);
     const user = useSelector(state => state.user);
+    const questionsProps = useQuestions();
+    const questionnariesProps = useQuestionnaires();
+
 
     const [counters, setCounters] = useState({
         Administrador: 0,
@@ -32,7 +36,6 @@ export default function useUsersView(ref) {
         Estudiante: 0
     });
     const { getAll, getUserPermissions } = useUsers();
-    const { getQuestionsByUId } = useQuestions();
 
     useOnClickOutside(ref, (event)=>{
         if(event.target.placeholder === 'Search'){
@@ -49,7 +52,7 @@ export default function useUsersView(ref) {
             let localUsers =  await getAll();;
 
             if(user.permission === PERMISSIONS.TEACHER){
-                const questions = await getQuestionsByUId(user.uid);
+                const questions = await questionsProps.getQuestionsByUId(user.uid);
                 const students = {};
                 localUsers?.forEach((u) => {
                     u?.coursed?.questions?.forEach((q1) => {
@@ -72,6 +75,7 @@ export default function useUsersView(ref) {
                             });
                         });
                         student.coursed.questions = coursed;
+                        student.progress = await studentProgress(student.coursed.questions);
                         myStudents.push(student);
                     }
                 }
@@ -96,7 +100,7 @@ export default function useUsersView(ref) {
 
     const handleUser = (user) => {
         setIsLoading(true);
-        getUserPermissions(user).then(res => {
+        getUserPermissions(user).then(async(res) => {
             const localPermissions = [];
             res.forEach(doc => {
                 const permission = {
@@ -104,10 +108,10 @@ export default function useUsersView(ref) {
                     key: doc.id,
                     expires: doc.data()['expires'].toDate()
                 }
-
                 localPermissions.push(permission);
             });
-            setCurrentUser({ ...user, permissions: localPermissions });
+            let newUser = { ...user, permissions: localPermissions };
+            setCurrentUser(newUser);
         }).finally(() => setIsLoading(false));
     }
 
@@ -258,6 +262,32 @@ export default function useUsersView(ref) {
         return values;
     }
 
+    const studentProgress = async(questions) => {
+        let questionnariesIds = {};
+        let questionnaries = [];
+
+        questions.forEach(question => {
+            questionnariesIds[question.questionnary_id] = {questionnary_id: question.questionnary_id};
+        });
+
+        for (const key in questionnariesIds) {
+            if (Object.hasOwnProperty.call(questionnariesIds, key)) {
+                let questionnary = questionnariesIds[key];
+                questionnary.questions = await questionsProps.getQuestionsById(key);
+                let questionnaryData = await questionnariesProps.getById(key);
+                questionnary = {...questionnary, ...questionnaryData};
+                let counter = 0;
+                questions.forEach(question => {
+                    if(question.questionnary_id === key)
+                    counter += 1;
+                });
+                questionnary.counter = counter;
+                questionnaries.push(questionnary);
+            }
+        }
+        return(questionnaries);
+    }
+
     return {
         currentUser,
         isLoading,
@@ -275,6 +305,7 @@ export default function useUsersView(ref) {
         handleType,
         handleCreate,
         handleSearch,
-        getQuestionsValues
+        getQuestionsValues,
+        studentProgress
     }
 }
