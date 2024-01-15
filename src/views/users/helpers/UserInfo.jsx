@@ -11,6 +11,7 @@ import ReloadIcon from '../../../components/icons/ReloadIcon';
 import { PERMISSIONS } from '../../../constants';
 import MyDoughnutChart from '../../dashboard/helpers/MyDoughnutChart';
 import ProgressGraph from '../../../components/progressGraph/ProgressGraph';
+import { useSelector } from 'react-redux';
 
 export default function UserInfo({
     user,
@@ -29,6 +30,7 @@ export default function UserInfo({
 }) {
 
     const [open, setOpen] = useState(false);
+    const USER = useSelector(state => state.user);
 
     const handleOpen = () => {
         setOpen(!open);
@@ -82,11 +84,11 @@ export default function UserInfo({
                     </div>
                     <p className='my-4'>
                         {
-                            user.permission === PERMISSIONS.ADMIN ? 'Permisos' : 'Ejercicios resueltos'
+                            USER.permission === PERMISSIONS.ADMIN ? 'Permisos' : 'Ejercicios resueltos'
                         }
                     </p>
                     {
-                        (currentUser?.permissions && user?.uid === currentUser?.uid && user.permission === PERMISSIONS.ADMIN) &&
+                        (currentUser?.permissions && user?.uid === currentUser?.uid && USER.permission === PERMISSIONS.ADMIN) &&
                         <div className='table-container'>
                             <table className="table">
                                 <thead>
@@ -149,7 +151,7 @@ export default function UserInfo({
                     }
 
                     {
-                        user.permission === PERMISSIONS.TEACHER &&
+                        USER.permission === PERMISSIONS.TEACHER &&
                         <div>
                             <table className="table">
                                 <thead>
@@ -176,9 +178,10 @@ export default function UserInfo({
                             <div className='pp mt-4'>
                                 Cuestionarios cursados: 
                                 {
-                                    user?.progress?.map((questionnary, i) => 
+                                    user?.progress?.map((questionnary, k) => 
                                         <div className='my-4'>
                                             <ProgressGraph 
+                                                key={k}
                                                 value={( questionnary?.counter/questionnary?.questions?.length)} 
                                                 labelRight={`${questionnary?.counter}/${questionnary?.questions?.length}`}
                                                 labelLeft={`${questionnary?.name}`}
