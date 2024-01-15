@@ -13,7 +13,7 @@ export default function UseDashboardView() {
     const [doughnutChartValues, setDoughnutChartValues] = useState([]);
 
     const {getMyGroups} = useGroups();
-    const {getById} = useQuestionnaires();
+    const {getAll} = useQuestionnaires();
     const {getQuestionsById} = useQuestions();
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function UseDashboardView() {
             let localQuestionnaries = [];
             for (let i = 0; i < localGroups.length; i++) {
                 const g = localGroups[i];                
-                let res = await getById(g.id);
+                let res = await getAll(g.id);
                 res.forEach(r => {
                     localQuestionnaries.push(r);
                 });                
