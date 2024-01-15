@@ -8,6 +8,9 @@ import SaveIcon from '../../../components/icons/SaveIcon';
 import PencilIcon from '../../../components/icons/PencilIcon';
 import ArrowIcon from '../../../components/icons/ArrowIcon';
 import ReloadIcon from '../../../components/icons/ReloadIcon';
+import { PERMISSIONS } from '../../../constants';
+import MyDoughnutChart from '../../dashboard/helpers/MyDoughnutChart';
+import ProgressGraph from '../../../components/progressGraph/ProgressGraph';
 
 export default function UserInfo({
     user,
@@ -21,7 +24,8 @@ export default function UserInfo({
     currentUser,
     handleCreate,
     currentPermission,
-    isLoading
+    isLoading, 
+    getQuestionsValues,
 }) {
 
     const [open, setOpen] = useState(false);
@@ -47,8 +51,8 @@ export default function UserInfo({
                 {
                     (user?.uid !== currentUser?.uid && open && !isLoading) ?
                         <div className='col-1 arrow-btn' onClick={handleReload}>
-                            <ReloadIcon className='icon'/>
-                        </div>:
+                            <ReloadIcon className='icon' />
+                        </div> :
                         <div className='col-1 arrow-btn' onClick={handleOpen}>
                             <ArrowIcon className={`${open ? 'open' : 'closed'}`} />
                         </div>
@@ -76,9 +80,13 @@ export default function UserInfo({
                             */
                         }
                     </div>
-                    <p className='my-4'>Permisos</p>
+                    <p className='my-4'>
+                        {
+                            user.permission === PERMISSIONS.ADMIN ? 'Permisos' : 'Ejercicios resueltos'
+                        }
+                    </p>
                     {
-                        (currentUser?.permissions && user?.uid === currentUser?.uid) &&
+                        (currentUser?.permissions && user?.uid === currentUser?.uid && user.permission === PERMISSIONS.ADMIN) &&
                         <div className='table-container'>
                             <table className="table">
                                 <thead>
@@ -121,7 +129,7 @@ export default function UserInfo({
                                                     <td>{p.key}</td>
                                                     <td>{toDateFormat(p.expires)}</td>
                                                     <td>
-                                                        <PencilIcon onClick={() => handleEdit(i)} />
+                                                        <PencilIcon onClick={() => handleEdit(i)} className='icon ' />
                                                         <TrashIcon onClick={() => handleDelete(i)} className='icon mx-2 ' />
                                                     </td>
                                                 </tr>
@@ -138,6 +146,48 @@ export default function UserInfo({
                             </div>
                             <hr className='hr mb-4' />
                         </div>
+                    }
+
+                    {
+                        user.permission === PERMISSIONS.TEACHER &&
+                        <div>
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Título</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        user?.coursed?.questions?.map((q, i) => 
+                                        <tr key={i}>
+                                            <td>{q.title}</td>
+                                            <td>{q.type}</td>
+                                            <td>{(q?.description) && q?.description?.substring(0, 10) + "..."}</td>
+                                        </tr>)
+                                    }
+                                </tbody>
+                            </table>
+                            <div className='graph'>
+                                <MyDoughnutChart values={getQuestionsValues(user?.coursed?.questions)}/>
+                            </div>
+                            <div className='pp mt-4'>
+                                Cuestionarios cursados: 
+                                {
+                                    user?.progress?.map((questionnary, i) => 
+                                        <div className='my-4'>
+                                            <ProgressGraph 
+                                                value={( questionnary?.counter/questionnary?.questions?.length)} 
+                                                labelRight={`${questionnary?.counter}/${questionnary?.questions?.length}`}
+                                                labelLeft={`${questionnary?.name}`}
+                                            />
+                                        </div>
+                                    )
+                                }
+                            </div>                            
+                        </div>                        
                     }
                 </div>
             }

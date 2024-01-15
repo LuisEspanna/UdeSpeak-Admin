@@ -3,18 +3,19 @@ import {
     saveOnFirestore,
     updateFirestoreDoc,
     readFromFirestoreWhere,
-    deleteFromFirestore
+    deleteFromFirestore, 
+    readFromFirestore
 } from '../services/firebase';
 import {  } from '../functions';
 
 
 export default function useQuestionnaires(group_id) {
 
-    const getAll = async() => {
+    const getAll = async(id) => {
         const items = [];
         let snapshot;
 
-        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', group_id);
+        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', (id ? id : group_id));
         snapshot?.forEach(doc => {
             const item = {...doc.data()};
             item.id = doc.id;
@@ -25,17 +26,9 @@ export default function useQuestionnaires(group_id) {
     }
 
     const getById = async(id) => {
-        const items = [];
         let snapshot;
-
-        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'group_id', '==', id);
-        snapshot?.forEach(doc => {
-            const item = {...doc.data()};
-            item.id = doc.id;
-            items.push(item);
-        });
-
-        return(items);
+        snapshot = await readFromFirestore(COLLECTIONS.QUESTIONNARIES, id);
+        return(snapshot.data());
     }
 
     const createQuestionnary = (group) => {
