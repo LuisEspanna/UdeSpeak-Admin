@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import NotFound404 from './pages/NotFound404/NotFound404';
 import FirstSetup from './pages/FirstSetup/FirstSetup';
 import AppTesters from './pages/appTesters/AppTesters';
+import HelpPage from './pages/help/HelpPage';
 
 function App() {
   const auth = useSelector((state) => state.user?.isLogged);
@@ -30,6 +31,7 @@ function App() {
         <Route path='/first-setup' element={ auth ? <FirstSetup/> : <Navigate to='/login'/>}/>
         <Route path='*' element={<NotFound404/>}/>
         <Route path='/appTesters' element={<AppTesters/>}/>
+        <Route path='/help' element={<HelpPage/>}/>
       </Routes>
     </Router>
   );
