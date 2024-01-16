@@ -1,0 +1,24 @@
+.help-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nf-action-btn{
+    margin-top: 1.3em;
+    max-width: 10em;
+    min-width: 10em;
+    align-self: center;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    a{
+        text-decoration: none;
+        color: #FFFFFF;
+
+        &:hover{
+            color: #eeeeee;
+        }
+    }
+}

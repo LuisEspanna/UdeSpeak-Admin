@@ -45,6 +45,11 @@ const menu = () => {
                     "icon": <BugIcon />,
                     "permissions": PERMISSIONS.ALL,
                     "url": "/dashboard/bugs"
+                },
+                {
+                    "title": "Ayuda",
+                    "permissions": PERMISSIONS.ALL,
+                    "url": "/help"
                 }
             ]
         }
