@@ -33,13 +33,13 @@ export default function QuestionItem({ question, onDelete, className, onClick })
               <span className='q-type ms-2'>{state.type}</span>
             </div>
             <div className='col align-items-center d-flex'>
-              <span className='q-label'>Creado en: </span>
+              <span className='q-label'>Creado: </span>
               <span className='q-type ms-2'>{state.created_at && toDateFormat(new Date(state.created_at))}</span>
             </div>
             <div className='col align-items-center d-flex'>
               <span className='q-label'>
                 {
-                  state.edited_at ? 'Editado en: ' : 'Ejercicio sin contenido'
+                  state.edited_at ? 'Editado: ' : 'Ejercicio sin contenido'
                 } 
               </span>
               <span className='q-type ms-2'>{state.edited_at && toDateFormat(new Date(state.edited_at))}</span>
