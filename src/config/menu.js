@@ -41,7 +41,7 @@ const menu = () => {
             "permissions": PERMISSIONS.ALL,
             "children": [
                 {
-                    "title": "Bugs",
+                    "title": "Reportar errores",
                     "icon": <BugIcon />,
                     "permissions": PERMISSIONS.ALL,
                     "url": "/dashboard/bugs"

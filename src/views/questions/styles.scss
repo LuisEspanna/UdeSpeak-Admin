@@ -58,6 +58,14 @@
         &:active{
             background-color: #e2ecf1;
         }
+
+        .q-type{
+            text-transform: capitalize;
+        }
+
+        .q-label{
+            color: #20AFB5;
+        }
     }
 
     span{

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import TrashIcon from '../../../components/icons/TrashIcon';
 import Button from '../../../components/button/Button';
+import { toDateFormat } from '../../../functions/index';
 
 
 export default function QuestionItem({ question, onDelete, className, onClick }) {
@@ -27,8 +28,21 @@ export default function QuestionItem({ question, onDelete, className, onClick })
             <div className='col-12 title-container'>
               <h5 className='question-title'>{state.title}</h5>
             </div>
-            <div className='col align-items-center'>
-              <div>{state.type}</div>
+            <div className='col align-items-center d-flex'>
+              <span className='q-label'>Tipo: </span>
+              <span className='q-type ms-2'>{state.type}</span>
+            </div>
+            <div className='col align-items-center d-flex'>
+              <span className='q-label'>Creado en: </span>
+              <span className='q-type ms-2'>{state.created_at && toDateFormat(new Date(state.created_at))}</span>
+            </div>
+            <div className='col align-items-center d-flex'>
+              <span className='q-label'>
+                {
+                  state.edited_at ? 'Editado en: ' : 'Ejercicio sin contenido'
+                } 
+              </span>
+              <span className='q-type ms-2'>{state.edited_at && toDateFormat(new Date(state.edited_at))}</span>
             </div>
           </div>
         </div>
