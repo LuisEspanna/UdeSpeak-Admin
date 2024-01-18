@@ -53,14 +53,16 @@ export default function useQuestions(questionnary_id) {
         {
             ...data,
             questionnary_id,
-            created_at: new Date().getTime()
+            created_at: new Date().getTime(),
+            isEmpty : true
         });
     }
 
     const editQuestion = (item) => {
         const newQuestion = {
             ...item,
-            edited_at: new Date().getTime()
+            edited_at: new Date().getTime(),
+            isEmpty : false
         };
         delete newQuestion['id'];
         return updateFirestoreDoc(COLLECTIONS.QUESTIONS, item.id, newQuestion);
