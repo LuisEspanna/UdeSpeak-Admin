@@ -2,6 +2,7 @@ import DashboardIcon from "../components/icons/DashboardIcon";
 import UsersIcon from "../components/icons/UsersIcon";
 import BugIcon from "../components/icons/BugIcon";
 import LanguageIcon from "../components/icons/LanguageIcon";
+import HelpIcon from "../components/icons/HelpIcon";
 import { PERMISSIONS } from "../constants";
 
 const menu = () => {
@@ -41,7 +42,7 @@ const menu = () => {
             "permissions": PERMISSIONS.ALL,
             "children": [
                 {
-                    "title": "Bugs",
+                    "title": "Reportar errores",
                     "icon": <BugIcon />,
                     "permissions": PERMISSIONS.ALL,
                     "url": "/dashboard/bugs"
@@ -49,6 +50,7 @@ const menu = () => {
                 {
                     "title": "Ayuda",
                     "permissions": PERMISSIONS.ALL,
+                    "icon": <HelpIcon/>,
                     "url": "/help"
                 }
             ]
