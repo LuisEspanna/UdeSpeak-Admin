@@ -25,6 +25,21 @@ export default function useQuestionnaires(group_id) {
         return(items);
     }
 
+    const getAllbyUid = async(id) => {
+        const items = [];
+        let snapshot;
+
+        snapshot = await readFromFirestoreWhere(COLLECTIONS.QUESTIONNARIES, null, 'user_id', '==', id);
+        snapshot?.forEach(doc => {
+            const item = {...doc.data()};
+            item.id = doc.id;
+            items.push(item);
+        });
+
+        return(items);
+    }
+
+
     const getById = async(id) => {
         let snapshot;
         snapshot = await readFromFirestore(COLLECTIONS.QUESTIONNARIES, id);
@@ -66,6 +81,7 @@ export default function useQuestionnaires(group_id) {
         createQuestionnary,
         editQuestionnary,
         deleteQuestionnary,
-        getById
+        getById,
+        getAllbyUid
     };
 }

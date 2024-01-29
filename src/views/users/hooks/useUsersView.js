@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { COLLECTIONS, PERMISSIONS, TYPES } from '../../../constants';
+import { COLLECTIONS} from '../../../constants';
 import useUsers from '../../../hooks/useUsers';
 import {
     updateFirestoreDoc,
@@ -11,9 +11,6 @@ import Swal from 'sweetalert2';
 import { useDashboard } from '../../../context/dashboard-context';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import useGenericSearch from '../../../hooks/useGenericSearch';
-import { useSelector } from 'react-redux';
-import useQuestions from '../../../hooks/useQuestions';
-import useQuestionnaires from '../../../hooks/useQuestionnaires';
 
 
 export default function useUsersView(ref) {
@@ -25,10 +22,6 @@ export default function useUsersView(ref) {
     const { results, search, setItems } = useGenericSearch();
     const [filterApplied, setFilterApplied] = useState('Administrador');
     const [allUsers, setAllUsers] = useState([]);
-    const user = useSelector(state => state.user);
-    const questionsProps = useQuestions();
-    const questionnariesProps = useQuestionnaires();
-
 
     const [counters, setCounters] = useState({
         Administrador: 0,
@@ -49,38 +42,7 @@ export default function useUsersView(ref) {
     useEffect(() => {        
         async function fetchUsers() {
             setIsLoading(true);
-            let localUsers =  await getAll();;
-
-            if(user.permission === PERMISSIONS.TEACHER){
-                const questions = await questionsProps.getQuestionsByUId(user.uid);
-                const students = {};
-                localUsers?.forEach((u) => {
-                    u?.coursed?.questions?.forEach((q1) => {
-                        questions.forEach(q2 => {
-                            if(q1 === q2.id)
-                                students[u.uid] = u;
-                        });
-                    });
-                });
-
-                let myStudents = [];
-                for (const key in students) {
-                    if (Object.hasOwnProperty.call(students, key)) {
-                        const student = students[key];
-                        let coursed  = [];
-                        student?.coursed?.questions?.forEach(q1 => {
-                            questions.forEach(q2 => {
-                                if(q1 === q2.id)
-                                    coursed.push(q2);
-                            });
-                        });
-                        student.coursed.questions = coursed;
-                        student.progress = await studentProgress(student.coursed.questions);
-                        myStudents.push(student);
-                    }
-                }
-                localUsers = myStudents;
-            }
+            let localUsers =  await getAll();
 
             setItems(localUsers);
             setAllUsers(localUsers);
@@ -235,59 +197,6 @@ export default function useUsersView(ref) {
         setFilterApplied(text);
     }
 
-    const getQuestionsValues = (data) => {
-        let values = [0,0,0,0];
-        data.forEach(d => {
-            switch (d.type) {
-                case TYPES.LISTENING:
-                    values[0] = values[0] + 1;
-                break;
-
-                case TYPES.SPEAKING:
-                    values[1] = values[1] + 1;
-                break;
-
-                case TYPES.READING:
-                    values[2] = values[2] + 1;
-                break;
-
-                case TYPES.WRITING:
-                    values[3] = values[3] + 1;
-                break;
-            
-                default:
-                    break;
-            }
-        });
-        return values;
-    }
-
-    const studentProgress = async(questions) => {
-        let questionnariesIds = {};
-        let questionnaries = [];
-
-        questions.forEach(question => {
-            questionnariesIds[question.questionnary_id] = {questionnary_id: question.questionnary_id};
-        });
-
-        for (const key in questionnariesIds) {
-            if (Object.hasOwnProperty.call(questionnariesIds, key)) {
-                let questionnary = questionnariesIds[key];
-                questionnary.questions = await questionsProps.getQuestionsById(key);
-                let questionnaryData = await questionnariesProps.getById(key);
-                questionnary = {...questionnary, ...questionnaryData};
-                let counter = 0;
-                questions.forEach(question => {
-                    if(question.questionnary_id === key)
-                    counter += 1;
-                });
-                questionnary.counter = counter;
-                questionnaries.push(questionnary);
-            }
-        }
-        return(questionnaries);
-    }
-
     return {
         currentUser,
         isLoading,
@@ -304,8 +213,6 @@ export default function useUsersView(ref) {
         handleEdit,
         handleType,
         handleCreate,
-        handleSearch,
-        getQuestionsValues,
-        studentProgress
+        handleSearch
     }
 }
