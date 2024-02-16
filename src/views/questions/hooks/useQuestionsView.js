@@ -17,7 +17,8 @@ export default function useQuestionsView(ref) {
 
     const { id } = useParams();
     const { setSearchAction } = useDashboard();
-    const { results, search, setItems } = useGenericSearch();
+    const { results, search, setItems, sortByLabelDesc } = useGenericSearch();
+    const [filter, setFilter] = useState(true);
 
     const {
         getAll,
@@ -113,6 +114,11 @@ export default function useQuestionsView(ref) {
         navigateTo(`/${ROUTES.DASHBOARD}/${ROUTES.QUESTION}/${question.id}`);
     }
 
+    const handleFilter = () => {
+        !filter ? sortByLabelDesc('title') : sortByLabelDesc('edited_at');
+        setFilter(!filter);
+    }
+
     return {
         results,
         isCreating,
@@ -121,5 +127,7 @@ export default function useQuestionsView(ref) {
         handleSave,
         handleDelete,
         handleClick,
+        filter,
+        handleFilter
     }
 }
