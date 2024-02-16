@@ -5,6 +5,7 @@ import useQuestionsView from './hooks/useQuestionsView';
 import QuestionInput from './helpers/QuestionInput';
 import QuestionItem from './helpers/QuestionItem';
 import './styles.scss';
+import FilterIcon from "../../components/icons/FilterIcon";
 
 export default function QuestionsView() {
   const ref = useRef();
@@ -15,13 +16,21 @@ export default function QuestionsView() {
     handleCreate,
     handleSave,
     handleDelete,
-    handleClick
+    handleClick,
+    handleFilter,
+    filter
 } = useQuestionsView(ref);
 
   return (
     <div className='questions-view' ref={ref}>
         <Card>
           <h4>Ejercicios</h4>
+          <div className='d-flex justify-content-end'>
+            <Button type='primary' className='px-2' onClick={handleFilter}>
+              <FilterIcon className='icon'/> 
+              {filter ? 'Título' : 'Última edición'}
+            </Button>
+          </div>
           {!isCreating ? 
             <div className='d-flex justify-content-center my-3'>
               <Button
@@ -38,7 +47,7 @@ export default function QuestionsView() {
             />}
           {
             isLoading ? <div>Cargando...</div> : 
-            results.map((question, index) => 
+              results.map((question, index) => 
               <QuestionItem
                 key={index}
                 question={question}

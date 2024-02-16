@@ -44,9 +44,24 @@ export default function useGenericSearch() {
         }
     }
 
+    const sortByLabelDesc = (label ) => {
+        let newResults = [];
+        results.forEach((item) => {
+            newResults.push(item)
+        })
+        newResults.sort((a, b) => {
+            if(a[label] > b[label]) return -1;
+            else if(a[label] < b[label]) return 1;
+            else return 0;
+        })
+
+        setResults(newResults);
+    }
+
     return {
         results,
         search,
-        setItems
+        setItems,
+        sortByLabelDesc
     }
 }
