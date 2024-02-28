@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../../components/button/Button';
 import TextField from '../../../components/form/textField/TextField';
 import CloseIcon from '../../../components/icons/CloseIcon';
 import SaveIcon from '../../../components/icons/SaveIcon';
-
+import { TYPES } from '../../../constants';
 
 export default function QuestionInput({ onSave, question, onCancel, className }) {
+  const [types, setTypes] = useState([]);
+  
+  useEffect(() => {
+    let localItems = []
+    for (const key in TYPES) {
+      if (Object.hasOwnProperty.call(TYPES, key)) {
+        localItems.push(TYPES[key]);
+      }
+    }
+    setTypes(localItems);
+  }, [])
+
   const [state, setState] = useState({
     title: question ? question.title : '',
     type: question ? question.type : 'speaking'
@@ -31,11 +43,12 @@ export default function QuestionInput({ onSave, question, onCancel, className })
   return (
     <div className={`question-item ${className ? className : ''}`}>
       <TextField placeholder='Título' onChange={handleChange} name='title' value={state.title} />
-      <select onChange={handleChange} className="form-select" defaultValue={'speaking'} name='type'>
-        <option value={'speaking'}>Speaking</option>
-        <option value={'listening'}>Listening</option>
-        <option value={'reading'}>Reading</option>
-        <option value={'writing'}>Writing</option>
+      <select style={{textTransform: 'capitalize'}} onChange={handleChange} className="form-select" defaultValue={types[0]} name='type'>
+        {
+          types?.map((item, i) => 
+            <option key={i} style={{textTransform: 'capitalize'}} value={item}>{item}</option>
+          )
+        }
       </select>
       <div className='d-flex justify-content-end mt-4'>
         <Button type='primary' className='p-1 me-2' onClick={handleSave}>

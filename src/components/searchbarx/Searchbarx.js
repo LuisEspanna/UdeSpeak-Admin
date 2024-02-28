@@ -20,7 +20,7 @@ export default function Searchbar({className, onChange, value}) {
       </Button>
       <div className={`search-bar-desktop mx-2 ${className ? className : ''}`}>
         <SearchIcon className='search-icon' />
-        <input type='text' className='input-text me-auto' placeholder='Search' value={value} onChange={onChange}/>
+        <input type='text' className='input-text me-auto' placeholder='Buscar' value={value} onChange={onChange}/>
         <Button type={'primary'} className='mx-2'>
           <SettingsIcon className='icon' />
         </Button>
@@ -30,7 +30,7 @@ export default function Searchbar({className, onChange, value}) {
         <div className='win-searchbar'>
           <div className='search-bar'>
             <SearchIcon className='search-icon' />
-            <input type='text' className='input-text me-auto' placeholder='Search' value={value} onChange={onChange}/>
+            <input type='text' className='input-text me-auto' placeholder='Buscar' value={value} onChange={onChange}/>
             <Button type={'primary'} className='mx-2'>
               <SettingsIcon className='icon' />
             </Button>

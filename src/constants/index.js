@@ -44,9 +44,9 @@ const TYPES = {
     SPEAKING: 'speaking',
     LISTENING: 'listening',
     READING: 'reading',
-    WRITING: 'writing'
+    WRITING: 'writing',
+    NOTE: 'note'
 }
-
 
 module.exports = {
     COLLECTIONS,
