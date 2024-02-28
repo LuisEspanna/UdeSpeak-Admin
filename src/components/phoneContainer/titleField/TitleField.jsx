@@ -13,7 +13,7 @@ import './styles.scss';
 export default function TitleEditor({placeholder, className, onChange, value, name}) {
   return (
     <div className={`title-container ${className ? className : ''}`}>
-        <p className='label'>{placeholder || 'Título'}</p>
+        <span className='label'>{placeholder || 'Título'}</span>
         <textarea rows={1}  type="text"  onChange={onChange} value={value} name={name}/>
     </div>
   )
