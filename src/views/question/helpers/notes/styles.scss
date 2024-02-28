@@ -1,0 +1,73 @@
+.f-size-normal{
+    textarea{
+        font-size: medium !important;
+    }
+}
+
+
+section{
+    max-height: 43.5em;
+    overflow: auto;
+
+    .cmarkdown-editor{
+        width: 100%;
+        height: 27em;
+        border: 2px solid #96969634;
+        border-radius: 0.5em;
+        padding: 1em;
+
+        &:focus{
+            outline: 2px solid #D8F3F4;
+        }
+    }
+
+    
+    .btns-area{
+
+        max-height: 33.5em;
+        overflow-y: auto;
+        padding-right: 1em;
+
+        button{
+            padding: 0.4em;
+            width: 100%;
+            border-radius: 0.5em;
+            border: 2px solid #96969634;
+            background-color: #FFFFFF;
+            transition: border 100ms;
+            margin-bottom: 1em;
+
+            &:hover{
+                border: 2px solid #86868650;
+            }
+
+            &:active{
+                border: 2px solid #32BFC3;
+            }
+        }
+    }
+}
+
+.phone-content{
+    .title-render{
+        margin-top: 0.5em;
+        font-weight: bold;
+    }
+
+    .mark-container{
+        margin-top: 2em;
+        width: 100%;
+        overflow: auto;
+
+        table{
+            border-spacing: 10 !important;
+            border-collapse: separate !important;
+            min-width: 19em;
+            overflow: auto;
+        }
+
+        p{
+            text-align: justify;
+        }
+    }
+}

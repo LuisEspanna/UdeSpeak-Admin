@@ -3,6 +3,7 @@ import ListeningTab from '../helpers/listening/ListeningView';
 import ReadingTab from '../helpers/reading/ReadingView';
 import SpeakingTab from '../helpers/speaking/SpeakingView';
 import WritingTab from '../helpers/writing/WritingView';
+import NotesTab from '../helpers/notes/NotesView';
 import { useParams } from 'react-router-dom';
 import useQuestions from '../../../hooks/useQuestions';
 
@@ -10,7 +11,8 @@ const views =  {
     listening : (question) => <ListeningTab question={question}/>,
     speaking : (question) => <SpeakingTab question={question}/>,
     reading : (question) => <ReadingTab question={question}/>,
-    writing : (question) => <WritingTab question={question}/>
+    writing : (question) => <WritingTab question={question}/>,
+    notes: (question) => <NotesTab question={question}/>
 }
 
 export default function useQuestionView() {
