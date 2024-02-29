@@ -12,7 +12,7 @@ const views =  {
     speaking : (question) => <SpeakingTab question={question}/>,
     reading : (question) => <ReadingTab question={question}/>,
     writing : (question) => <WritingTab question={question}/>,
-    notes: (question) => <NotesTab question={question}/>
+    note: (question) => <NotesTab question={question}/>
 }
 
 export default function useQuestionView() {
