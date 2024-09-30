@@ -17,9 +17,9 @@ import QuestionView from '../../views/question/QuestionView';
 import { ROUTES } from '../../constants';
 import ProfileView from '../../views/profile/ProfileView';
 import DashboardView from '../../views/dashboard/DashboardView';
-import NotFound404 from '../NotFound404/NotFound404';
 import BugsView from '../../views/bugs/BugsView';
 import ProgressBar from '../../components/progressbar/ProgressBar';
+import AppTesters from "../appTesters/AppTesters";
 
 function Dashboard() {
 
@@ -43,7 +43,9 @@ function Dashboard() {
                 { view === ROUTES.PROFILE && <ProfileView/> }
                 { view === ROUTES.BUGS && <BugsView/> }
                 { (view === undefined && !isStudent) && <DashboardView/> }
-                { (view === ROUTES.GROUPS || view === ROUTES.QUESTIONNARIES || view === ROUTES.QUESTIONS || view === ROUTES.QUESTION || view === ROUTES.DASHBOARD || view === undefined) && isStudent && <NotFound404/> }
+                { (view === ROUTES.GROUPS || view === ROUTES.QUESTIONNARIES || view === ROUTES.QUESTIONS || view === ROUTES.QUESTION || view === ROUTES.DASHBOARD || view === undefined) && isStudent && 
+                    <AppTesters/>
+                }
             </div>
             <ProgressBar isLoading={isLoading}/>
         </div>
